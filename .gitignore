@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+ICP_project_v3
+.gitignore
+.vscode
+.qmake.stash
