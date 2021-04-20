@@ -34,3 +34,4 @@ ICP_project_v3
 .gitignore
 .vscode
 .qmake.stash
+build
