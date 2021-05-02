@@ -6,31 +6,26 @@ class Lens :
 	
 	
 private:
-	double focalLength = 0;
+	double _focalLength = 0;
+	double _opticalPower = 0;
+	double _deviation[2] = { 0,0 };
 public:
-	double opticalPower = 0;
-	double deviation[2] = { 0,0 };
+	
 
 	void passRay() {}
 
-	Lens(double distanceFromSource, double radius, double opticalPower, double deviationX = 0, double deviationY = 0)
-	{
-		this->distanceFromSource = distanceFromSource;
-		this->radius = radius;
-		this->opticalPower = opticalPower;
-		this->focalLength = 1.0 / opticalPower;
-		this->deviation[0] = deviationX;
-		this->deviation[1] = deviationY;
-	}
+	Lens(double distanceFromSource, double radius, double opticalPower, double deviationX = 0, double deviationY = 0);
 
-	void ChangeLens(double distanceFromSource, double radius, double opticalPower, double deviationX = 0, double deviationY = 0)
-	{
-		this->distanceFromSource = distanceFromSource;
-		this->radius = radius;
-		this->opticalPower = opticalPower;
-		this->focalLength = 1.0 / opticalPower;
-		this->deviation[0] = deviationX;
-		this->deviation[1] = deviationY;
-	}
+	
+	double opticalPower() const { return _opticalPower; }
+	double deviationX() const { return _deviation[0]; }
+	double deviationY() const { return _deviation[1]; }
+
+	
+	void SetOpticalPower(double opticalPower);
+	void SetDeviationX(double deviation);
+	void SetDeviationY(double deviation);
 };
+
+
 
