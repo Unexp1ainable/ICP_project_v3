@@ -1,30 +1,41 @@
 #pragma once
+
+#include <cstdlib>
 #include "AxisObject.h"
-class Lens :
-    public AxisObject
+class Lens:
+    public Axis_object
 {
 	
 	
 private:
-	double _focalLength = 0;
-	double _opticalPower = 0;
-	double _deviation[2] = { 0,0 };
+	double focal_length_ = 1;
+	double optical_power_ = 1;
+	double radius_ = 1;
+	double deviation_[2] = { 0,0 };
 public:
 	
 
-	void passRay() {}
+	void pass_ray() {}
 
 	Lens(double distanceFromSource, double radius, double opticalPower, double deviationX = 0, double deviationY = 0);
 
 	
-	double opticalPower() const { return _opticalPower; }
-	double deviationX() const { return _deviation[0]; }
-	double deviationY() const { return _deviation[1]; }
+	double optical_power() const { return optical_power_; }
+	double radius() const { return radius_; }
+	double deviation_x() const { return deviation_[0]; }
+	double deviation_y() const { return deviation_[1]; }
 
+
+	void set_optical_power(double opticalPower);
+	void set_radius(double radius);
+	void set_deviationX(double deviation);
+	void set_deviationY(double deviation);
 	
-	void SetOpticalPower(double opticalPower);
-	void SetDeviationX(double deviation);
-	void SetDeviationY(double deviation);
+
+	//Exceptions
+	class invalid_radius {};
+	class invalid_deviation{};
+	class invalid_optical_power{};
 };
 
 

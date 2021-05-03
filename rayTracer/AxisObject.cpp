@@ -1,21 +1,13 @@
 #include "AxisObject.h"
 
-void AxisObject::SetRadius(double radius)
-{
-	if(radius < 0)
-	{
-		//THROW
-	}
 
-	this->_radius = radius;
-}
 
-void AxisObject::SetDistanceFromSource(double distance)
+void Axis_object::set_distance_from_source(double distance)
 {
 	if(distance <= 0)
 	{
-		//THROW
+		throw invalid_distance();
 	}
 
-	this->_distanceFromSource = distance;
+	this->distance_from_source_ = distance;
 }

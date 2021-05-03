@@ -2,19 +2,22 @@
 
 
 
-class AxisObject
+class Axis_object
 {
 
 protected:
-	double _radius = 0;
-	double _distanceFromSource = 0;
+	
+	double distance_from_source_ = 0;
 
 public:
-	double radius() const { return _radius; }
-	double distanceFromSource() const { return _distanceFromSource; }
-
-	void SetRadius(double radius);
-	void SetDistanceFromSource(double distance);
 	
+	double distance_from_source() const { return distance_from_source_; }
+
+	
+	void set_distance_from_source(double distance);
+
+
+	//exceptions
+	class invalid_distance{};
 };
 

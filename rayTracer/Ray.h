@@ -2,29 +2,33 @@
 class Ray
 {
 private:
-	double _angle[2] = { 0,0 };
-	double _position[2] = { 0,0 };
-	double _index = 0;
-	double _sourceDistance = 0;
+	double angle_[2] = { 0,0 };
+	double position_[2] = { 0,0 };
+	double index_ = 0;
+	double source_distance_ = 0;
 public:
 	
 	
 
 	Ray(double angleX, double angleY, double positionX, double positionY, double sourceDistance, int index);
 	
-	double position(int index) const { return _position[index]; }
-	double angle(int index) const { return _angle[index]; }
-	double index() const { return _index; }
-	double sourceDistance() const { return _sourceDistance; }
+	double position(int index) const { return position_[index]; }
+	double angle(int index) const { return angle_[index]; }
+	double index() const { return index_; }
+	double source_distance() const { return source_distance_; }
 
-	void SetAngleX(double angle);
-	void SetAngleY(double angle);
-	void SetSourceDistance(double sourceDistance) { _sourceDistance = sourceDistance; }
-	void SetPositionX(double position){	_position[0] = position; }
-	void SetPositionY(double position){	_position[1] = position; }
+	void set_angleX(double angle);
+	void set_angleY(double angle);
+	void set_source_distance(double sourceDistance) { source_distance_ = sourceDistance; }
+	void set_positionX(double position){	position_[0] = position; }
+	void set_positionY(double position){	position_[1] = position; }
 
+	void PassSystem() {}
 
-	void PassSystem() {};
+	//Exceptions
+	
+	class invalid_angle {};
+	class invalid_distance {};
 };
 
 

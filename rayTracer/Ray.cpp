@@ -2,37 +2,36 @@
 
 Ray::Ray(double angleX, double angleY, double positionX, double positionY, double sourceDistance, int index)
 {
-	if(sourceDistance < 0)
+	if(sourceDistance < 0.1)
 	{
-		//THROW
+		invalid_distance();
 	}
 
-	_angle[0] = angleX;
-	_angle[1] = angleY;
-	_position[0] = positionX;
-	_position[1] = positionY;
-	_sourceDistance = sourceDistance;
-	_index = index;
+	angle_[0] = angleX;
+	angle_[1] = angleY;
+	position_[0] = positionX;
+	position_[1] = positionY;
+	source_distance_ = sourceDistance;
+	index_ = index;
 }
 
-void Ray::SetAngleX(double angle)
+void Ray::set_angleX(double angle)
 {
 	if(angle == 90.0)
 	{
-		//THROW
+		throw invalid_angle();
 	}
-
-	_angle[0] = angle;
+	angle_[0] = angle;
 }
 
-void Ray::SetAngleY(double angle)
+void Ray::set_angleY(double angle)
 {
 	if(angle == 90.0)
 	{
-		//THROW
+		throw invalid_angle();
 	}
 
-	_angle[1] = angle;
+	angle_[1] = angle;
 }
 
 
