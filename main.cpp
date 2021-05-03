@@ -1,4 +1,4 @@
-#include "src/gui/main-gui.h"
+#include "src/gui/MainGui.h"
 
 int main(int argc, char *argv[])
 {

@@ -161,9 +161,11 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\gui\main-gui.cpp" />
+    <ClCompile Include="src\gui\common\Scene.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Lens.cpp" />
+    <ClCompile Include="src\gui\MainGui.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\gui\renderObjects.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Line.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -184,8 +186,10 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\gui\main-gui.h" />
-    <ClInclude Include="src\gui\renderObjects.h" />
+    <ClInclude Include="src\gui\common\Scene.h" />
+    <ClInclude Include="src\gui\Classes3D\Lens.h" />
+    <ClInclude Include="src\gui\MainGui.h" />
+    <ClInclude Include="src\gui\Classes3D\Line.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

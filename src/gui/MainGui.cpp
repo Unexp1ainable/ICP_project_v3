@@ -1,25 +1,30 @@
-#include "main-gui.h"
+#include "MainGui.h"
 
 #include <QGuiApplication>
 #include <QOrbitCameraController>
 #include <QPhongMaterial>
 #include <QPointLight>
 #include <Qt3DWindow>
-#include <QTorusMesh>
 #include <QTransform>
-#include "renderObjects.h"
 #include <Qt3DRender/QCamera>
+#include <Qt3DExtras/QForwardRenderer>
+
+#include "Classes3D/Lens.h"
+#include "Classes3D/Line.h"
 
 int run_gui(int argc, char* argv[])
 {
     QGuiApplication app(argc, argv);
+	
     Qt3DExtras::Qt3DWindow view;
     Qt3DCore::QEntity* root_entity = create_scene();
+	
+    view.defaultFrameGraph()->setClearColor(QColor(20,20,20));
+	
+    auto l = Lens{ root_entity, 0.0f,.0f, .0f};
 
-    add_mock_object(root_entity);
 
-
-
+    // world axes
     Line{ QVector3D(0.0f,0.0f,0.0f), QVector3D(100.0f,0.0f,0.0f),QColor(255,0,0), root_entity };
     Line{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,100.0f,0.0f),QColor(0,255,0), root_entity };
     Line{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,0.0f,100.0f),QColor(0,0,255), root_entity };
@@ -27,6 +32,7 @@ int run_gui(int argc, char* argv[])
 
     add_camera(view, root_entity);
     view.setRootEntity(root_entity);
+	
     view.show();
 
     return QGuiApplication::exec();
@@ -63,25 +69,8 @@ Qt3DCore::QEntity* create_scene()
 	const auto result_entity = new Qt3DCore::QEntity;
 
     light(QVector3D(0.0f, 20.0f, 30.0f), result_entity);
-    light(QVector3D(0.0f, 20.0f, -30.0f), result_entity);
+    light(QVector3D(0.0f, -20.0f, -30.0f), result_entity);
+    light(QVector3D(40.0f, -20.0f, -30.0f), result_entity);
 
     return result_entity;
-}
-
-void add_mock_object(Qt3DCore::QEntity* root_entity)
-{
-	auto torus_entity = new Qt3DCore::QEntity(root_entity);
-	auto torus_mesh = new Qt3DExtras::QTorusMesh;
-    torus_mesh->setRadius(15.0f);
-    torus_mesh->setMinorRadius(6.0f);
-    torus_mesh->setSlices(16);
-    torus_mesh->setRings(32);
-
-	const auto torus_material = new Qt3DExtras::QPhongMaterial;
-
-	const auto torus_transform = new Qt3DCore::QTransform;
-
-    torus_entity->addComponent(torus_mesh);
-    torus_entity->addComponent(torus_material);
-    torus_entity->addComponent(torus_transform);
 }
