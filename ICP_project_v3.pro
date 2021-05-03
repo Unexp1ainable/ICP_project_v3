@@ -5,7 +5,7 @@
 TEMPLATE = app
 TARGET = ICP_project_v3
 INCLUDEPATH += .
-QT +=  3dcore 3drender 3dinput 3dlogic 3dextras 3danimation
+QT +=  3dcore 3drender 3dinput 3dlogic 3dextras 3danimation widgets
 
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings
