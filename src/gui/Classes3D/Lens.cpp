@@ -11,7 +11,7 @@
 const QColor Lens::diffuse_color = QColor{ 200,200,255,100 };
 
 
-Lens::Lens(Qt3DCore::QEntity *root_entity, float distance, float x_tilt, float y_tilt)
+Lens::Lens(Qt3DCore::QEntity *root_entity, const float distance, float x_tilt, float z_tilt)
 {
     auto lens_entity = new Qt3DCore::QEntity(root_entity);
     auto lens_mesh = new Qt3DRender::QMesh;
@@ -29,6 +29,9 @@ Lens::Lens(Qt3DCore::QEntity *root_entity, float distance, float x_tilt, float y
 	// create transformation matrix
     const auto lens_transform = new Qt3DCore::QTransform;
     lens_transform->setScale3D(QVector3D(10.f,10.f,10.f));
+    lens_transform->setTranslation(QVector3D(.0f, distance, .0f));
+    lens_transform->setRotationX(x_tilt);
+    lens_transform->setRotationZ(z_tilt);
 
 	// put it together
     lens_entity->addComponent(lens_mesh);

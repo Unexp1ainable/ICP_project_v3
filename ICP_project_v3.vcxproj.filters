@@ -25,13 +25,16 @@
     <ClCompile Include="src\gui\MainGui.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\Classes3D\Line.cpp">
+    <ClCompile Include="src\gui\common\Scene.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\Classes3D\Lens.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\common\Scene.cpp">
+    <ClCompile Include="src\gui\Classes3D\Line.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,14 +50,19 @@
     <ClInclude Include="src\gui\MainGui.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\Classes3D\Line.h">
+    <ClInclude Include="src\gui\common\Scene.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\Classes3D\Lens.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\common\Scene.h">
+    <ClInclude Include="src\gui\Classes3D\Line.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\gui\ClassesGui\GuiWindow.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

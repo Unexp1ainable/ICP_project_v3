@@ -67,11 +67,11 @@
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;network;gui;3dcore;3danimation;3dextras;3dinput;3dlogic;3drender;gamepad</QtModules>
+    <QtModules>core;network;gui;widgets;3dcore;3danimation;3dextras;3dinput;3dlogic;3drender;gamepad</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;network;gui;3dcore;3danimation;3dextras;3dinput;3dlogic;3drender;gamepad</QtModules>
+    <QtModules>core;network;gui;widgets;3dcore;3danimation;3dextras;3dinput;3dlogic;3drender;gamepad</QtModules>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
     <Import Project="$(QtMsBuild)\qt.props" />
@@ -117,7 +117,7 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;NDEBUG;QT_NO_DEBUG;QT_3DEXTRAS_LIB;QT_3DANIMATION_LIB;QT_3DRENDER_LIB;QT_3DINPUT_LIB;QT_3DLOGIC_LIB;QT_3DCORE_LIB;QT_GAMEPAD_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;NDEBUG;QT_NO_DEBUG;QT_3DEXTRAS_LIB;QT_3DANIMATION_LIB;QT_3DRENDER_LIB;QT_3DINPUT_LIB;QT_3DLOGIC_LIB;QT_3DCORE_LIB;QT_GAMEPAD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -157,15 +157,16 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;QT_3DEXTRAS_LIB;QT_3DANIMATION_LIB;QT_3DRENDER_LIB;QT_3DINPUT_LIB;QT_3DLOGIC_LIB;QT_3DCORE_LIB;QT_GAMEPAD_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;QT_3DEXTRAS_LIB;QT_3DANIMATION_LIB;QT_3DRENDER_LIB;QT_3DINPUT_LIB;QT_3DLOGIC_LIB;QT_3DCORE_LIB;QT_GAMEPAD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\gui\common\Scene.cpp" />
-    <ClCompile Include="src\gui\Classes3D\Lens.cpp" />
-    <ClCompile Include="src\gui\MainGui.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Lens.cpp" />
     <ClCompile Include="src\gui\Classes3D\Line.cpp" />
+    <ClCompile Include="src\gui\common\Scene.cpp" />
+    <ClCompile Include="src\gui\MainGui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -186,10 +187,11 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\gui\common\Scene.h" />
+    <QtMoc Include="src\gui\ClassesGui\GuiWindow.h" />
     <ClInclude Include="src\gui\Classes3D\Lens.h" />
-    <ClInclude Include="src\gui\MainGui.h" />
     <ClInclude Include="src\gui\Classes3D\Line.h" />
+    <ClInclude Include="src\gui\common\Scene.h" />
+    <ClInclude Include="src\gui\MainGui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
