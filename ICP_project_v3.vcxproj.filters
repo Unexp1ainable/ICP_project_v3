@@ -28,13 +28,34 @@
     <ClCompile Include="src\gui\common\Scene.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\Classes3D\Lens.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\Classes3D\Line.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rayTracer\AxisObject.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rayTracer\Ray.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rayTracer\Detektor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rayTracer\RayEngine.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Classes3D\GuiLens.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rayTracer\Lens.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\LensEditor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\LensList.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,15 +74,39 @@
     <ClInclude Include="src\gui\common\Scene.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\Classes3D\Lens.h">
+    <ClInclude Include="src\gui\Classes3D\Line.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\Classes3D\Line.h">
+    <ClInclude Include="rayTracer\AxisObject.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rayTracer\Ray.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rayTracer\Detector.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rayTracer\RayEngine.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rayTracer\Sample.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Classes3D\GuiLens.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rayTracer\Lens.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\ClassesGui\LensEditor.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\gui\ClassesGui\GuiWindow.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\ClassesGui\LensList.h">
       <Filter>Generated Files</Filter>
     </QtMoc>
   </ItemGroup>

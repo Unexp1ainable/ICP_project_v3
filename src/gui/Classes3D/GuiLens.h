@@ -1,7 +1,7 @@
 #pragma once
 #include <QEntity>
 
-class Lens
+class GuiLens
 {
 public:
 	/**
@@ -17,6 +17,6 @@ public:
 	 * \param x_tilt Tilt on X axis
 	 * \param y_tilt Tilt on Y axis
 	 */
-	Lens(Qt3DCore::QEntity* root_entity, float distance, float x_tilt, float y_tilt);
+	GuiLens(Qt3DCore::QEntity* root_entity, float distance, float x_tilt, float y_tilt);
 };
 
