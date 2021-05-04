@@ -1,9 +1,9 @@
 #include "RayEngine.h"
 
 
-void rayEngine::add_lens(double distance_from_source, double radius, double optical_power, double deviationX, double deviationY)
+void rayEngine::add_lens(double distance_from_source, double radius, double optical_power, std::string name, double deviationX, double deviationY)
 {
-	std::shared_ptr<Lens> lens = std::make_shared<Lens>(distance_from_source, radius, optical_power, lens_id_, deviationX, deviationY);
+	std::shared_ptr<Lens> lens = std::make_shared<Lens>(distance_from_source, radius, optical_power, lens_id_, deviationX, deviationY, name);
 	insert_lens(lens);
 	lens_id_++;
 }
