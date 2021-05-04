@@ -4,6 +4,7 @@
 #include <QSizePolicy>
 
 #include "LensEditor.h"
+#include "LensListItem.h"
 #include "SceneViewer.h"
 #include "src/gui/Classes3D/GuiLens.h"
 #include "src/gui/Classes3D/Line.h"
@@ -22,15 +23,14 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	main_layout_->setColumnStretch(0, 4);
 	
 	main_layout_->addWidget(view_3d_box, 0, 0, 5, 5);
-	//main_layout_->addLayout(selector_->layout(), 0, 5, 2, 1);
 	main_layout_->addWidget(selector_box, 0, 5, 2, 1);
-	main_layout_->addWidget(editor_box, 2, 5, 2, 1);
-	main_layout_->addWidget(info_box, 4, 5);
+	main_layout_->addWidget(editor_box, 2, 5, 1, 1);
+	main_layout_->addWidget(info_box, 3, 5, 2, 1);
 
 	auto central_widget = new QWidget(this);
 	central_widget->setLayout(main_layout_);
 	setCentralWidget(central_widget);
-	setLayout(main_layout_);
+	/*setLayout(main_layout_);*/
 
 	for (int i = 0; i < engine->lens_count(); i++)
 	{
@@ -40,9 +40,10 @@ GuiWindow::GuiWindow(rayEngine* engine)
 		auto z_tilt = lens->deviation_y();
 		view_3d_->add_lens(distance, x_tilt, z_tilt);
 
-		selector_->addItem(tr(lens->name().c_str()));
-
+		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
 	}
+
+	connect(selector_, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(selection_changed(QListWidgetItem *)));
 }
 
 QGroupBox* GuiWindow::create_3d_view()
@@ -55,7 +56,6 @@ QGroupBox* GuiWindow::create_3d_view()
 	auto view_3d_box = new QGroupBox;
 	layout->addWidget(view_3d_widget_);
 	view_3d_box->setLayout(layout);
-	//view_3d_->get_window_widget()->setParent(view_3d_box);
 	
 	return view_3d_box;
 }
@@ -81,16 +81,8 @@ QGroupBox* GuiWindow::create_selector()
 
 	selector_ = new LensList;
 	auto* layout = new QGridLayout;
-	// LensList is not working correctly in global layout, unless I wrap it in a widget
-	const auto selector_wrapper = new QWidget{};
-	selector_->setResizeMode(QListView::Adjust);
-	selector_->setParent(selector_wrapper);
-	//auto wrapper_layout = new QGridLayout{};
-	//layout->addLayout(wrapper_layout, 0, 5, 2, 1);
-	//selector_wrapper->setLayout(wrapper_layout);
-	//wrapper_layout->addWidget(selector_);
 
-	layout->addWidget(selector_wrapper);
+	layout->addWidget(selector_);
 	s_box->setLayout(layout);
 
 	return s_box;
@@ -113,7 +105,11 @@ QGroupBox* GuiWindow::create_info()
 	return i_box;
 }
 
-void GuiWindow::button_clicked()
+void GuiWindow::selection_changed(QListWidgetItem* item)
 {
+	auto item2 = dynamic_cast<LensListItem*>(item);	// casting back so I can access id
 	
+	std::cerr << "AAAAAAAAAAA" << std::endl;
+	auto to_load = engine_->get_lens_by_id(item2->getId());
+	editor_->load_lens(to_load);
 }

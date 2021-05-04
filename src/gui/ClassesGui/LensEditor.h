@@ -5,12 +5,20 @@
 #include <qspinbox.h>
 #include <QWidget>
 
+#include "rayTracer/Lens.h"
+
 class LensEditor : public QWidget
 {
 public:
 	LensEditor();
-//private:
+	void load_lens(std::shared_ptr<Lens> lens);
+	
+private:
 	QGroupBox* group_box_;
-	QFormLayout* layout;
+	QLineEdit* name_;
+	QSpinBox* tilt_x_;
+	QSpinBox* tilt_z_;
+	QSpinBox* optical_power_;
+	QSpinBox* distance_;
 };
 

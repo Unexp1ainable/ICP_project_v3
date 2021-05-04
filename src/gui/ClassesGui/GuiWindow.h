@@ -5,6 +5,7 @@
 
 #include "LensEditor.h"
 #include "LensList.h"
+#include "LensListItem.h"
 #include "SceneViewer.h"
 #include "rayTracer/RayEngine.h"
 
@@ -56,6 +57,6 @@ private:
 	QGridLayout *main_layout_;
 
 private slots:
-	void button_clicked();
+	void selection_changed(QListWidgetItem* item);
 };
 
