@@ -31,7 +31,7 @@ public:
 	std::shared_ptr<Lens> get_lens_by_index(int index);
 	std::shared_ptr<Lens> get_lens_by_id(int id);
 	int lens_count() const { return lens_count_; }
-	void add_lens(double distance_from_source, double radius, double optical_power, double deviationX = 0, double deviationY = 0);
+	void add_lens(double distance_from_source, double radius, double optical_power,std::string name ,double deviationX = 0, double deviationY = 0);
 	void remove_lens(int id);
 	void set_lens_distance_from_source(int id, double distance);
 	
