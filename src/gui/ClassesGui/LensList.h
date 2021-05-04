@@ -13,7 +13,5 @@ public:
 	void add_lens(Lens lens);
 	void remove_lens(int index);
 
-public slots:
-	void selection_changed();
 };
 

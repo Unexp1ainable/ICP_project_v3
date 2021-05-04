@@ -3,10 +3,10 @@
 LensList::LensList()
 = default;
 
-void LensList::selection_changed()
-{
-	
-}
+//void LensList::selection_changed()
+//{
+//	
+//}
 
 void LensList::add_lens(Lens lens)
 {

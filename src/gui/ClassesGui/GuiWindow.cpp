@@ -1,137 +1,115 @@
 #include "GuiWindow.h"
 
 #include <iostream>
+#include <QSizePolicy>
 
 #include "LensEditor.h"
+#include "LensListItem.h"
+#include "SceneViewer.h"
 #include "src/gui/Classes3D/GuiLens.h"
 #include "src/gui/Classes3D/Line.h"
 #include "src/gui/common/Scene.h"
 
-GuiWindow::GuiWindow(rayEngine *engine)
+GuiWindow::GuiWindow(rayEngine* engine)
 {
-	create_info();
-	create_editor();
-	create_selector();
-	create_3d_view();
-	
+	auto info_box = create_info();
+	auto editor_box = create_editor();
+	auto selector_box = create_selector();
+	auto view_3d_box = create_3d_view();
+
 	engine_ = engine;
 
-	auto main_layout = new QGridLayout;
-	main_layout->addWidget(view_3d_widget_,0,0,5,5);
-	main_layout->addWidget(selector_,0,5,2,1);
-	main_layout->addWidget(editor_, 2, 5, 2, 1);
-	main_layout->addWidget(info_,4,5);
+	main_layout_ = new QGridLayout;
+	main_layout_->setColumnStretch(0, 4);
 	
-	auto central_widget = new QWidget;
-	central_widget->setLayout(main_layout);
+	main_layout_->addWidget(view_3d_box, 0, 0, 5, 5);
+	main_layout_->addWidget(selector_box, 0, 5, 2, 1);
+	main_layout_->addWidget(editor_box, 2, 5, 1, 1);
+	main_layout_->addWidget(info_box, 3, 5, 2, 1);
+
+	auto central_widget = new QWidget(this);
+	central_widget->setLayout(main_layout_);
 	setCentralWidget(central_widget);
+	/*setLayout(main_layout_);*/
+
+	for (int i = 0; i < engine->lens_count(); i++)
+	{
+		auto lens = engine->get_lens_by_index(i);
+		auto distance = lens->distance_from_source();
+		auto x_tilt = lens->deviation_x();
+		auto z_tilt = lens->deviation_y();
+		view_3d_->add_lens(distance, x_tilt, z_tilt);
+
+		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
+	}
+
+	connect(selector_, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(selection_changed(QListWidgetItem *)));
 }
 
-void GuiWindow::create_3d_view()
+QGroupBox* GuiWindow::create_3d_view()
 {
-	// 3D view
-	view_3d_ = new Qt3DExtras::Qt3DWindow;
-	view_3d_->defaultFrameGraph()->setClearColor(Scene::bg_color);
+	view_3d_ = new SceneViewer();
+	view_3d_widget_ = view_3d_->get_window_widget();
 
-	// 3D view as a widget
-	view_3d_widget_ = createWindowContainer(view_3d_);
+	auto layout = new QBoxLayout{QBoxLayout::BottomToTop};
 
-	// 3D root entity
-	Qt3DCore::QEntity* root_entity = create_scene();
-
-
-	GuiLens{ root_entity, 0.0f,.0f, .0f };
-
-
-	// world axes
-	Line{ QVector3D(0.0f,0.0f,0.0f), QVector3D(100.0f,0.0f,0.0f),QColor(255,0,0), root_entity };
-	Line{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,100.0f,0.0f),QColor(0,255,0), root_entity };
-	Line{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,0.0f,100.0f),QColor(0,0,255), root_entity };
-
-
-	add_camera(*view_3d_, root_entity);
-	view_3d_->setRootEntity(root_entity);
+	auto view_3d_box = new QGroupBox;
+	layout->addWidget(view_3d_widget_);
+	view_3d_box->setLayout(layout);
+	
+	return view_3d_box;
 }
 
-void GuiWindow::create_editor()
+QGroupBox* GuiWindow::create_editor()
 {
-	editor_ = new QGroupBox;
-	editor_->setTitle(tr("GuiLens control."));
-	
-	auto lens_editor = new LensEditor;
-	
+	auto e_box = new QGroupBox;
+	e_box->setTitle(tr("GuiLens control."));
+
+	editor_ = new LensEditor;
+
 	auto vbox = new QVBoxLayout;
-	vbox->addWidget(lens_editor);
-	editor_->setLayout(vbox);
+	vbox->addWidget(editor_);
+	e_box->setLayout(vbox);
 
+	return e_box;
 }
 
-void GuiWindow::create_selector()
+QGroupBox* GuiWindow::create_selector()
 {
-	selector_ = new QGroupBox;
-	selector_->setTitle(tr("Lens editor."));
+	auto s_box = new QGroupBox;
+	s_box->setTitle(tr("Lens editor."));
 
-	auto lens_list = new LensList;
-	auto w = new QWidget();
-	lens_list->setParent(w);
-	auto* layout = new QVBoxLayout;
-	layout->addWidget(w);
-	selector_->setLayout(layout);
-}
+	selector_ = new LensList;
+	auto* layout = new QGridLayout;
 
+	layout->addWidget(selector_);
+	s_box->setLayout(layout);
 
-void GuiWindow::button_clicked()
-{
-	editor_->layout()->addWidget(new LensEditor);
+	return s_box;
 }
 
 
-void GuiWindow::create_info()
+QGroupBox* GuiWindow::create_info()
 {
-	info_ = new QGroupBox;
-	info_->setTitle(tr("Informations about rays on detector."));
+	auto i_box = new QGroupBox;
+	i_box->setTitle(tr("Informations about rays on detector."));
 
 	auto button = new QPushButton("New", this);
 	connect(button, SIGNAL(clicked()), this, SLOT(button_clicked_()));
+
 	QVBoxLayout* vbox = new QVBoxLayout;
 	vbox->addWidget(button);
-	info_->setLayout(vbox);
+	i_box->setLayout(vbox);
+
+	info_ = i_box; // TODO temporary
+	return i_box;
 }
 
-
-
-void GuiWindow::add_camera(Qt3DExtras::Qt3DWindow& view, Qt3DCore::QEntity* root_entity) {
-	Qt3DRender::QCamera* camera = view.camera();
-	camera->lens()->setPerspectiveProjection(60.f, static_cast<float>(view.width()) / view.height(), 0.1f, 1000.f);
-	camera->setPosition(QVector3D(0.0f, 0.0f, 40.0f));
-	camera->setViewCenter(QVector3D(0.0f, 0.0f, 0.0f));
-
-	auto* camera_controller = new Qt3DExtras::QOrbitCameraController(root_entity);
-	camera_controller->setCamera(camera);
-	camera_controller->setLinearSpeed(-40.0f);
-	camera_controller->setLookSpeed(-120.0f);
-}
-
-
-Qt3DCore::QEntity* GuiWindow::add_light(const QVector3D position, Qt3DCore::QNode* parent)
+void GuiWindow::selection_changed(QListWidgetItem* item)
 {
-	auto light_entity = new Qt3DCore::QEntity(parent);
-	auto* point_light = new Qt3DRender::QPointLight(light_entity);
-	auto* light_transform = new Qt3DCore::QTransform(light_entity);
-	light_transform->setTranslation(position);
-	light_entity->addComponent(point_light);
-	light_entity->addComponent(light_transform);
-
-	return light_entity;
-}
-
-Qt3DCore::QEntity* GuiWindow::create_scene()
-{
-	const auto result_entity = new Qt3DCore::QEntity;
-
-	add_light(QVector3D(0.0f, 20.0f, 30.0f), result_entity);
-	add_light(QVector3D(0.0f, -20.0f, -30.0f), result_entity);
-	add_light(QVector3D(40.0f, -20.0f, -30.0f), result_entity);
-
-	return result_entity;
+	auto item2 = dynamic_cast<LensListItem*>(item);	// casting back so I can access id
+	
+	std::cerr << "AAAAAAAAAAA" << std::endl;
+	auto to_load = engine_->get_lens_by_id(item2->getId());
+	editor_->load_lens(to_load);
 }
