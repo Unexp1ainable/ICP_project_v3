@@ -200,7 +200,7 @@
     <QtMoc Include="src\gui\ClassesGui\LensList.h" />
     <ClInclude Include="src\gui\ClassesGui\LensListItem.h" />
     <ClInclude Include="src\gui\ClassesGui\SceneViewer.h" />
-    <ClInclude Include="src\gui\ClassesGui\LensEditor.h" />
+    <QtMoc Include="src\gui\ClassesGui\LensEditor.h" />
     <ClInclude Include="rayTracer\AxisObject.h" />
     <ClInclude Include="rayTracer\Detector.h" />
     <ClInclude Include="rayTracer\Lens.h" />

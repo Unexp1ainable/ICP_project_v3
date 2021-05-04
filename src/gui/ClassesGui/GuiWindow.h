@@ -58,5 +58,6 @@ private:
 
 private slots:
 	void selection_changed(QListWidgetItem* item);
+	void save_new(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
 };
 
