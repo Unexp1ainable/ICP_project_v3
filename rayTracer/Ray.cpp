@@ -1,6 +1,6 @@
 #include "Ray.h"
 
-Ray::Ray(double angleX, double angleY, double positionX, double positionY, double sourceDistance, int index)
+Ray::Ray(double angleX, double angleY, double positionX, double positionY, double sourceDistance, int id)
 {
 	if(sourceDistance < 0.1)
 	{
@@ -12,7 +12,7 @@ Ray::Ray(double angleX, double angleY, double positionX, double positionY, doubl
 	position_[0] = positionX;
 	position_[1] = positionY;
 	source_distance_ = sourceDistance;
-	index_ = index;
+	id_ = id;
 }
 
 void Ray::set_angleX(double angle)

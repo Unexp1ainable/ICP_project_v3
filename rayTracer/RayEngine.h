@@ -11,7 +11,9 @@ class rayEngine
 {
 private:
 	int lens_count_ = 0;
+	int lens_id_ = 1;
 	int ray_count_ = 0;
+	int ray_id_ = 1;
 	std::shared_ptr<Sample> sample_;
 	std::shared_ptr<Detector> detector_;
 	std::vector<std::shared_ptr<Lens>> lenses_;
@@ -26,17 +28,19 @@ public:
 		detector_ = std::make_shared<Detector>();
 	}
 	
-	std::shared_ptr<Lens> get_lens(int index);
+	std::shared_ptr<Lens> get_lens_by_index(int index);
+	std::shared_ptr<Lens> get_lens_by_id(int id);
 	int lens_count() const { return lens_count_; }
 	void add_lens(double distance_from_source, double radius, double optical_power, double deviationX = 0, double deviationY = 0);
-	void remove_lens(int index);
-	void set_lens_distance_from_source(int index, double distance);
+	void remove_lens(int id);
+	void set_lens_distance_from_source(int id, double distance);
 	
 
-	std::shared_ptr<Ray> get_ray(int index);
+	std::shared_ptr<Ray> get_ray_by_id(int id);
+	std::shared_ptr<Ray> get_ray_by_index(int index);
 	int ray_count() const { return ray_count_; }
 	void add_ray(double angleX, double angleY, double positionX, double positionY, double source_distance);
-	void remove_ray(int index);
+	void remove_ray(int id);
 
 	std::shared_ptr<Sample> get_sample() const { return sample_; }
 	void set_sample_distance_from_source(double distance);
