@@ -21,7 +21,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 
 	main_layout_ = new QGridLayout;
 	main_layout_->setColumnStretch(0, 4);
-	
+
 	main_layout_->addWidget(view_3d_box, 0, 0, 5, 5);
 	main_layout_->addWidget(selector_box, 0, 5, 2, 1);
 	main_layout_->addWidget(editor_box, 2, 5, 1, 1);
@@ -43,7 +43,14 @@ GuiWindow::GuiWindow(rayEngine* engine)
 		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
 	}
 
-	connect(selector_, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(selection_changed(QListWidgetItem *)));
+	// connect selection loading
+	connect(selector_, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selection_changed(QListWidgetItem*)));
+	// connect button new
+	connect(editor_->get_button_new(), &QPushButton::clicked, editor_, &LensEditor::mode_new);
+	// connect button cancel
+	connect(editor_->get_button_cancel(), &QPushButton::clicked, editor_, &LensEditor::default_state);
+	// connect button save
+	connect(editor_, &LensEditor::create_new_lens, this, &GuiWindow::save_new);
 }
 
 QGroupBox* GuiWindow::create_3d_view()
@@ -97,8 +104,10 @@ QGroupBox* GuiWindow::create_info()
 	auto button = new QPushButton("New", this);
 	connect(button, SIGNAL(clicked()), this, SLOT(button_clicked_()));
 
-	QVBoxLayout* vbox = new QVBoxLayout;
+	QHBoxLayout* vbox = new QHBoxLayout;
 	vbox->addWidget(button);
+	vbox->addWidget(new QPushButton("aaaaaa"));
+	vbox->addWidget(new QPushButton("bbbbbbb"));
 	i_box->setLayout(vbox);
 
 	info_ = i_box; // TODO temporary
@@ -109,7 +118,14 @@ void GuiWindow::selection_changed(QListWidgetItem* item)
 {
 	auto item2 = dynamic_cast<LensListItem*>(item);	// casting back so I can access id
 	
-	std::cerr << "AAAAAAAAAAA" << std::endl;
 	auto to_load = engine_->get_lens_by_id(item2->getId());
 	editor_->load_lens(to_load);
 }
+
+void GuiWindow::save_new(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
+{
+	engine_->add_lens(distance, 10., optical_power, x_tilt, z_tilt);
+	view_3d_->add_lens(distance, x_tilt, z_tilt);
+	selector_->add_lens();
+}
+

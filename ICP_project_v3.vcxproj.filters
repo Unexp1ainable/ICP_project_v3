@@ -104,9 +104,6 @@
     <ClInclude Include="rayTracer\Lens.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\ClassesGui\LensEditor.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\gui\ClassesGui\SceneViewer.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -119,6 +116,9 @@
       <Filter>Generated Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\ClassesGui\LensList.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\ClassesGui\LensEditor.h">
       <Filter>Generated Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -10,7 +10,7 @@ class LensList : public QListWidget
 public:
 	LensList();
 
-	void add_lens(Lens lens);
+	void add_lens(int id, QString label);
 	void remove_lens(int index);
 
 };
