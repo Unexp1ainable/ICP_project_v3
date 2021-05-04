@@ -3,26 +3,27 @@
 
 void rayEngine::add_lens(double distance_from_source, double radius, double optical_power, double deviationX, double deviationY)
 {
-	std::shared_ptr<Lens> lens = std::make_shared<Lens>(distance_from_source, radius, optical_power, deviationX, deviationY);
+	std::shared_ptr<Lens> lens = std::make_shared<Lens>(distance_from_source, radius, optical_power, lens_id_, deviationX, deviationY);
 	insert_lens(lens);
+	lens_id_++;
 }
 
 
-void rayEngine::set_lens_distance_from_source(int index, double distance)
+void rayEngine::set_lens_distance_from_source(int id, double distance)
 {
-	if(index > lens_count_ - 1)
+	/*if(index > lens_count_ - 1)
 	{
 		throw out_of_range();
-	}
+	}*/
 
 	if(distance >= sample_->distance_from_source())
 	{
 		throw invalid_distance();
 	}
 	
-	lenses_[index]->set_distance_from_source(distance);
-	std::shared_ptr<Lens> lens = lenses_[index];
-	remove_lens(index);
+	get_lens_by_id(id)->set_distance_from_source(distance);
+	std::shared_ptr<Lens> lens = get_lens_by_id(id);
+	remove_lens(id);
 	insert_lens(lens);
 }
 
@@ -49,17 +50,17 @@ void rayEngine::insert_lens(const std::shared_ptr<Lens>& lens)
 	lens_count_++;
 }
 
-void rayEngine::remove_lens(int index)
+void rayEngine::remove_lens(int id)
 {
-	if(index > lens_count_ - 1 || index < 0)
+	/*if(index > lens_count_ - 1 || index < 0)
 	{
 		throw out_of_range();
-	}
+	}*/
 
 	int i = 0;
 	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
 	{
-		if(i == index)
+		if(lenses_[i]->id() == id)
 		{
 			lenses_.erase(it);
 			lens_count_--;
@@ -69,9 +70,23 @@ void rayEngine::remove_lens(int index)
 	
 }
 
-std::shared_ptr<Lens> rayEngine::get_lens(int index)
+std::shared_ptr<Lens> rayEngine::get_lens_by_id(int id)
 {
-	if(index > lens_count_ - 1 || index < 0)
+	int i = 0;
+	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
+	{
+		if(lenses_[i]->id() == id)
+		{
+			return lenses_[i];
+		}
+	}
+	return nullptr;
+}
+
+
+std::shared_ptr<Lens> rayEngine::get_lens_by_index(int index)
+{
+	if(index >= lens_count_|| index < 0)
 	{
 		throw out_of_range();
 	}
@@ -81,22 +96,23 @@ std::shared_ptr<Lens> rayEngine::get_lens(int index)
 
 void rayEngine::add_ray(double angleX, double angleY, double positionX, double positionY, double source_distance)
 {
-	std::shared_ptr<Ray> ray = std::make_shared<Ray>(angleX, angleY, positionX, positionY, source_distance,this->ray_count_);
+	std::shared_ptr<Ray> ray = std::make_shared<Ray>(angleX, angleY, positionX, positionY, source_distance,ray_id_);
 	rays_.push_back(ray);
+	ray_id_++;
 	ray_count_++;
 }
 
-void rayEngine::remove_ray(int index)
+void rayEngine::remove_ray(int id)
 {
-	if(index > ray_count_ - 1 || index < 0)
-	{
-		throw out_of_range();
-	}
+	//if(id > ray_id_ || id < 0)
+	//{
+	//	throw out_of_range();
+	//}
 
 	int i = 0;
 	for(std::vector<std::shared_ptr<Ray>>::iterator it = rays_.begin(); it != rays_.end(); it++, i++)
 	{
-		if(i == index)
+		if(rays_[i]->id() == id)
 		{
 			rays_.erase(it);
 			ray_count_--;
@@ -105,13 +121,34 @@ void rayEngine::remove_ray(int index)
 	}
 }
 
-std::shared_ptr<Ray> rayEngine::get_ray(int index)
+std::shared_ptr<Ray> rayEngine::get_ray_by_index(int index)
 {
-	if(index > ray_count_ - 1 || index < 0)
+	if(index >= ray_count_ || index < 0)
 	{
 		throw out_of_range();
 	}
+
 	return rays_[index];
+}
+
+
+std::shared_ptr<Ray> rayEngine::get_ray_by_id(int id)
+{
+	//if(id > ray_count_ || id < 0)
+	//{
+	//	throw out_of_range();
+	//}
+	int i = 0;
+	for(std::vector<std::shared_ptr<Ray>>::iterator it = rays_.begin(); it != rays_.end(); it++, i++)
+	{
+		if(rays_[i]->id() == id)
+		{
+			return rays_[i];
+		}
+	}
+	return nullptr;
+
+	
 }
 
 void rayEngine::set_sample_distance_from_source(double distance)
