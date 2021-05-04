@@ -124,8 +124,8 @@ void GuiWindow::selection_changed(QListWidgetItem* item)
 
 void GuiWindow::save_new(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
 {
-	engine_->add_lens(distance, 10., optical_power, x_tilt, z_tilt);
+	auto id = engine_->add_lens(distance, 10., optical_power, name.toStdString(), x_tilt, z_tilt);
 	view_3d_->add_lens(distance, x_tilt, z_tilt);
-	selector_->add_lens();
+	selector_->add_lens(id, name);
 }
 
