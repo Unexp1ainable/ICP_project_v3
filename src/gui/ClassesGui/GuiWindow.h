@@ -5,6 +5,7 @@
 
 #include "LensEditor.h"
 #include "LensList.h"
+#include "SceneViewer.h"
 #include "rayTracer/RayEngine.h"
 
 /**
@@ -17,12 +18,13 @@ class GuiWindow : public QMainWindow
 public:
 	GuiWindow(rayEngine *engine);
 
+
 private:
 	/**
 	 * Constructs 3D viewer and scene inside.
 	 * Reference will be stored in view_3d_widget_
 	 */
-	QWidget* create_3d_view();
+	QGroupBox* create_3d_view();
 	
 	/**
 	 * Creates lens editing part of the window.
@@ -42,18 +44,16 @@ private:
 	 */
 	QGroupBox* create_info();
 
-	
-	Qt3DCore::QEntity* create_scene();
-	void add_camera(Qt3DExtras::Qt3DWindow& view, Qt3DCore::QEntity* root_entity);
-	Qt3DCore::QEntity* add_light(const QVector3D position, Qt3DCore::QNode* parent);
 
 	QWidget* view_3d_widget_;
-	Qt3DExtras::Qt3DWindow* view_3d_;
+	SceneViewer* view_3d_;
 	LensList* selector_;
 	LensEditor* editor_;
 	QGroupBox* info_;
 	QWidget *central_widget_;
 	rayEngine *engine_;
+
+	QGridLayout *main_layout_;
 
 private slots:
 	void button_clicked();

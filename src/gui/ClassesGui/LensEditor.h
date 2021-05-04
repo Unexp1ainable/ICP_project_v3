@@ -9,7 +9,8 @@ class LensEditor : public QWidget
 {
 public:
 	LensEditor();
-private:
+//private:
 	QGroupBox* group_box_;
+	QFormLayout* layout;
 };
 

@@ -58,6 +58,9 @@
     <ClCompile Include="src\gui\ClassesGui\LensList.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\SceneViewer.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -99,6 +102,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\ClassesGui\LensEditor.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\ClassesGui\SceneViewer.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
