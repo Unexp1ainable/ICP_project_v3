@@ -1,4 +1,4 @@
-#include "Lens.h"
+#include "GuiLens.h"
 
 #include <Qt3DRender>
 #include <QDiffuseSpecularMaterial>
@@ -8,10 +8,10 @@
 #include "src/gui/common/Scene.h"
 
 
-const QColor Lens::diffuse_color = QColor{ 200,200,255,100 };
+const QColor GuiLens::diffuse_color = QColor{ 200,200,255,100 };
 
 
-Lens::Lens(Qt3DCore::QEntity *root_entity, const float distance, float x_tilt, float z_tilt)
+GuiLens::GuiLens(Qt3DCore::QEntity *root_entity, const float distance, float x_tilt, float z_tilt)
 {
     auto lens_entity = new Qt3DCore::QEntity(root_entity);
     auto lens_mesh = new Qt3DRender::QMesh;

@@ -2,26 +2,29 @@
 
 #include <iostream>
 
-#include "src/gui/Classes3D/Lens.h"
+#include "LensEditor.h"
+#include "src/gui/Classes3D/GuiLens.h"
 #include "src/gui/Classes3D/Line.h"
 #include "src/gui/common/Scene.h"
 
-GuiWindow::GuiWindow()
+GuiWindow::GuiWindow(rayEngine *engine)
 {
 	create_info();
-	create_control();
+	create_editor();
+	create_selector();
 	create_3d_view();
-
+	
+	engine_ = engine;
 
 	auto main_layout = new QGridLayout;
-	main_layout->addWidget(info_,4,5);
-	main_layout->addWidget(control_,0,5,4,1);
 	main_layout->addWidget(view_3d_widget_,0,0,5,5);
+	main_layout->addWidget(selector_,0,5,2,1);
+	main_layout->addWidget(editor_, 2, 5, 2, 1);
+	main_layout->addWidget(info_,4,5);
 	
-	auto central_widget_ = new QWidget;
-	central_widget_->setLayout(main_layout);
-	setCentralWidget(central_widget_);
-	//setLayout(main_layout);
+	auto central_widget = new QWidget;
+	central_widget->setLayout(main_layout);
+	setCentralWidget(central_widget);
 }
 
 void GuiWindow::create_3d_view()
@@ -37,7 +40,7 @@ void GuiWindow::create_3d_view()
 	Qt3DCore::QEntity* root_entity = create_scene();
 
 
-	Lens{ root_entity, 0.0f,.0f, .0f };
+	GuiLens{ root_entity, 0.0f,.0f, .0f };
 
 
 	// world axes
@@ -50,17 +53,49 @@ void GuiWindow::create_3d_view()
 	view_3d_->setRootEntity(root_entity);
 }
 
-void GuiWindow::create_control()
+void GuiWindow::create_editor()
 {
-	control_ = new QGroupBox;
-	info_->setWhatsThis(tr("Lens control."));
+	editor_ = new QGroupBox;
+	editor_->setTitle(tr("GuiLens control."));
+	
+	auto lens_editor = new LensEditor;
+	
+	auto vbox = new QVBoxLayout;
+	vbox->addWidget(lens_editor);
+	editor_->setLayout(vbox);
 
 }
+
+void GuiWindow::create_selector()
+{
+	selector_ = new QGroupBox;
+	selector_->setTitle(tr("Lens editor."));
+
+	auto lens_list = new LensList;
+	auto w = new QWidget();
+	lens_list->setParent(w);
+	auto* layout = new QVBoxLayout;
+	layout->addWidget(w);
+	selector_->setLayout(layout);
+}
+
+
+void GuiWindow::button_clicked()
+{
+	editor_->layout()->addWidget(new LensEditor);
+}
+
 
 void GuiWindow::create_info()
 {
 	info_ = new QGroupBox;
 	info_->setTitle(tr("Informations about rays on detector."));
+
+	auto button = new QPushButton("New", this);
+	connect(button, SIGNAL(clicked()), this, SLOT(button_clicked_()));
+	QVBoxLayout* vbox = new QVBoxLayout;
+	vbox->addWidget(button);
+	info_->setLayout(vbox);
 }
 
 

@@ -161,9 +161,16 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\gui\ClassesGui\LensList.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\LensEditor.cpp" />
+    <ClCompile Include="rayTracer\AxisObject.cpp" />
+    <ClCompile Include="rayTracer\Detektor.cpp" />
+    <ClCompile Include="rayTracer\Lens.cpp" />
+    <ClCompile Include="rayTracer\Ray.cpp" />
+    <ClCompile Include="rayTracer\RayEngine.cpp" />
     <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\gui\Classes3D\Lens.cpp" />
+    <ClCompile Include="src\gui\Classes3D\GuiLens.cpp" />
     <ClCompile Include="src\gui\Classes3D\Line.cpp" />
     <ClCompile Include="src\gui\common\Scene.cpp" />
     <ClCompile Include="src\gui\MainGui.cpp" />
@@ -188,7 +195,15 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\gui\ClassesGui\GuiWindow.h" />
-    <ClInclude Include="src\gui\Classes3D\Lens.h" />
+    <QtMoc Include="src\gui\ClassesGui\LensList.h" />
+    <ClInclude Include="src\gui\ClassesGui\LensEditor.h" />
+    <ClInclude Include="rayTracer\AxisObject.h" />
+    <ClInclude Include="rayTracer\Detector.h" />
+    <ClInclude Include="rayTracer\Lens.h" />
+    <ClInclude Include="rayTracer\Ray.h" />
+    <ClInclude Include="rayTracer\RayEngine.h" />
+    <ClInclude Include="rayTracer\Sample.h" />
+    <ClInclude Include="src\gui\Classes3D\GuiLens.h" />
     <ClInclude Include="src\gui\Classes3D\Line.h" />
     <ClInclude Include="src\gui\common\Scene.h" />
     <ClInclude Include="src\gui\MainGui.h" />

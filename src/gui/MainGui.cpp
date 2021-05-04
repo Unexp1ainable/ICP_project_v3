@@ -7,7 +7,11 @@
 int run_gui(int argc, char* argv[])
 {
     QApplication app(argc, argv);
-    GuiWindow window;
+	// TESTING
+    rayEngine engine{};
+	// ====
+    GuiWindow window(&engine);
+    window.resize(640, 480);
 	
     window.show();
 
