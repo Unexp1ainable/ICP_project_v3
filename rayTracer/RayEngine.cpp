@@ -173,5 +173,22 @@ void rayEngine::set_detector_distance_from_source(double distance)
 }
 
 
+bool rayEngine::position_valid(double distance)
+{
+	if(distance <= 0 || distance >= sample_->distance_from_source() )
+	{
+		return false;
+	}
+	
+	int i = 0;
+	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
+	{
+		if(abs(lenses_[i]->distance_from_source() - distance) <= 1.1)
+		{
+			return false;
+		}
+	}
+	return true;
+}
 
 
