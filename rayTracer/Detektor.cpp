@@ -1,1 +1,1 @@
-#include "Detector.h"
+#include "Detektor.h"

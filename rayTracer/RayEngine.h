@@ -34,6 +34,7 @@ public:
 	int add_lens(double distance_from_source, double radius, double optical_power,std::string name ,double deviationX = 0, double deviationY = 0);
 	void remove_lens(int id);
 	void set_lens_distance_from_source(int id, double distance);
+	bool position_valid(double distance);
 	
 
 	std::shared_ptr<Ray> get_ray_by_id(int id);
