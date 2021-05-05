@@ -34,21 +34,25 @@ public:
 	int add_lens(double distance_from_source, double radius, double optical_power,std::string name ,double deviationX = 0, double deviationY = 0);
 	void remove_lens(int id);
 	void set_lens_distance_from_source(int id, double distance);
-	bool position_valid(double distance);
+	bool position_valid_lens(double distance, int id);
+	
+	
 	
 
 	std::shared_ptr<Ray> get_ray_by_id(int id);
 	std::shared_ptr<Ray> get_ray_by_index(int index);
 	int ray_count() const { return ray_count_; }
-	void add_ray(double angleX, double angleY, double positionX, double positionY, double source_distance);
+	int add_ray(double angleX, double angleY, double positionX, double positionY, double source_distance);
 	void remove_ray(int id);
 
 	std::shared_ptr<Sample> get_sample() const { return sample_; }
+	bool position_valid_sample(double distance);
 	void set_sample_distance_from_source(double distance);
 
 	std::shared_ptr<Detector> get_detector() const { return detector_; }
+	bool position_valid_detector(double distance);
 	void set_detector_distance_from_source(double distance);
-	
+
 	double* pass_rays();
 
 	//exceptions
