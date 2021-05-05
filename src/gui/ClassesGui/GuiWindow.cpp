@@ -8,16 +8,17 @@
 #include "SceneViewer.h"
 #include "src/gui/Classes3D/GuiLens.h"
 #include "src/gui/Classes3D/Line.h"
+#include "src/gui/common/macros.h"
 #include "src/gui/common/Scene.h"
 
 GuiWindow::GuiWindow(rayEngine* engine)
 {
-	auto info_box = create_info();
-	auto editor_box = create_editor();
-	auto selector_box = create_selector();
-	auto view_3d_box = create_3d_view();
-
 	engine_ = engine;
+	
+	auto editor_box = create_editor();
+	auto view_3d_box = create_3d_view();
+	auto selector_box = create_selector();
+	auto info_box = create_info();
 
 	main_layout_ = new QGridLayout;
 	main_layout_->setColumnStretch(0, 4);
@@ -30,27 +31,8 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	auto central_widget = new QWidget(this);
 	central_widget->setLayout(main_layout_);
 	setCentralWidget(central_widget);
-	/*setLayout(main_layout_);*/
-
-	for (int i = 0; i < engine->lens_count(); i++)
-	{
-		auto lens = engine->get_lens_by_index(i);
-		auto distance = lens->distance_from_source();
-		auto x_tilt = lens->deviation_x();
-		auto z_tilt = lens->deviation_y();
-		view_3d_->add_lens(distance, x_tilt, z_tilt);
-
-		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
-	}
-
-	// connect selection loading
-	connect(selector_, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selection_changed(QListWidgetItem*)));
-	// connect button new
-	connect(editor_->get_button_new(), &QPushButton::clicked, editor_, &LensEditor::mode_new);
-	// connect button cancel
-	connect(editor_->get_button_cancel(), &QPushButton::clicked, editor_, &LensEditor::default_state);
-	// connect button save
-	connect(editor_, &LensEditor::create_new_lens, this, &GuiWindow::save_new);
+	connect_elements();
+	
 }
 
 QGroupBox* GuiWindow::create_3d_view()
@@ -73,6 +55,9 @@ QGroupBox* GuiWindow::create_editor()
 	e_box->setTitle(tr("GuiLens control."));
 
 	editor_ = new LensEditor;
+	// init editor
+	editor_->disable_form();
+	editor_->get_button_edit()->setDisabled(true);
 
 	auto vbox = new QVBoxLayout;
 	vbox->addWidget(editor_);
@@ -92,6 +77,19 @@ QGroupBox* GuiWindow::create_selector()
 	layout->addWidget(selector_);
 	s_box->setLayout(layout);
 
+	// initialise items
+	for (int i = 0; i < engine_->lens_count(); i++)
+	{
+		auto lens = engine_->get_lens_by_index(i);
+		auto distance = lens->distance_from_source();
+		auto x_tilt = TO_DEGREES(lens->deviation_x());
+		auto z_tilt = TO_DEGREES(lens->deviation_y());
+		auto id = lens->id();
+		view_3d_->add_lens(distance, x_tilt, z_tilt, id);
+
+		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
+	}
+	
 	return s_box;
 }
 
@@ -114,18 +112,114 @@ QGroupBox* GuiWindow::create_info()
 	return i_box;
 }
 
-void GuiWindow::selection_changed(QListWidgetItem* item)
+void GuiWindow::connect_elements()
 {
-	auto item2 = dynamic_cast<LensListItem*>(item);	// casting back so I can access id
-	
-	auto to_load = engine_->get_lens_by_id(item2->getId());
-	editor_->load_lens(to_load);
+	// connect selection loading
+	connect(selector_, &QListWidget::itemClicked, this, &GuiWindow::selection_changed_slot);
+	//connect(selector_, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selection_changed(QListWidgetItem*)));
+	// connect button new
+	connect(editor_->get_button_new(), &QPushButton::clicked, this, &GuiWindow::mode_new_slot);
+	// connect button edit
+	connect(editor_->get_button_edit(), &QPushButton::clicked, this, &GuiWindow::mode_edit_slot);
+	// connect button delete
+	connect(editor_->get_button_delete(), &QPushButton::clicked, this, &GuiWindow::delete_slot);
+	// connect button cancel
+	connect(editor_->get_button_cancel(), &QPushButton::clicked, this, &GuiWindow::cancel_slot);
+	// connect button save
+	connect(editor_, &LensEditor::save_lens_signal, this, &GuiWindow::save_slot);
+
+
+	// connect error signals
+	connect(view_3d_, &SceneViewer::error_signal, this, &GuiWindow::error_slot);
 }
 
-void GuiWindow::save_new(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
+
+void GuiWindow::selection_changed_slot(QListWidgetItem* item)
 {
-	auto id = engine_->add_lens(distance, 10., optical_power, name.toStdString(), x_tilt, z_tilt);
-	view_3d_->add_lens(distance, x_tilt, z_tilt);
+	auto lens_item = dynamic_cast<LensListItem*>(item);	// casting back so I can access id
+	
+	auto to_load = engine_->get_lens_by_id(lens_item->getId());
+	editor_->load_lens(to_load);
+	
+	// enable edit button
+	editor_->get_button_edit()->setDisabled(false);
+}
+
+void GuiWindow::mode_new_slot()
+{
+	editing_ = false;
+	editor_->mode_new();
+	selector_->setDisabled(true);
+}
+
+
+void GuiWindow::mode_edit_slot()
+{
+	editing_ = true;
+	editor_->mode_edit();
+	selector_->setDisabled(true);
+}
+
+void GuiWindow::delete_slot()
+{
+	//TODO
+}
+
+
+void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
+{	
+	if (editing_)
+	{
+		auto item = dynamic_cast<LensListItem *>(selector_->currentItem());
+		edit_lens(name, x_tilt, z_tilt, distance, optical_power, item->getId());
+	}
+	else
+	{
+		create_new_lens(name, x_tilt, z_tilt, distance, optical_power);
+	}
+
+	editor_->mode_default();
+	selector_->setDisabled(false);
+	editor_->get_button_edit()->setDisabled(true);
+
+}
+
+void GuiWindow::cancel_slot()
+{
+	editor_->mode_default();
+	selector_->setDisabled(false);
+}
+
+
+void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
+{
+	auto id = engine_->add_lens(distance, 10., optical_power, name.toStdString(), TO_RADIANS(x_tilt), TO_RADIANS(z_tilt));
+	view_3d_->add_lens(distance, x_tilt, z_tilt, id);
 	selector_->add_lens(id, name);
+}
+
+
+void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id)
+{
+	// edit engine
+	auto lens = engine_->get_lens_by_id(id);
+	lens->set_name(name.toStdString());
+	lens->set_deviationX(TO_RADIANS(x_tilt));
+	lens->set_deviationY(TO_RADIANS(z_tilt));
+	engine_->set_lens_distance_from_source(id, distance);
+	lens->set_optical_power(optical_power);
+
+	// edit list
+	//TODO
+
+	// edit 3d_view
+	view_3d_->edit_lens(id, x_tilt, z_tilt, distance);
+}
+
+void GuiWindow::error_slot(std::string error)
+{
+	QMessageBox messageBox;
+	messageBox.critical(0, "Error", QString::fromStdString(error));
+	messageBox.setFixedSize(500, 200);
 }
 

@@ -3,6 +3,8 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 
+#include "src/gui/common/macros.h"
+
 
 LensEditor::LensEditor()
 {	
@@ -59,10 +61,10 @@ void LensEditor::load_lens(std::shared_ptr<Lens> lens)
 	name_->setText(QString::fromStdString(lens->name()));
 	name_->setDisabled(true);
 	
-	tilt_x_->setValue(lens->deviation_x());
+	tilt_x_->setValue(TO_DEGREES(lens->deviation_x()));
 	tilt_x_->setDisabled(true);
 	
-	tilt_z_->setValue(lens->deviation_y());
+	tilt_z_->setValue(TO_DEGREES(lens->deviation_y()));
 	tilt_z_->setDisabled(true);
 
 	optical_power_->setValue(lens->optical_power());
@@ -99,39 +101,27 @@ QPushButton* LensEditor::get_button_save() const
 }
 
 
-void LensEditor::mode_new()
-{
-	name_->setDisabled(false);
-	name_->setText("New lens");
-	
-	tilt_x_->setDisabled(false);
-	tilt_x_->setValue(0);
-	
-	tilt_z_->setDisabled(false);
-	tilt_z_->setValue(0);
 
-	optical_power_->setDisabled(false);
-	optical_power_->setValue(1);
-
-	distance_->setDisabled(false);
-	distance_->setValue(10);
-
-	button_new_->setHidden(true);
-	button_edit_->setHidden(true);
-	button_delete_->setHidden(true);
-
-	button_save_->setHidden(false);
-	button_cancel_->setHidden(false);
-}
-
-void LensEditor::default_state()
+void LensEditor::disable_form()
 {
 	name_->setDisabled(true);
 	tilt_x_->setDisabled(true);
 	tilt_z_->setDisabled(true);
 	optical_power_->setDisabled(true);
 	distance_->setDisabled(true);
+}
 
+void LensEditor::enable_form()
+{
+	name_->setDisabled(false);
+	tilt_x_->setDisabled(false);
+	tilt_z_->setDisabled(false);
+	optical_power_->setDisabled(false);
+	distance_->setDisabled(false);
+}
+
+void LensEditor::primary_buttons()
+{
 	button_new_->setHidden(false);
 	button_edit_->setHidden(false);
 	button_delete_->setHidden(false);
@@ -140,15 +130,54 @@ void LensEditor::default_state()
 	button_cancel_->setHidden(true);
 }
 
+void LensEditor::secondary_buttons()
+{
+	button_new_->setHidden(true);
+	button_edit_->setHidden(true);
+	button_delete_->setHidden(true);
+
+	button_save_->setHidden(false);
+	button_cancel_->setHidden(false);
+}
+
+
+
+
+void LensEditor::mode_new()
+{
+	enable_form();
+	secondary_buttons();
+	
+	name_->setText("New lens");
+	tilt_x_->setValue(0);
+	tilt_z_->setValue(0);
+	optical_power_->setValue(1);
+	distance_->setValue(10);
+}
+
+void LensEditor::mode_edit()
+{
+	// item are already loaded
+	enable_form();
+	secondary_buttons();
+}
+
+void LensEditor::mode_default()
+{
+	disable_form();
+	primary_buttons();
+}
+
 void LensEditor::save_new()
 {
-	default_state();
+	mode_default();
 	auto p_name = name_->text();
 	auto p_x_tilt = tilt_x_->value();
 	auto p_y_tilt = tilt_z_->value();
 	auto p_distance = distance_->value();
 	auto p_optical_power = optical_power_->value();
-	emit create_new_lens(p_name, p_x_tilt,p_y_tilt, p_distance, p_optical_power);
+	
+	emit save_lens_signal(p_name, p_x_tilt,p_y_tilt, p_distance, p_optical_power);
 }
 
 void LensEditor::delete_old()

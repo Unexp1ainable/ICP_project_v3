@@ -45,6 +45,13 @@ private:
 	 */
 	QGroupBox* create_info();
 
+	/**
+	 * Connects signals and slots 
+	 */
+	void connect_elements();
+
+	void edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id);
+	void create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
 
 	QWidget* view_3d_widget_;
 	SceneViewer* view_3d_;
@@ -56,8 +63,16 @@ private:
 
 	QGridLayout *main_layout_;
 
+	bool editing_ = false;
+
 private slots:
-	void selection_changed(QListWidgetItem* item);
-	void save_new(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
+	void selection_changed_slot(QListWidgetItem* item);
+	void mode_new_slot();
+	void mode_edit_slot();
+	void delete_slot();
+	void save_slot(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
+	void cancel_slot();
+
+	void error_slot(std::string error);
 };
 

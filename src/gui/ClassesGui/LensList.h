@@ -11,6 +11,7 @@ public:
 	LensList();
 
 	void add_lens(int id, QString label);
+	void edit_lens(int id, QString label);
 	void remove_lens(int index);
 
 };

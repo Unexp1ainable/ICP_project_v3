@@ -10,15 +10,16 @@
 
 const QColor GuiLens::diffuse_color = QColor{ 200,200,255,100 };
 
+const QUrl GuiLens::mesh_location = QUrl::fromLocalFile("./src/gui/meshes/cylinder.obj");
+
 
 GuiLens::GuiLens(Qt3DCore::QEntity *root_entity, const float distance, float x_tilt, float z_tilt)
 {
-    auto lens_entity = new Qt3DCore::QEntity(root_entity);
+    setParent(root_entity);
     auto lens_mesh = new Qt3DRender::QMesh;
 
 	// load mesh
-    const auto url = QUrl::fromLocalFile("./src/gui/meshes/cylinder.obj");
-    lens_mesh->setSource(url);
+    lens_mesh->setSource(mesh_location);
 
 	// create material
     const auto lens_material = new Qt3DExtras::QDiffuseSpecularMaterial;
@@ -27,14 +28,19 @@ GuiLens::GuiLens(Qt3DCore::QEntity *root_entity, const float distance, float x_t
     lens_material->setAlphaBlendingEnabled(true);
 
 	// create transformation matrix
-    const auto lens_transform = new Qt3DCore::QTransform;
-    lens_transform->setScale3D(QVector3D(10.f,10.f,10.f));
-    lens_transform->setTranslation(QVector3D(.0f, distance, .0f));
-    lens_transform->setRotationX(x_tilt);
-    lens_transform->setRotationZ(z_tilt);
+    transform_ = new Qt3DCore::QTransform;
+    transform_->setScale3D(QVector3D(10.f,10.f,10.f));
+    transform_->setTranslation(QVector3D(.0f, distance, .0f));
+    transform_->setRotationX(x_tilt);
+    transform_->setRotationZ(z_tilt);
 
 	// put it together
-    lens_entity->addComponent(lens_mesh);
-    lens_entity->addComponent(lens_material);
-    lens_entity->addComponent(lens_transform);
+    addComponent(lens_mesh);
+    addComponent(lens_material);
+    addComponent(transform_);
+}
+
+Qt3DCore::QTransform* GuiLens::get_transform()
+{
+    return transform_;
 }

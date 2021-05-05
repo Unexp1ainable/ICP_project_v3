@@ -199,7 +199,7 @@
     <QtMoc Include="src\gui\ClassesGui\GuiWindow.h" />
     <QtMoc Include="src\gui\ClassesGui\LensList.h" />
     <ClInclude Include="src\gui\ClassesGui\LensListItem.h" />
-    <ClInclude Include="src\gui\ClassesGui\SceneViewer.h" />
+    <QtMoc Include="src\gui\ClassesGui\SceneViewer.h" />
     <QtMoc Include="src\gui\ClassesGui\LensEditor.h" />
     <ClInclude Include="rayTracer\AxisObject.h" />
     <ClInclude Include="rayTracer\Detector.h" />
@@ -209,6 +209,7 @@
     <ClInclude Include="rayTracer\Sample.h" />
     <ClInclude Include="src\gui\Classes3D\GuiLens.h" />
     <ClInclude Include="src\gui\Classes3D\Line.h" />
+    <ClInclude Include="src\gui\common\macros.h" />
     <ClInclude Include="src\gui\common\Scene.h" />
     <ClInclude Include="src\gui\MainGui.h" />
   </ItemGroup>

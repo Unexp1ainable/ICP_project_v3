@@ -8,9 +8,9 @@
 
 #include "src/gui/Classes3D/GuiLens.h"
 #include "src/gui/Classes3D/Line.h"
+#include "src/gui/common/macros.h"
 #include "src/gui/common/Scene.h"
 
-#define TO_DEGREES(x) (x * (180.0f/3.141592653589793238463f))
 
 SceneViewer::SceneViewer()
 {
@@ -83,7 +83,24 @@ Qt3DCore::QEntity* SceneViewer::create_scene()
 	return result_entity;
 }
 
-void SceneViewer::add_lens(float distance, float x_tilt, float z_tilt)
+void SceneViewer::add_lens(float distance, float x_tilt, float z_tilt, int id)
 {
-	GuiLens{ root_entity_, distance,TO_DEGREES(x_tilt), TO_DEGREES(z_tilt) };
+	auto lens = new GuiLens{ root_entity_, distance,x_tilt, z_tilt };
+	lenses_.emplace(id, lens);
+}
+
+void SceneViewer::edit_lens(int id, float x_tilt, float z_tilt, float distance)
+{
+	if (lenses_.find(id) == lenses_.end())
+	{
+		emit error_signal("3D entity you are trying to edit does not exist.");
+	}
+	else
+	{
+		auto entity = lenses_[id];
+		auto transform = entity->get_transform();
+		transform->setTranslation(QVector3D(0,distance,0));
+		transform->setRotationX(x_tilt);
+		transform->setRotationZ(z_tilt);
+	}
 }

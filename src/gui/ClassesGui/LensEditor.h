@@ -21,6 +21,11 @@ public:
 	QPushButton* get_button_delete() const;
 	QPushButton* get_button_save() const;
 	QPushButton* get_button_cancel() const;
+
+	void disable_form();
+	void enable_form();
+	void primary_buttons();
+	void secondary_buttons();
 	
 private:
 	QGroupBox* group_box_;
@@ -38,12 +43,13 @@ private:
 
 public slots:
 	void mode_new();
-	void default_state();
+	void mode_edit();
+	void mode_default();
 	void save_new();
 	void delete_old();
 	void save_edit();
 
 signals:
-	void create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
+	void save_lens_signal(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
 };
 
