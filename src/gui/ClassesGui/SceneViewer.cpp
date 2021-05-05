@@ -110,3 +110,20 @@ void SceneViewer::remove_lens(int id)
 	auto lens = lenses_[id];
 	delete lens;
 }
+
+void SceneViewer::set_active(int id)
+{
+	if (active_lens_ != nullptr)
+	{
+		active_lens_->get_material()->setDiffuse(GuiLens::diffuse_color_default);
+		active_lens_ = nullptr;
+	}
+	
+	if (id != 0)
+	{
+		auto lens = lenses_[id];
+		lens->get_material()->setDiffuse(GuiLens::diffuse_color_selected);
+		active_lens_ = lens;
+	}
+}
+

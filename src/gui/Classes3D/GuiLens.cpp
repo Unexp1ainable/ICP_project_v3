@@ -8,7 +8,8 @@
 #include "src/gui/common/Scene.h"
 
 
-const QColor GuiLens::diffuse_color = QColor{ 200,200,255,100 };
+const QColor GuiLens::diffuse_color_default = QColor{ 200,200,255,100 };
+const QColor GuiLens::diffuse_color_selected = QColor{ 200,255,200,120 };
 
 const QUrl GuiLens::mesh_location = QUrl::fromLocalFile("./src/gui/meshes/cylinder.obj");
 
@@ -22,10 +23,10 @@ GuiLens::GuiLens(Qt3DCore::QEntity *root_entity, const float distance, float x_t
     lens_mesh->setSource(mesh_location);
 
 	// create material
-    const auto lens_material = new Qt3DExtras::QDiffuseSpecularMaterial;
-    lens_material->setAmbient(Scene::bg_color);
-    lens_material->setDiffuse(diffuse_color);
-    lens_material->setAlphaBlendingEnabled(true);
+    material_ = new Qt3DExtras::QDiffuseSpecularMaterial;
+    material_->setAmbient(Scene::bg_color);
+    material_->setDiffuse(diffuse_color_default);
+    material_->setAlphaBlendingEnabled(true);
 
 	// create transformation matrix
     transform_ = new Qt3DCore::QTransform;
@@ -36,11 +37,16 @@ GuiLens::GuiLens(Qt3DCore::QEntity *root_entity, const float distance, float x_t
 
 	// put it together
     addComponent(lens_mesh);
-    addComponent(lens_material);
+    addComponent(material_);
     addComponent(transform_);
 }
 
 Qt3DCore::QTransform* GuiLens::get_transform()
 {
     return transform_;
+}
+
+Qt3DExtras::QDiffuseSpecularMaterial* GuiLens::get_material()
+{
+    return material_;
 }

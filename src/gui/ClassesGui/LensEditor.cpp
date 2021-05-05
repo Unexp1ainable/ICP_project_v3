@@ -181,8 +181,3 @@ void LensEditor::save_new()
 	
 	emit save_lens_signal(p_name, p_x_tilt,p_y_tilt, p_distance, p_optical_power);
 }
-
-void LensEditor::save_edit()
-{
-	
-}

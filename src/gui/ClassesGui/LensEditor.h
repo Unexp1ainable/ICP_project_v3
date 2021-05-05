@@ -52,7 +52,6 @@ public slots:
 	void mode_edit();
 	void mode_default();
 	void save_new();
-	void save_edit();
 
 signals:
 	void save_lens_signal(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
