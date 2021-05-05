@@ -1,8 +1,14 @@
 #include "RayEngine.h"
 
+#define MIN_DISTANCE 0.11
 
 int rayEngine::add_lens(double distance_from_source, double radius, double optical_power, std::string name, double deviationX, double deviationY)
 {
+	if(!position_valid_lens(distance_from_source,0))
+	{
+		throw invalid_distance();
+	}
+	
 	std::shared_ptr<Lens> lens = std::make_shared<Lens>(distance_from_source, radius, optical_power, lens_id_, deviationX, deviationY, name);
 	insert_lens(lens);
 	lens_id_++;
@@ -12,10 +18,10 @@ int rayEngine::add_lens(double distance_from_source, double radius, double optic
 
 void rayEngine::set_lens_distance_from_source(int id, double distance)
 {
-	/*if(index > lens_count_ - 1)
+	if(!position_valid_lens(distance, id))
 	{
-		throw out_of_range();
-	}*/
+		throw invalid_distance();
+	}
 
 	
 	get_lens_by_id(id)->set_distance_from_source(distance);
@@ -28,14 +34,17 @@ void rayEngine::set_lens_distance_from_source(int id, double distance)
 void rayEngine::insert_lens(const std::shared_ptr<Lens>& lens)
 {
 	int i = 0;
+
+	
+	
 	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++ , i++)
 	{
 		if(lenses_[i]->distance_from_source() >= lens->distance_from_source())
 		{
-			if(abs(lenses_[i]->distance_from_source() - lens->distance_from_source()) < 0.09 || abs(lenses_[abs(i-1)]->distance_from_source() - lens->distance_from_source()) < 0.09)
+			/*if(abs(lenses_[i]->distance_from_source() - lens->distance_from_source()) < 0.09 || abs(lenses_[abs(i-1)]->distance_from_source() - lens->distance_from_source()) < 0.09)
 			{
 				throw invalid_distance();
-			}else
+			}else*/
 			{
 				lenses_.insert(it, lens);
 				lens_count_++;
@@ -91,12 +100,13 @@ std::shared_ptr<Lens> rayEngine::get_lens_by_index(int index)
 }
 
 
-void rayEngine::add_ray(double angleX, double angleY, double positionX, double positionY, double source_distance)
+int rayEngine::add_ray(double angleX, double angleY, double positionX, double positionY, double source_distance)
 {
 	std::shared_ptr<Ray> ray = std::make_shared<Ray>(angleX, angleY, positionX, positionY, source_distance,ray_id_);
 	rays_.push_back(ray);
 	ray_id_++;
 	ray_count_++;
+	return ray_id_ - 1;
 }
 
 void rayEngine::remove_ray(int id)
@@ -150,7 +160,7 @@ std::shared_ptr<Ray> rayEngine::get_ray_by_id(int id)
 
 void rayEngine::set_sample_distance_from_source(double distance)
 {
-	if(distance <= lenses_[lens_count_ - 1]->distance_from_source() || distance >= detector_->distance_from_source())
+	if(!position_valid_sample(distance))
 	{
 		throw invalid_distance();
 	}
@@ -160,7 +170,7 @@ void rayEngine::set_sample_distance_from_source(double distance)
 
 void rayEngine::set_detector_distance_from_source(double distance)
 {
-	if(distance <= detector_->distance_from_source())
+	if(!position_valid_detector(distance))
 	{
 		throw invalid_distance();
 	}
@@ -169,9 +179,14 @@ void rayEngine::set_detector_distance_from_source(double distance)
 }
 
 
-bool rayEngine::position_valid(double distance)
+bool rayEngine::position_valid_lens(double distance, int id)
 {
-	if(distance <= 0 || distance >= sample_->distance_from_source() )
+	/*if(id != 0 && abs(this->get_lens_by_id(id)->distance_from_source() - distance) < 0.001)
+	{
+		return true;
+	}*/
+	
+	if(distance < MIN_DISTANCE || distance > detector_->distance_from_source() - MIN_DISTANCE || abs(sample_->distance_from_source() - distance) < MIN_DISTANCE)
 	{
 		return false;
 	}
@@ -179,12 +194,42 @@ bool rayEngine::position_valid(double distance)
 	int i = 0;
 	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
 	{
-		if(abs(lenses_[i]->distance_from_source() - distance) <= 1.1)
+		if(lenses_[i]->id() != id && abs(lenses_[i]->distance_from_source() - distance) <= MIN_DISTANCE)
+		{
+			
+			return false;
+		}
+	}
+	return true;
+}
+
+bool rayEngine::position_valid_sample(double distance)
+{
+	if(distance < MIN_DISTANCE || distance > detector_->distance_from_source() - MIN_DISTANCE)
+	{
+		return false;
+	}
+
+	int i = 0;
+	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
+	{
+		if(abs(lenses_[i]->distance_from_source() - distance) < MIN_DISTANCE)
 		{
 			return false;
 		}
 	}
 	return true;
 }
+
+bool rayEngine::position_valid_detector(double distance)
+{
+	if(distance <= 0 || distance - this->sample_->distance_from_source() < MIN_DISTANCE)
+	{
+		return false;
+	}
+	return true;
+}
+
+
 
 
