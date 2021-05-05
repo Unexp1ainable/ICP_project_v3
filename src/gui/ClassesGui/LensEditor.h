@@ -30,10 +30,10 @@ public:
 private:
 	QGroupBox* group_box_;
 	QLineEdit* name_;
-	QSpinBox* tilt_x_;
-	QSpinBox* tilt_z_;
-	QSpinBox* optical_power_;
-	QSpinBox* distance_;
+	QDoubleSpinBox* tilt_x_;
+	QDoubleSpinBox* tilt_z_;
+	QDoubleSpinBox* optical_power_;
+	QDoubleSpinBox* distance_;
 
 	QPushButton* button_new_;
 	QPushButton* button_edit_;

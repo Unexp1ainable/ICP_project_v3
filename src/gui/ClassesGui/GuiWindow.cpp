@@ -176,18 +176,17 @@ void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distan
 	else
 	{
 		create_new_lens(name, x_tilt, z_tilt, distance, optical_power);
+		editor_->mode_default();
+		selector_->setDisabled(false);
+		editor_->get_button_edit()->setDisabled(true);
 	}
-
-	editor_->mode_default();
-	selector_->setDisabled(false);
-	editor_->get_button_edit()->setDisabled(true);
-
 }
 
 void GuiWindow::cancel_slot()
 {
 	editor_->mode_default();
 	selector_->setDisabled(false);
+	editor_->get_button_edit()->setDisabled(true);
 }
 
 
@@ -201,16 +200,19 @@ void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float 
 
 void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id)
 {
+	auto std_name = name.toStdString();
 	// edit engine
 	auto lens = engine_->get_lens_by_id(id);
+	
 	lens->set_name(name.toStdString());
-	lens->set_deviationX(TO_RADIANS(x_tilt));
-	lens->set_deviationY(TO_RADIANS(z_tilt));
+
 	engine_->set_lens_distance_from_source(id, distance);
 	lens->set_optical_power(optical_power);
+	lens->set_deviationX(TO_RADIANS(x_tilt));
+	lens->set_deviationY(TO_RADIANS(z_tilt));
 
 	// edit list
-	//TODO
+	selector_->edit_lens(name);
 
 	// edit 3d_view
 	view_3d_->edit_lens(id, x_tilt, z_tilt, distance);

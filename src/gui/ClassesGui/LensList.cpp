@@ -17,7 +17,7 @@ void LensList::remove_lens(int index)
 	
 }
 
-void LensList::edit_lens(int id, QString label)
+void LensList::edit_lens(QString label)
 {
-	
+	currentItem()->setText(label);
 }
