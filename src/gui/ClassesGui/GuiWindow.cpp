@@ -8,8 +8,7 @@
 #include "SceneViewer.h"
 #include "src/gui/Classes3D/Lens3D.h"
 #include "src/gui/Classes3D/Line3D.h"
-#include "src/gui/common/macros.h"
-#include "src/gui/common/Scene.h"
+#include "src/common/macros.h"
 
 GuiWindow::GuiWindow(rayEngine* engine)
 {
@@ -45,6 +44,9 @@ QGroupBox* GuiWindow::create_3d_view()
 	auto view_3d_box = new QGroupBox;
 	layout->addWidget(view_3d_widget_);
 	view_3d_box->setLayout(layout);
+
+	// TODO this
+	//view_3d_->get_sample()->get_transform()->setTranslation(engine_->get_sample()->positionX);
 
 	return view_3d_box;
 }

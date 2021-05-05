@@ -176,7 +176,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\gui\Classes3D\Lens3D.cpp" />
     <ClCompile Include="src\gui\Classes3D\Line3D.cpp" />
-    <ClCompile Include="src\gui\common\Scene.cpp" />
+    <ClCompile Include="src\gui\commonGui\Scene.cpp" />
     <ClCompile Include="src\gui\MainGui.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -214,8 +214,8 @@
     <ClInclude Include="rayTracer\Sample.h" />
     <ClInclude Include="src\gui\Classes3D\Lens3D.h" />
     <ClInclude Include="src\gui\Classes3D\Line3D.h" />
-    <ClInclude Include="src\gui\common\macros.h" />
-    <ClInclude Include="src\gui\common\Scene.h" />
+    <ClInclude Include="src\common\macros.h" />
+    <ClInclude Include="src\gui\commonGui\Scene.h" />
     <ClInclude Include="src\gui\MainGui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

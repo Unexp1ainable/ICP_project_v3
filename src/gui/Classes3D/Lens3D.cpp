@@ -5,7 +5,7 @@
 #include <QTorusMesh>
 #include <QTransform>
 
-#include "src/gui/common/Scene.h"
+#include "src/gui/commonGui/Scene.h"
 
 
 const QColor Lens3D::diffuse_color_default = QColor{ 200,200,255,100 };

@@ -9,8 +9,9 @@
 #include "src/gui/Classes3D/Lens3D.h"
 #include "src/gui/Classes3D/Line3D.h"
 #include "src/gui/Classes3D/Source3D.h"
-#include "src/gui/common/macros.h"
-#include "src/gui/common/Scene.h"
+#include "src/common/macros.h"
+#include "src/gui/Classes3D/Sample3D.h"
+#include "src/gui/commonGui/Scene.h"
 
 
 SceneViewer::SceneViewer()
@@ -46,6 +47,15 @@ QWidget* SceneViewer::get_window_widget()
 	return window_widget_;
 }
 
+Sample3D* SceneViewer::get_sample()
+{
+	return sample_;
+}
+
+Source3D* SceneViewer::get_source()
+{
+	return source_;
+}
 
 
 void SceneViewer::add_camera(Qt3DExtras::Qt3DWindow& view, Qt3DCore::QEntity* root_entity) {
@@ -77,12 +87,18 @@ Qt3DCore::QEntity* SceneViewer::create_scene()
 {
 	const auto result_entity = new Qt3DCore::QEntity;
 
+	// lights
 	add_light(QVector3D(0.0f, 20.0f, 30.0f), result_entity);
 	add_light(QVector3D(0.0f, -20.0f, -30.0f), result_entity);
 	add_light(QVector3D(40.0f, -20.0f, -30.0f), result_entity);
 
-	new Source3D{ result_entity };
+	// electron source
+	source_ = new Source3D{ result_entity };
 
+	// sample
+	sample_ = new Sample3D{ result_entity, 10.0, }; // placeholder value, will be changed on global init
+
+	
 	return result_entity;
 }
 

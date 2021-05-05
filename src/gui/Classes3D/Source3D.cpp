@@ -5,7 +5,7 @@
 #include <QTransform>
 #include <QUrl>
 
-#include "src/gui/common/Scene.h"
+#include "src/gui/commonGui/Scene.h"
 
 
 const QColor Source3D::diffuse_color_default = QColor(150,150,150);
