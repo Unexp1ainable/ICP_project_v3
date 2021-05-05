@@ -17,10 +17,6 @@ void rayEngine::set_lens_distance_from_source(int id, double distance)
 		throw out_of_range();
 	}*/
 
-	if(distance >= sample_->distance_from_source())
-	{
-		throw invalid_distance();
-	}
 	
 	get_lens_by_id(id)->set_distance_from_source(distance);
 	std::shared_ptr<Lens> lens = get_lens_by_id(id);
