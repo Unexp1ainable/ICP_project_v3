@@ -3,7 +3,7 @@
 #include <QEntity>
 #include <QTransform>
 
-class GuiLens : public Qt3DCore::QEntity
+class Lens3D : public Qt3DCore::QEntity
 {
 public:
 	/**
@@ -21,7 +21,7 @@ public:
 	 * \param x_tilt Tilt on X axis
 	 * \param z_tilt Tilt on Y axis
 	 */
-	GuiLens(Qt3DCore::QEntity* root_entity, const float distance, float x_tilt, float z_tilt);
+	Lens3D(Qt3DCore::QEntity* root_entity, const float distance, float x_tilt, float z_tilt);
 
 	Qt3DCore::QTransform* get_transform();
 	Qt3DExtras::QDiffuseSpecularMaterial* get_material();

@@ -6,8 +6,8 @@
 #include "LensEditor.h"
 #include "LensListItem.h"
 #include "SceneViewer.h"
-#include "src/gui/Classes3D/GuiLens.h"
-#include "src/gui/Classes3D/Line.h"
+#include "src/gui/Classes3D/Lens3D.h"
+#include "src/gui/Classes3D/Line3D.h"
 #include "src/gui/common/macros.h"
 #include "src/gui/common/Scene.h"
 
