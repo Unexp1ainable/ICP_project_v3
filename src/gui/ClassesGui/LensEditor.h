@@ -14,6 +14,12 @@ class LensEditor : public QWidget
 
 public:
 	LensEditor();
+
+	/**
+	 * Load data from lens to editable fields.
+	 * 
+	 * \param lens Data to load
+	 */
 	void load_lens(std::shared_ptr<Lens> lens);
 
 	QPushButton* get_button_new() const;
@@ -46,7 +52,6 @@ public slots:
 	void mode_edit();
 	void mode_default();
 	void save_new();
-	void delete_old();
 	void save_edit();
 
 signals:

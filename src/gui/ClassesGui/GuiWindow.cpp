@@ -58,6 +58,8 @@ QGroupBox* GuiWindow::create_editor()
 	// init editor
 	editor_->disable_form();
 	editor_->get_button_edit()->setDisabled(true);
+	editor_->get_button_delete()->setDisabled(true);
+
 
 	auto vbox = new QVBoxLayout;
 	vbox->addWidget(editor_);
@@ -141,8 +143,9 @@ void GuiWindow::selection_changed_slot(QListWidgetItem* item)
 	auto to_load = engine_->get_lens_by_id(lens_item->getId());
 	editor_->load_lens(to_load);
 	
-	// enable edit button
+	// enable buttons
 	editor_->get_button_edit()->setDisabled(false);
+	editor_->get_button_delete()->setDisabled(false);
 }
 
 void GuiWindow::mode_new_slot()
@@ -162,7 +165,21 @@ void GuiWindow::mode_edit_slot()
 
 void GuiWindow::delete_slot()
 {
-	//TODO
+	auto item = dynamic_cast<LensListItem*>(selector_->currentItem());
+	auto id = item->getId();
+	
+	// engine
+	engine_->remove_lens(id);
+	
+	// 3D view
+	view_3d_->remove_lens(id);
+	
+	// selector
+	selector_->remove_lens(id);
+	
+	// editor
+	editor_->mode_default();
+	
 }
 
 
@@ -178,7 +195,6 @@ void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distan
 		create_new_lens(name, x_tilt, z_tilt, distance, optical_power);
 		editor_->mode_default();
 		selector_->setDisabled(false);
-		editor_->get_button_edit()->setDisabled(true);
 	}
 }
 
@@ -186,7 +202,7 @@ void GuiWindow::cancel_slot()
 {
 	editor_->mode_default();
 	selector_->setDisabled(false);
-	editor_->get_button_edit()->setDisabled(true);
+	selector_->clearSelection();
 }
 
 

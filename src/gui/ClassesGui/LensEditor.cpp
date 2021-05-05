@@ -166,6 +166,9 @@ void LensEditor::mode_default()
 {
 	disable_form();
 	primary_buttons();
+
+	button_edit_->setDisabled(true);
+	button_delete_->setDisabled(true);
 }
 
 void LensEditor::save_new()
@@ -177,11 +180,6 @@ void LensEditor::save_new()
 	auto p_optical_power = optical_power_->value();
 	
 	emit save_lens_signal(p_name, p_x_tilt,p_y_tilt, p_distance, p_optical_power);
-}
-
-void LensEditor::delete_old()
-{
-	
 }
 
 void LensEditor::save_edit()

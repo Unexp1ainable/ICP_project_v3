@@ -104,3 +104,9 @@ void SceneViewer::edit_lens(int id, float x_tilt, float z_tilt, float distance)
 		transform->setRotationZ(z_tilt);
 	}
 }
+
+void SceneViewer::remove_lens(int id)
+{
+	auto lens = lenses_[id];
+	delete lens;
+}
