@@ -14,7 +14,7 @@
 GuiWindow::GuiWindow(rayEngine* engine)
 {
 	engine_ = engine;
-	
+
 	auto editor_box = create_editor();
 	auto view_3d_box = create_3d_view();
 	auto selector_box = create_selector();
@@ -32,7 +32,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	central_widget->setLayout(main_layout_);
 	setCentralWidget(central_widget);
 	connect_elements();
-	
+
 }
 
 QGroupBox* GuiWindow::create_3d_view()
@@ -40,12 +40,12 @@ QGroupBox* GuiWindow::create_3d_view()
 	view_3d_ = new SceneViewer();
 	view_3d_widget_ = view_3d_->get_window_widget();
 
-	auto layout = new QBoxLayout{QBoxLayout::BottomToTop};
+	auto layout = new QBoxLayout{ QBoxLayout::BottomToTop };
 
 	auto view_3d_box = new QGroupBox;
 	layout->addWidget(view_3d_widget_);
 	view_3d_box->setLayout(layout);
-	
+
 	return view_3d_box;
 }
 
@@ -58,6 +58,8 @@ QGroupBox* GuiWindow::create_editor()
 	// init editor
 	editor_->disable_form();
 	editor_->get_button_edit()->setDisabled(true);
+	editor_->get_button_delete()->setDisabled(true);
+
 
 	auto vbox = new QVBoxLayout;
 	vbox->addWidget(editor_);
@@ -89,7 +91,7 @@ QGroupBox* GuiWindow::create_selector()
 
 		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
 	}
-	
+
 	return s_box;
 }
 
@@ -100,8 +102,7 @@ QGroupBox* GuiWindow::create_info()
 	i_box->setTitle(tr("Informations about rays on detector."));
 
 	auto button = new QPushButton("New", this);
-	connect(button, SIGNAL(clicked()), this, SLOT(button_clicked_()));
-
+	
 	QHBoxLayout* vbox = new QHBoxLayout;
 	vbox->addWidget(button);
 	vbox->addWidget(new QPushButton("aaaaaa"));
@@ -116,7 +117,6 @@ void GuiWindow::connect_elements()
 {
 	// connect selection loading
 	connect(selector_, &QListWidget::itemClicked, this, &GuiWindow::selection_changed_slot);
-	//connect(selector_, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selection_changed(QListWidgetItem*)));
 	// connect button new
 	connect(editor_->get_button_new(), &QPushButton::clicked, this, &GuiWindow::mode_new_slot);
 	// connect button edit
@@ -137,12 +137,16 @@ void GuiWindow::connect_elements()
 void GuiWindow::selection_changed_slot(QListWidgetItem* item)
 {
 	auto lens_item = dynamic_cast<LensListItem*>(item);	// casting back so I can access id
-	
-	auto to_load = engine_->get_lens_by_id(lens_item->getId());
+	auto lens_id = lens_item->getId();
+
+	auto to_load = engine_->get_lens_by_id(lens_id);
 	editor_->load_lens(to_load);
-	
-	// enable edit button
+
+	// enable buttons
 	editor_->get_button_edit()->setDisabled(false);
+	editor_->get_button_delete()->setDisabled(false);
+
+	view_3d_->set_active(lens_id);
 }
 
 void GuiWindow::mode_new_slot()
@@ -162,32 +166,57 @@ void GuiWindow::mode_edit_slot()
 
 void GuiWindow::delete_slot()
 {
-	//TODO
+	auto item = dynamic_cast<LensListItem*>(selector_->currentItem());
+	auto id = item->getId();
+
+	// engine
+	engine_->remove_lens(id);
+
+	// 3D view
+	view_3d_->remove_lens(id);
+
+	// selector
+	selector_->remove_lens(id);
+
+	// editor
+	editor_->mode_default();
+
 }
 
 
 void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
-{	
+{
 	if (editing_)
 	{
-		auto item = dynamic_cast<LensListItem *>(selector_->currentItem());
-		edit_lens(name, x_tilt, z_tilt, distance, optical_power, item->getId());
+		auto item = dynamic_cast<LensListItem*>(selector_->currentItem());
+		if (engine_->position_valid_lens(distance, item->getId()))
+		{
+			edit_lens(name, x_tilt, z_tilt, distance, optical_power, item->getId());
+		}else
+		{
+			error_slot("Invalid distance.");
+		}
 	}
 	else
 	{
-		create_new_lens(name, x_tilt, z_tilt, distance, optical_power);
+		if (engine_->position_valid_lens(distance, 0))
+		{
+			create_new_lens(name, x_tilt, z_tilt, distance, optical_power);
+			editor_->mode_default();
+			selector_->setDisabled(false);
+		} else
+		{
+			error_slot("Invalid distance.");
+		}
 	}
-
-	editor_->mode_default();
-	selector_->setDisabled(false);
-	editor_->get_button_edit()->setDisabled(true);
-
 }
 
 void GuiWindow::cancel_slot()
 {
 	editor_->mode_default();
 	selector_->setDisabled(false);
+	selector_->clearSelection();
+	view_3d_->set_active(0);
 }
 
 
@@ -201,16 +230,19 @@ void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float 
 
 void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id)
 {
+	auto std_name = name.toStdString();
 	// edit engine
 	auto lens = engine_->get_lens_by_id(id);
+
 	lens->set_name(name.toStdString());
-	lens->set_deviationX(TO_RADIANS(x_tilt));
-	lens->set_deviationY(TO_RADIANS(z_tilt));
+
 	engine_->set_lens_distance_from_source(id, distance);
 	lens->set_optical_power(optical_power);
+	lens->set_deviationX(TO_RADIANS(x_tilt));
+	lens->set_deviationY(TO_RADIANS(z_tilt));
 
 	// edit list
-	//TODO
+	selector_->edit_lens(name);
 
 	// edit 3d_view
 	view_3d_->edit_lens(id, x_tilt, z_tilt, distance);

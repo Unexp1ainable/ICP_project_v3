@@ -14,8 +14,11 @@ public:
 	SceneViewer();
 
 	void add_lens(float distance, float x_tilt, float z_tilt, int id);
-	void remove_lens();
+	void remove_lens(int id);
 	void edit_lens(int id, float x_tilt, float z_tilt, float distance);
+
+	void set_active(int id);
+	
 	Qt3DExtras::Qt3DWindow* get_window();
 	QWidget* get_window_widget();
 
@@ -29,6 +32,7 @@ private:
 	Qt3DCore::QEntity* add_light(const QVector3D position, Qt3DCore::QNode* parent);
 
 	std::map<int, GuiLens*> lenses_;
+	GuiLens* active_lens_ = nullptr;
 
 signals:
 	void error_signal(std::string message);

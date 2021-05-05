@@ -14,10 +14,10 @@ void LensList::add_lens(int id, QString label)
 
 void LensList::remove_lens(int index)
 {
-	
+	delete currentItem();
 }
 
-void LensList::edit_lens(int id, QString label)
+void LensList::edit_lens(QString label)
 {
-	
+	currentItem()->setText(label);
 }

@@ -166,7 +166,6 @@
     <ClCompile Include="src\gui\ClassesGui\LensList.cpp" />
     <ClCompile Include="src\gui\ClassesGui\LensEditor.cpp" />
     <ClCompile Include="rayTracer\AxisObject.cpp" />
-    <ClCompile Include="rayTracer\Detektor.cpp" />
     <ClCompile Include="rayTracer\Lens.cpp" />
     <ClCompile Include="rayTracer\Ray.cpp" />
     <ClCompile Include="rayTracer\RayEngine.cpp" />
