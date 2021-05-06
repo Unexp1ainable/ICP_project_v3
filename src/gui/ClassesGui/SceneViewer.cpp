@@ -10,6 +10,7 @@
 #include "src/gui/Classes3D/Line3D.h"
 #include "src/gui/Classes3D/Source3D.h"
 #include "src/common/macros.h"
+#include "src/gui/Classes3D/Detector3D.h"
 #include "src/gui/Classes3D/Sample3D.h"
 #include "src/gui/commonGui/Scene.h"
 
@@ -57,6 +58,12 @@ Source3D* SceneViewer::get_source()
 	return source_;
 }
 
+Detector3D* SceneViewer::get_detector()
+{
+	return detector_;
+}
+
+
 
 void SceneViewer::add_camera(Qt3DExtras::Qt3DWindow& view, Qt3DCore::QEntity* root_entity) {
 	Qt3DRender::QCamera* camera = view.camera();
@@ -96,8 +103,10 @@ Qt3DCore::QEntity* SceneViewer::create_scene()
 	source_ = new Source3D{ result_entity };
 
 	// sample
-	sample_ = new Sample3D{ result_entity, 10.0, }; // placeholder value, will be changed on global init
+	sample_ = new Sample3D{ result_entity, 10.0 }; // placeholder value, will be changed on global init
 
+	//
+	detector_ = new Detector3D{ result_entity, 30.0 }; // TODO ^ < magic numbers
 	
 	return result_entity;
 }

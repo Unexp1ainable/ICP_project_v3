@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <map>
 
+#include "src/gui/Classes3D/Detector3D.h"
 #include "src/gui/Classes3D/Lens3D.h"
 #include "src/gui/Classes3D/Sample3D.h"
 #include "src/gui/Classes3D/Source3D.h"
@@ -25,6 +26,7 @@ public:
 	QWidget* get_window_widget();
 	Source3D* get_source();
 	Sample3D* get_sample();
+	Detector3D* get_detector();
 
 private:
 	Qt3DExtras::Qt3DWindow *window_;
@@ -32,6 +34,7 @@ private:
 	Qt3DCore::QEntity *root_entity_;
 	Source3D* source_;
 	Sample3D* sample_;
+	Detector3D* detector_;
 
 	Qt3DCore::QEntity* create_scene();
 	void add_camera(Qt3DExtras::Qt3DWindow& view, Qt3DCore::QEntity* root_entity);

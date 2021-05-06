@@ -45,16 +45,16 @@ QGroupBox* GuiWindow::create_3d_view()
 	layout->addWidget(view_3d_widget_);
 	view_3d_box->setLayout(layout);
 
-	// TODO this
-	//view_3d_->get_sample()->get_transform()->setTranslation(engine_->get_sample()->positionX);
-
+	engine_->set_sample_distance_from_source(10.); // TODO this is probably not good
+	engine_->set_detector_distance_from_source(30.); // TODO this either
+	
 	return view_3d_box;
 }
 
 QGroupBox* GuiWindow::create_editor()
 {
 	auto e_box = new QGroupBox;
-	e_box->setTitle(tr("GuiLens control."));
+	e_box->setTitle(tr("Lens editor."));
 
 	editor_ = new LensEditor;
 	// init editor
@@ -73,7 +73,7 @@ QGroupBox* GuiWindow::create_editor()
 QGroupBox* GuiWindow::create_selector()
 {
 	auto s_box = new QGroupBox;
-	s_box->setTitle(tr("Lens editor."));
+	s_box->setTitle(tr("Lens selector."));
 
 	selector_ = new LensList;
 	auto* layout = new QGridLayout;
@@ -233,6 +233,7 @@ void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float 
 void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id)
 {
 	auto std_name = name.toStdString();
+	
 	// edit engine
 	auto lens = engine_->get_lens_by_id(id);
 

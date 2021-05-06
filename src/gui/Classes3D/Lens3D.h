@@ -7,11 +7,15 @@ class Lens3D : public Qt3DCore::QEntity
 {
 public:
 	/**
-	 * Diffuse color used in QDiffuseSpecularMaterial
+	 * @brief Default diffuse color used in QDiffuseSpecularMaterial
 	 */
 	static const QColor diffuse_color_default;
+	/**
+	 * @brief Diffuse color used if the lens is currently selected
+	 */
 	static const QColor diffuse_color_selected;
 
+	
 	static const QUrl mesh_location;
 	/**
 	 * Graphical object representing lens

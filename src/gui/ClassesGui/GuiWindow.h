@@ -50,7 +50,19 @@ private:
 	 */
 	void connect_elements();
 
+	/**
+	 * @brief This function is called when an existing lens is being edited. It sends signal to all necessary parts to edit their contents.
+	 * 
+	 * @param name Name of the lens
+	 * @param x_tilt Tilt on the x axis
+	 * @param z_tilt Tilt on the z axis
+	 * @param distance Distance from source
+	 * @param optical_power Optical power of the lens
+	 * @param id Id of the lens that is being edited
+	*/
 	void edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id);
+
+	
 	void create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
 
 	QWidget* view_3d_widget_;
