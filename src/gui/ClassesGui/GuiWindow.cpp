@@ -42,7 +42,6 @@ GuiWindow::GuiWindow(rayEngine* engine)
 
 QGroupBox* GuiWindow::create_3d_view()
 {
-
 	auto s_dist = engine_->get_sample()->distance_from_source();
 	auto s_tilt = engine_->get_sample()->rotation;
 	auto d_dist = engine_->get_detector()->distance_from_source();
@@ -171,8 +170,11 @@ void GuiWindow::connect_elements()
 	connect(editor_, &LensEditor::save_lens_signal, this, &GuiWindow::save_slot);
 
 	// -------- Miscelaneous Editor ---------
+	// button edit
 	connect(misc_editor_->get_button_edit_(), &QPushButton::clicked, this, &GuiWindow::misc_editor_edit_slot_);
+	// button cancel
 	connect(misc_editor_->get_button_cancel_(), &QPushButton::clicked, this, &GuiWindow::misc_editor_cancel_slot_);
+	// button save
 	connect(misc_editor_, &MiscEditor::edited_signal, this, &GuiWindow::misc_editor_save_slot);
 
 
@@ -308,14 +310,15 @@ void GuiWindow::misc_editor_cancel_slot_()
 {
 	// TODO load conf
 	auto sample = engine_->get_sample();
+	auto rays_n = engine_->ray_count();
 	auto s_distance = sample->distance_from_source();
 	auto s_tilt_y = engine_->get_sample()->rotation;
 	auto d_distance = engine_->get_detector()->distance_from_source();
-	misc_editor_->set_configuration(s_tilt_y, s_distance, d_distance);
+	misc_editor_->set_configuration(rays_n, s_tilt_y, s_distance, d_distance);
 	misc_editor_->default_mode();
 }
 
-void GuiWindow::misc_editor_save_slot(double y_tilt, double distance_s, double distance_d)
+void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d)
 {
 	// engine
 	if (engine_->position_valid_sample(distance_s))
@@ -337,6 +340,7 @@ void GuiWindow::misc_editor_save_slot(double y_tilt, double distance_s, double d
 	}
 	// TODO not good
 	engine_->get_sample()->rotation = y_tilt;
+	//engine_->set_number_rays(rays_n);
 	
 	// 3dview
 	view_3d_->edit_sample(distance_s, y_tilt);
