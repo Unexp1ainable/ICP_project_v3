@@ -1,8 +1,6 @@
 #include "Lens3D.h"
 
 #include <Qt3DRender>
-#include <QDiffuseSpecularMaterial>
-#include <QTorusMesh>
 #include <QTransform>
 
 #include "src/gui/commonGui/Scene.h"

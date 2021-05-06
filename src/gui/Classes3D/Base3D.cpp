@@ -7,19 +7,18 @@
 #include "src/gui/commonGui/Scene.h"
 
 
-Base3D::Base3D(Qt3DCore::QEntity* root_entity, const QUrl* mesh_l, const QColor* d_color)
+Base3D::Base3D(Qt3DCore::QEntity* root_entity, const QUrl* mesh_location, const QColor* diffuse_color)
 {
     setParent(root_entity);
 
     // load mesh
     auto mesh = new Qt3DRender::QMesh;
-
-    mesh->setSource(*mesh_l);
+    mesh->setSource(*mesh_location);
 
     // create material
     material_ = new Qt3DExtras::QDiffuseSpecularMaterial;
     material_->setAmbient(Scene::bg_color);
-    material_->setDiffuse(*d_color);
+    material_->setDiffuse(*diffuse_color);
     material_->setAlphaBlendingEnabled(true);
 
     // create transformation matrix

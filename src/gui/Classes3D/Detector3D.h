@@ -18,9 +18,7 @@ public:
 	 * @brief Graphical object representing lens
 	 *
 	 * @param root_entity Root entity of created lens
-	 * @param distance Distance from electron gun on Z axis
-	 * @param x_tilt Tilt on X axis
-	 * @param z_tilt Tilt on Y axis
+	 * @param distance Distance from electron gun on Y axis
 	 */
 	Detector3D(Qt3DCore::QEntity* root_entity, float distance);
 };

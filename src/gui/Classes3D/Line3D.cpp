@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Line3D.h"
 
 #include <QPhongMaterial>

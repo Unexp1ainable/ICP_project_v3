@@ -1,11 +1,6 @@
 #include "Source3D.h"
 #include <QColor>
-#include <QDiffuseSpecularMaterial>
-#include <qmesh.h>
 #include <QUrl>
-
-#include "src/gui/ClassesGui/GuiWindow.h"
-#include "src/gui/commonGui/Scene.h"
 
 
 const QColor Source3D::diffuse_color_default = QColor(150,150,150);
