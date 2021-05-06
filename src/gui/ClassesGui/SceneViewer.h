@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <map>
 
-#include "src/gui/Classes3D/GuiLens.h"
+#include "src/gui/Classes3D/Lens3D.h"
+#include "src/gui/Classes3D/Sample3D.h"
+#include "src/gui/Classes3D/Source3D.h"
 
 class SceneViewer : public QWidget
 {
@@ -21,18 +23,22 @@ public:
 	
 	Qt3DExtras::Qt3DWindow* get_window();
 	QWidget* get_window_widget();
+	Source3D* get_source();
+	Sample3D* get_sample();
 
 private:
 	Qt3DExtras::Qt3DWindow *window_;
 	QWidget * window_widget_;
 	Qt3DCore::QEntity *root_entity_;
+	Source3D* source_;
+	Sample3D* sample_;
 
 	Qt3DCore::QEntity* create_scene();
 	void add_camera(Qt3DExtras::Qt3DWindow& view, Qt3DCore::QEntity* root_entity);
 	Qt3DCore::QEntity* add_light(const QVector3D position, Qt3DCore::QNode* parent);
 
-	std::map<int, GuiLens*> lenses_;
-	GuiLens* active_lens_ = nullptr;
+	std::map<int, Lens3D*> lenses_;
+	Lens3D* active_lens_ = nullptr;
 
 signals:
 	void error_signal(std::string message);

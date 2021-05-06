@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Line.h"
+#include "Line3D.h"
 
 #include <QPhongMaterial>
 #include <Qt3DRender>
 
-Line::Line(const QVector3D & start, const QVector3D & end, const QColor & color, Qt3DCore::QEntity * root_entity)
+Line3D::Line3D(const QVector3D & start, const QVector3D & end, const QColor & color, Qt3DCore::QEntity * root_entity)
     {
         auto* geometry = new Qt3DRender::QGeometry(root_entity);
 
