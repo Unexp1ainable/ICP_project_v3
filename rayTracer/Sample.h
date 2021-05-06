@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "AxisObject.h"
+#include "Point.h"
 class Sample :
     public Axis_object
 {
@@ -42,7 +43,7 @@ public:
 		}
 	}
 
-	void calculate_intersection(std::shared_ptr<Ray> ray);
+	bool calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
 
 	//exceptions
 	class invalid_size{};

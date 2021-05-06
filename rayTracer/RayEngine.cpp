@@ -307,27 +307,48 @@ void rayEngine::init_rays(double radius, int count)
 }
 
 
-
-std::vector<std::shared_ptr<RayPath>> rayEngine::pass_rays()
+void rayEngine::update()
 {
-	std::vector<std::shared_ptr<RayPath>> vector;
+
+	ray_points_.clear();
+	sample_intersect_.clear();
+	detector_intersect_.clear();
+
 	for(int i = 0; i < ray_count_; i++)
 	{
-		std::shared_ptr<RayPath> rayPath = std::make_shared<RayPath>();
-		auto ray = std::make_shared<Ray>(*rays_[i]);
+		std::vector<std::shared_ptr<Point>> vector;
 		
-		rayPath->points.push_back(std::make_shared<Point>(ray->postionX(), ray->postionY(), ray->source_distance()));
+		auto ray = std::make_shared<Ray>(*rays_[i]);	
+		vector.push_back(std::make_shared<Point>(ray->postionX(), ray->postionY(), ray->source_distance()));
 		
 		for(int j = 0; j < lens_count_;j++)
 		{
+			if(ray->source_distance() < sample_->distance_from_source() && lenses_[j]->distance_from_source() > sample_->distance_from_source())
+			{
+				auto point = std::make_shared<Point>(0, 0, 0);
+				if(sample_->calculate_intersection(ray,point))
+				{
+					sample_intersect_.push_back(point);
+				}
+			}
 			lenses_[j]->pass_ray(ray);
-			rayPath->points.push_back(std::make_shared<Point>(ray->postionX(), ray->postionY(), ray->source_distance()));
+			vector.push_back(std::make_shared<Point>(ray->postionX(), ray->postionY(), ray->source_distance()));
 		}
-		
-		vector.push_back(rayPath);
+
+		std::shared_ptr<Point> last_point = std::make_shared<Point>(0, 0, 0);
+
+		if(detector_->calculate_intersection(ray, last_point)) {
+			detector_intersect_.push_back(std::make_shared<Point>(*last_point));
+		}else
+		{
+			this->cross_with_border(ray, last_point);
+		}
+
+		vector.push_back(last_point);
+	
+		ray_points_.push_back(vector);
 	}
 
-	return vector;
 }
 
 void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)

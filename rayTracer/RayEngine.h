@@ -4,6 +4,7 @@
 #include <memory>
 #include <cmath>
 #include "RayPath.h"
+#include "Point.h"
 #include "Lens.h"
 #include "Ray.h"
 #include "Sample.h"
@@ -20,6 +21,9 @@ private:
 	int lens_id_ = 1;
 	int ray_count_ = 0;
 	int ray_id_ = 1;
+	std::vector<std::vector<std::shared_ptr<Point>>> ray_points_;
+	std::vector<std::shared_ptr<Point>> sample_intersect_;
+	std::vector<std::shared_ptr<Point>> detector_intersect_;
 	double source_radius_ = 0.5;
 	std::shared_ptr<Sample> sample_;
 	std::shared_ptr<Detector> detector_;
@@ -41,6 +45,10 @@ public:
 		detector_ = std::make_shared<Detector>(detector_distance);
 		border_distance_ = edge_distance;
 	}
+
+	std::vector<std::vector<std::shared_ptr<Point>>> get_ray_points()const { return ray_points_; }
+	std::vector<std::shared_ptr<Point>> get_sample_intersect()const { return sample_intersect_; }
+	std::vector<std::shared_ptr<Point>> get_detector_intersect(){ return detector_intersect_; }
 	
 	std::shared_ptr<Lens> get_lens_by_index(int index);
 	std::shared_ptr<Lens> get_lens_by_id(int id);
@@ -83,8 +91,8 @@ public:
 
 		border_distance_ = distance;
 	}
-	
-	std::vector<std::shared_ptr<RayPath>> pass_rays();
+
+	void update();
 
 	//exceptions
 	class out_of_range{};

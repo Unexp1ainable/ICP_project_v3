@@ -1,6 +1,6 @@
 #include "Sample.h"
 
-void Sample::calculate_intersection(std::shared_ptr<Ray> ray)
+bool Sample::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
 {
 	double distance = this->distance_from_source_ - ray->source_distance();
 
@@ -13,7 +13,12 @@ void Sample::calculate_intersection(std::shared_ptr<Ray> ray)
 
 	if(abs(rotX) > sizeX_/2 || abs(rotY) > sizeY_/2 )
 	{
-		//MISS
+		return false;
 	}
+
+	point->x = rotX;
+	point->y = rotY;
+	point->z = this->distance_from_source_;
+	return true;
 	
 }
