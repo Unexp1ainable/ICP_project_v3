@@ -10,6 +10,9 @@ MiscEditor::MiscEditor()
 	auto wrapper_layout = new QVBoxLayout;
 	auto form_layout = new QFormLayout;
 
+	// Number of rays
+	number_rays_ = new QSpinBox;
+	form_layout->addRow(new QLabel(tr("Number of rays:")), number_rays_);
 	// tilt Y
 	sample_tilt_y_ = new QDoubleSpinBox;
 	form_layout->addRow(new QLabel(tr("Sample tilt Z:")), sample_tilt_y_);
@@ -46,6 +49,7 @@ MiscEditor::MiscEditor()
 
 void MiscEditor::edit_mode()
 {
+	number_rays_->setDisabled(false);
 	sample_tilt_y_->setDisabled(false);
 	sample_distance_->setDisabled(false);
 	detector_distance_->setDisabled(false);
@@ -57,6 +61,7 @@ void MiscEditor::edit_mode()
 
 void MiscEditor::default_mode()
 {
+	number_rays_->setDisabled(true);
 	sample_tilt_y_->setDisabled(true);
 	sample_distance_->setDisabled(true);
 	detector_distance_->setDisabled(true);
@@ -80,8 +85,9 @@ QPushButton* MiscEditor::get_button_cancel_()
 	return button_cancel_;
 }
 
-void MiscEditor::set_configuration(double y_tilt, double distance_s, double distance_d)
+void MiscEditor::set_configuration(unsigned rays_number, double y_tilt, double distance_s, double distance_d)
 {
+	number_rays_->setValue(rays_number);
 	sample_tilt_y_->setValue(y_tilt);
 	sample_distance_->setValue(distance_s);
 	detector_distance_->setValue(distance_d);
@@ -89,11 +95,12 @@ void MiscEditor::set_configuration(double y_tilt, double distance_s, double dist
 
 void MiscEditor::save_slot()
 {
+	auto rays = number_rays_->value();
 	auto s_y = sample_tilt_y_->value();
 	auto s_d = sample_distance_->value();
 	auto d_d = detector_distance_->value();
 
-	emit edited_signal(s_y, s_d, d_d);
+	emit edited_signal(rays, s_y, s_d, d_d);
 }
 
 
