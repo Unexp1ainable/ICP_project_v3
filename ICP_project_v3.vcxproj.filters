@@ -158,4 +158,7 @@
       <Filter>Generated Files</Filter>
     </QtMoc>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ICP_project_v3.pro" />
+  </ItemGroup>
 </Project>

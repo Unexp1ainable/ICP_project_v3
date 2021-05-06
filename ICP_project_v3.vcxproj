@@ -224,6 +224,9 @@
     <ClInclude Include="src\gui\commonGui\Scene.h" />
     <ClInclude Include="src\gui\MainGui.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ICP_project_v3.pro" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
