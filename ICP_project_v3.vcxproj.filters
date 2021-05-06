@@ -70,6 +70,9 @@
     <ClCompile Include="src\gui\commonGui\Scene.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\Classes3D\Base3D.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -123,6 +126,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="src\common\macros.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Classes3D\Base3D.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

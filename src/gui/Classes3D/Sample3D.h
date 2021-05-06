@@ -3,7 +3,9 @@
 #include <QTransform>
 #include <QEntity>
 
-class Sample3D : public Qt3DCore::QEntity
+#include "Base3D.h"
+
+class Sample3D : public Base3D
 {
 public:
 	/**
@@ -21,10 +23,5 @@ public:
 	 * \param z_tilt Tilt on Y axis
 	 */
 	Sample3D(Qt3DCore::QEntity* root_entity, const float distance);
-
-	Qt3DCore::QTransform* get_transform();
-
-private:
-	Qt3DCore::QTransform* transform_;
 };
 

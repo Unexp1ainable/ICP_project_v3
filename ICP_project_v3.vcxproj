@@ -161,6 +161,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\gui\Classes3D\Base3D.cpp" />
     <ClCompile Include="src\gui\Classes3D\Detector3D.cpp" />
     <ClCompile Include="src\gui\Classes3D\Sample3D.cpp" />
     <ClCompile Include="src\gui\Classes3D\Source3D.cpp" />
@@ -200,6 +201,7 @@
   <ItemGroup>
     <QtMoc Include="src\gui\ClassesGui\GuiWindow.h" />
     <QtMoc Include="src\gui\ClassesGui\LensList.h" />
+    <ClInclude Include="src\gui\Classes3D\Base3D.h" />
     <ClInclude Include="src\gui\Classes3D\Detector3D.h" />
     <ClInclude Include="src\gui\Classes3D\Sample3D.h" />
     <ClInclude Include="src\gui\Classes3D\Source3D.h" />

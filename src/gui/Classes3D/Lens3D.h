@@ -3,7 +3,9 @@
 #include <QEntity>
 #include <QTransform>
 
-class Lens3D : public Qt3DCore::QEntity
+#include "Base3D.h"
+
+class Lens3D : public Base3D
 {
 public:
 	/**
@@ -25,13 +27,6 @@ public:
 	 * \param x_tilt Tilt on X axis
 	 * \param z_tilt Tilt on Y axis
 	 */
-	Lens3D(Qt3DCore::QEntity* root_entity, const float distance, float x_tilt, float z_tilt);
-
-	Qt3DCore::QTransform* get_transform();
-	Qt3DExtras::QDiffuseSpecularMaterial* get_material();
-
-private:
-	Qt3DCore::QTransform *transform_;
-	Qt3DExtras::QDiffuseSpecularMaterial* material_;
+	Lens3D(Qt3DCore::QEntity* root_entity, float distance, float x_tilt, float z_tilt);
 };
 

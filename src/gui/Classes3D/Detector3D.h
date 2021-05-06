@@ -1,9 +1,7 @@
 #pragma once
-#include <QDiffuseSpecularMaterial>
-#include <QTransform>
-#include <QEntity>
+#include "Base3D.h"
 
-class Detector3D : public Qt3DCore::QEntity
+class Detector3D : public Base3D
 {
 public:
 	/**
@@ -24,17 +22,6 @@ public:
 	 * @param x_tilt Tilt on X axis
 	 * @param z_tilt Tilt on Y axis
 	 */
-	Detector3D(Qt3DCore::QEntity* root_entity, const float distance);
-
-	/**
-	 * @brief transform_ getter
-	 */
-	Qt3DCore::QTransform* get_transform();
-
-private:
-	/**
-	 * @brief Transformation component of the entity
-	 */
-	Qt3DCore::QTransform* transform_;
+	Detector3D(Qt3DCore::QEntity* root_entity, float distance);
 };
 

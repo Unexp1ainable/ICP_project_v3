@@ -1,7 +1,9 @@
 #pragma once
 #include <QEntity>
 
-class Source3D : public Qt3DCore::QEntity
+#include "Base3D.h"
+
+class Source3D : public Base3D
 {
 	static const QColor diffuse_color_default;
 
