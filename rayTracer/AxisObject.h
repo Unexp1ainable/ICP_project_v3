@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Ray.h"
 
 
 class Axis_object

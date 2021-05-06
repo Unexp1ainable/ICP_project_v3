@@ -2,7 +2,6 @@
 
 #include <memory>
 #include "AxisObject.h"
-#include "Ray.h"
 class Sample :
     public Axis_object
 {

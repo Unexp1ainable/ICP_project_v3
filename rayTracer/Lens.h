@@ -4,7 +4,6 @@
 #include <memory>
 #include <string>
 #include "AxisObject.h"
-#include "Ray.h"
 
 class Lens:
     public Axis_object

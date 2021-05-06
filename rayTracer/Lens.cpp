@@ -8,13 +8,15 @@
 
 Lens::Lens(double distanceFromSource, double radius, double opticalPower, int id, double deviationX, double deviationY, std::string name)
 {
+	double pi2 = acos(0.0);
+	
 	if(opticalPower == 0)
 	{
 		throw invalid_optical_power();
 	}
 
 	
-	if(abs(deviationX) >= 90.0 || abs(deviationY) >= 90.0)
+	if(abs(deviationX) >= pi2 || abs(deviationY) >= pi2)
 	{
 		throw invalid_deviation();
 	}
@@ -56,7 +58,7 @@ void Lens::set_optical_power(double opticalPower)
 
 void Lens::set_deviationX(double deviation)
 {
-	if(abs(deviation) >= 90.0)
+	if(abs(deviation) >= acos(0.0))
 	{
 		throw invalid_deviation();
 	}
@@ -66,7 +68,7 @@ void Lens::set_deviationX(double deviation)
 
 void Lens::set_deviationY(double deviation)
 {
-	if(abs(deviation) >= 90.0)
+	if(abs(deviation) >= acos(0.0))
 	{
 		throw invalid_deviation();
 	}
@@ -141,7 +143,7 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 			positions[i] = true_intersection_position;
 			angles[i] = new_angle;
 			distance_from_source = this->distance_from_source_ + deviation_distance + deviation_dist_j;
-			//distances[i] = distance_from_source;
+			distances[i] = distance_from_source;
 			//std::cout << std::endl << std::endl;
 		}
 
@@ -152,7 +154,7 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 		ray->set_angleY(angles[1]);
 		ray->set_positionX(positions[0]);
 		ray->set_positionY(positions[1]);
-		ray->set_source_distance(distance_from_source);
+		ray->set_source_distance((distances[0] + distances[1]) / 2.0);
 		return;
 	}
 }

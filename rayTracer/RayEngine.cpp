@@ -1,6 +1,6 @@
 #include "RayEngine.h"
 
-#define MIN_DISTANCE 0.11
+
 
 int rayEngine::add_lens(double distance_from_source, double radius, double optical_power, std::string name, double deviationX, double deviationY)
 {
@@ -100,9 +100,9 @@ std::shared_ptr<Lens> rayEngine::get_lens_by_index(int index)
 }
 
 
-int rayEngine::add_ray(double angleX, double angleY, double positionX, double positionY, double source_distance)
+int rayEngine::add_ray(double positionX, double positionY, double angleX, double angleY)
 {
-	std::shared_ptr<Ray> ray = std::make_shared<Ray>(angleX, angleY, positionX, positionY, source_distance,ray_id_);
+	std::shared_ptr<Ray> ray = std::make_shared<Ray>(angleX, angleY, positionX, positionY, 0,ray_id_);
 	rays_.push_back(ray);
 	ray_id_++;
 	ray_count_++;
@@ -230,6 +230,111 @@ bool rayEngine::position_valid_detector(double distance)
 	return true;
 }
 
+void rayEngine::init_rays(double radius, int count)
+{
+	double _2pi = 4 * acos(0.0);
+
+	double rotation_angle = _2pi / count;
+
+	double x = 0;
+	double y = radius;
+	add_ray(x, y, 0, 0);
+	double rotX = 0;
+	double rotY = 0;
+
+	for(int i = 0; i < count - 1; i++)
+	{
+		rotX = x * cos(rotation_angle) - y * sin(rotation_angle);
+		rotY = x * sin(rotation_angle) + y * cos(rotation_angle);
+		add_ray(rotX, rotY, 0, 0);
+		x = rotX;
+		y = rotY;
+	}
+	
+	/*int fraction =(count -1) / 13;
+	int inner_layer_count = fraction;
+	int middle_layer_count = fraction * 3;
+	int outer_layer_count = count - middle_layer_count - inner_layer_count - 1;
+
+	double outer_layer_radius = radius;
+	double middle_layer_radius = radius / 3.0;
+	double inner_layer_radius = radius / 9.0;
+
+	double inner_layer_angle = _2pi / inner_layer_count;
+	double middle_layer_angle = _2pi / middle_layer_count;
+	double outer_layer_angle = _2pi / outer_layer_count;*/
+
+	/*add_ray(0, 0, 0, 0);
+
+	double x = 0;
+	double y = outer_layer_radius;
+	add_ray(x, y, 0, 0);
+	double rotX = 0;
+	double rotY = 0;
+
+	for(int i = 0; i < outer_layer_count - 1;i++)
+	{
+		rotX = x * cos(outer_layer_angle) - y * sin(outer_layer_angle);
+		rotY = x * sin(outer_layer_angle) + y * cos(outer_layer_angle);
+		add_ray(rotX, rotY, 0, 0);
+		x = rotX;
+		y = rotY;
+	}
+
+	x = 0;
+	y = middle_layer_radius;
+	add_ray(x, y, 0, 0);
+	for(int i = 0; i < middle_layer_count - 1; i++)
+	{
+		rotX = x * cos(middle_layer_angle) - y * sin(middle_layer_angle);
+		rotY = x * sin(middle_layer_angle) + y * cos(middle_layer_angle);
+		add_ray(rotX, rotY, 0, 0);
+		x = rotX;
+		y = rotY;
+	}
+
+	x = 0;
+	y = inner_layer_radius;
+	add_ray(x, y, 0, 0);
+	for(int i = 0; i < inner_layer_count - 1; i++)
+	{
+		rotX = x * cos(inner_layer_angle) - y * sin(inner_layer_angle);
+		rotY = x * sin(inner_layer_angle) + y * cos(inner_layer_angle);
+		add_ray(rotX, rotY, 0, 0);
+		x = rotX;
+		y = rotY;
+	}*/
+}
 
 
 
+std::vector<std::shared_ptr<RayPath>> rayEngine::pass_rays()
+{
+	std::vector<std::shared_ptr<RayPath>> vector;
+	for(int i = 0; i < ray_count_; i++)
+	{
+		std::shared_ptr<RayPath> rayPath = std::make_shared<RayPath>();
+		auto ray = std::make_shared<Ray>(*rays_[i]);
+		
+		rayPath->points.push_back(std::make_shared<Point>(ray->postionX(), ray->postionY(), ray->source_distance()));
+		
+		for(int j = 0; j < lens_count_;j++)
+		{
+			lenses_[j]->pass_ray(ray);
+			rayPath->points.push_back(std::make_shared<Point>(ray->postionX(), ray->postionY(), ray->source_distance()));
+		}
+		
+		vector.push_back(rayPath);
+	}
+
+	return vector;
+}
+
+void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
+{
+	double distance = border_distance_ - ray->source_distance();
+
+	point->x = ray->postionX() + distance * tan(ray->angleX());
+	point->y = ray->postionY() + distance * tan(ray->angleY());
+	point->z = border_distance_;
+}
