@@ -73,6 +73,12 @@
     <ClCompile Include="src\gui\Classes3D\Base3D.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\ShapeViewer.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\MiscEditor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -131,6 +137,9 @@
     <ClInclude Include="src\gui\Classes3D\Base3D.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\gui\ClassesGui\ShapeViewer.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\gui\ClassesGui\GuiWindow.h">
@@ -143,6 +152,9 @@
       <Filter>Generated Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\ClassesGui\SceneViewer.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\ClassesGui\MiscEditor.h">
       <Filter>Generated Files</Filter>
     </QtMoc>
   </ItemGroup>

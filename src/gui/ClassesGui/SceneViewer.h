@@ -19,6 +19,8 @@ public:
 	void add_lens(float distance, float x_tilt, float z_tilt, int id);
 	void remove_lens(int id);
 	void edit_lens(int id, float x_tilt, float z_tilt, float distance);
+	void edit_sample(float distance, float tilt_y);
+	void edit_detector(float distance);
 
 	void set_active(int id);
 	

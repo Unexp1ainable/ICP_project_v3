@@ -155,3 +155,15 @@ void SceneViewer::set_active(int id)
 	}
 }
 
+void SceneViewer::edit_sample(float distance, float tilt_y)
+{
+	auto transform = sample_->get_transform();
+	transform->setTranslation(QVector3D(0., -distance, 0.)); //-distance
+	transform->setRotationY(tilt_y);
+}
+
+void SceneViewer::edit_detector(float distance)
+{
+	detector_->get_transform()->setTranslation(QVector3D(0., -distance, 0.)); // -distance
+}
+

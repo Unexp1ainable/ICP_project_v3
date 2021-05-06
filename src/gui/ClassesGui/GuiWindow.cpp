@@ -1,31 +1,37 @@
 #include "GuiWindow.h"
 
 #include <iostream>
-#include <QSizePolicy>
 
 #include "LensEditor.h"
 #include "LensListItem.h"
+#include "MiscEditor.h"
 #include "SceneViewer.h"
-#include "src/gui/Classes3D/Lens3D.h"
-#include "src/gui/Classes3D/Line3D.h"
+#include "ShapeViewer.h"
 #include "src/common/macros.h"
 
 GuiWindow::GuiWindow(rayEngine* engine)
 {
 	engine_ = engine;
 
-	auto editor_box = create_editor();
+	auto editor_box = create_lens_editor();
 	auto view_3d_box = create_3d_view();
 	auto selector_box = create_selector();
-	auto info_box = create_info();
+	auto misc_editor_box = create_misc_editor();
+	auto s_info_box = create_sample_info();
+	auto d_info_box = create_detector_info();
 
 	main_layout_ = new QGridLayout;
 	main_layout_->setColumnStretch(0, 4);
+	main_layout_->setRowStretch(2, 1);
+	main_layout_->setRowStretch(3, 1);
+	main_layout_->setRowStretch(4, 1);
 
 	main_layout_->addWidget(view_3d_box, 0, 0, 5, 5);
-	main_layout_->addWidget(selector_box, 0, 5, 2, 1);
-	main_layout_->addWidget(editor_box, 2, 5, 1, 1);
-	main_layout_->addWidget(info_box, 3, 5, 2, 1);
+	main_layout_->addWidget(selector_box, 0, 5, 1, 1);
+	main_layout_->addWidget(editor_box, 1, 5, 1, 1);
+	main_layout_->addWidget(misc_editor_box, 2, 5, 1, 1);
+	main_layout_->addWidget(s_info_box, 3, 5, 1, 1);
+	main_layout_->addWidget(d_info_box, 4, 5, 1, 1);
 
 	auto central_widget = new QWidget(this);
 	central_widget->setLayout(main_layout_);
@@ -47,11 +53,11 @@ QGroupBox* GuiWindow::create_3d_view()
 
 	engine_->set_sample_distance_from_source(10.); // TODO this is probably not good
 	engine_->set_detector_distance_from_source(30.); // TODO this either
-	
+
 	return view_3d_box;
 }
 
-QGroupBox* GuiWindow::create_editor()
+QGroupBox* GuiWindow::create_lens_editor()
 {
 	auto e_box = new QGroupBox;
 	e_box->setTitle(tr("Lens editor."));
@@ -97,26 +103,58 @@ QGroupBox* GuiWindow::create_selector()
 	return s_box;
 }
 
-
-QGroupBox* GuiWindow::create_info()
+QGroupBox* GuiWindow::create_misc_editor()
 {
 	auto i_box = new QGroupBox;
-	i_box->setTitle(tr("Informations about rays on detector."));
+	i_box->setTitle(tr("Sample and detector editor."));
 
-	auto button = new QPushButton("New", this);
-	
 	QHBoxLayout* vbox = new QHBoxLayout;
-	vbox->addWidget(button);
-	vbox->addWidget(new QPushButton("aaaaaa"));
-	vbox->addWidget(new QPushButton("bbbbbbb"));
-	i_box->setLayout(vbox);
 
-	info_ = i_box; // TODO temporary
+	misc_editor_ = new MiscEditor;
+	misc_editor_cancel_slot_(); // it will initialize values from engine
+
+	vbox->addWidget(misc_editor_);
+
+	i_box->setLayout(vbox);
 	return i_box;
 }
 
+
+
+QGroupBox* GuiWindow::create_sample_info()
+{
+	auto i_box = new QGroupBox;
+	i_box->setTitle(tr("Informations about rays passing through the sample."));
+
+	QHBoxLayout* vbox = new QHBoxLayout;
+
+	vbox->addWidget(new ShapeViewer);
+
+	i_box->setLayout(vbox);
+
+	sample_info_ = i_box; // TODO temporary
+	return i_box;
+}
+
+QGroupBox* GuiWindow::create_detector_info()
+{
+	auto i_box = new QGroupBox;
+	i_box->setTitle(tr("Informations about rays striking the detector."));
+
+	QHBoxLayout* vbox = new QHBoxLayout;
+
+	vbox->addWidget(new ShapeViewer);
+
+	i_box->setLayout(vbox);
+
+	detector_info_ = i_box; // TODO temporary
+	return i_box;
+}
+
+
 void GuiWindow::connect_elements()
 {
+	// -------- Lens Editor ---------
 	// connect selection loading
 	connect(selector_, &QListWidget::itemClicked, this, &GuiWindow::selection_changed_slot);
 	// connect button new
@@ -129,6 +167,11 @@ void GuiWindow::connect_elements()
 	connect(editor_->get_button_cancel(), &QPushButton::clicked, this, &GuiWindow::cancel_slot);
 	// connect button save
 	connect(editor_, &LensEditor::save_lens_signal, this, &GuiWindow::save_slot);
+
+	// -------- Miscelaneous Editor ---------
+	connect(misc_editor_->get_button_edit_(), &QPushButton::clicked, this, &GuiWindow::misc_editor_edit_slot_);
+	connect(misc_editor_->get_button_cancel_(), &QPushButton::clicked, this, &GuiWindow::misc_editor_cancel_slot_);
+	connect(misc_editor_, &MiscEditor::edited_signal, this, &GuiWindow::misc_editor_save_slot);
 
 
 	// connect error signals
@@ -194,7 +237,8 @@ void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distan
 		if (engine_->position_valid_lens(distance, item->getId()))
 		{
 			edit_lens(name, x_tilt, z_tilt, distance, optical_power, item->getId());
-		}else
+		}
+		else
 		{
 			error_slot("Invalid distance.");
 		}
@@ -206,7 +250,8 @@ void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distan
 			create_new_lens(name, x_tilt, z_tilt, distance, optical_power);
 			editor_->mode_default();
 			selector_->setDisabled(false);
-		} else
+		}
+		else
 		{
 			error_slot("Invalid distance.");
 		}
@@ -233,7 +278,7 @@ void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float 
 void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id)
 {
 	auto std_name = name.toStdString();
-	
+
 	// edit engine
 	auto lens = engine_->get_lens_by_id(id);
 
@@ -250,6 +295,53 @@ void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distan
 	// edit 3d_view
 	view_3d_->edit_lens(id, x_tilt, z_tilt, distance);
 }
+
+
+void GuiWindow::misc_editor_edit_slot_()
+{
+	misc_editor_->edit_mode();
+}
+
+void GuiWindow::misc_editor_cancel_slot_()
+{
+	// TODO load conf
+	auto sample = engine_->get_sample();
+	auto s_distance = sample->distance_from_source();
+	auto s_tilt_y = engine_->get_sample()->rotation;
+	auto d_distance = engine_->get_detector()->distance_from_source();
+	misc_editor_->set_configuration(s_tilt_y, s_distance, d_distance);
+	misc_editor_->default_mode();
+}
+
+void GuiWindow::misc_editor_save_slot(double y_tilt, double distance_s, double distance_d)
+{
+	// engine
+	if (engine_->position_valid_sample(distance_s))
+	{
+		engine_->set_sample_distance_from_source(distance_s);
+	}
+	else {
+		error_slot("Sample position is invalid.");
+		return;
+	}
+
+	if (engine_->position_valid_detector(distance_d))
+	{
+		engine_->set_detector_distance_from_source(distance_d);
+	}
+	else {
+		error_slot("Detector position is invalid.");
+		return;
+	}
+	// TODO not good
+	engine_->get_sample()->rotation = y_tilt;
+	
+	// 3dview
+	view_3d_->edit_sample(distance_s, y_tilt);
+	view_3d_->edit_detector(distance_d);
+}
+
+
 
 void GuiWindow::error_slot(std::string error)
 {
