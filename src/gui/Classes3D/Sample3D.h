@@ -19,9 +19,10 @@ public:
 	/**
 	 * Graphical object representing lens
 	 *
-	 * \param root_entity Root entity of created lens
-	 * \param distance Distance from electron gun on Y axis
+	 * @param root_entity Root entity of created lens
+	 * @param distance Distance from electron gun on Y axis
+	 * @param tilt rotation on Y axis
 	 */
-	Sample3D(Qt3DCore::QEntity* root_entity, const float distance);
+	Sample3D(Qt3DCore::QEntity* root_entity, const float distance, float tilt);
 };
 

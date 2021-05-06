@@ -15,7 +15,7 @@
 #include "src/gui/commonGui/Scene.h"
 
 
-SceneViewer::SceneViewer()
+SceneViewer::SceneViewer(float s_distance, float s_tilt, float d_distance)
 {
 	// 3D view
 	window_ = new Qt3DExtras::Qt3DWindow;
@@ -25,7 +25,7 @@ SceneViewer::SceneViewer()
 	window_widget_ = createWindowContainer(window_);
 	
 	// 3D root entity
-	root_entity_ = create_scene();
+	root_entity_ = create_scene(s_distance, s_tilt, d_distance);
 
 
 	// world axes
@@ -90,7 +90,7 @@ Qt3DCore::QEntity* SceneViewer::add_light(const QVector3D position, Qt3DCore::QN
 	return light_entity;
 }
 
-Qt3DCore::QEntity* SceneViewer::create_scene()
+Qt3DCore::QEntity* SceneViewer::create_scene(float s_distance, float s_tilt, float d_distance)
 {
 	const auto result_entity = new Qt3DCore::QEntity;
 
@@ -103,10 +103,10 @@ Qt3DCore::QEntity* SceneViewer::create_scene()
 	source_ = new Source3D{ result_entity };
 
 	// sample
-	sample_ = new Sample3D{ result_entity, 10.0 }; // placeholder value, will be changed on global init
+	sample_ = new Sample3D{ result_entity, s_distance, s_tilt}; // placeholder value, will be changed on global init
 
 	//
-	detector_ = new Detector3D{ result_entity, 30.0 }; // TODO ^ < magic numbers
+	detector_ = new Detector3D{ result_entity, d_distance }; // TODO ^ < magic numbers
 	
 	return result_entity;
 }

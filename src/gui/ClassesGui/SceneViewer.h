@@ -14,7 +14,7 @@ class SceneViewer : public QWidget
 	Q_OBJECT
 
 public:
-	SceneViewer();
+	SceneViewer(float s_distance, float s_tilt, float d_distance);
 
 	void add_lens(float distance, float x_tilt, float z_tilt, int id);
 	void remove_lens(int id);
@@ -38,7 +38,7 @@ private:
 	Sample3D* sample_;
 	Detector3D* detector_;
 
-	Qt3DCore::QEntity* create_scene();
+	Qt3DCore::QEntity* create_scene(float s_distance, float s_tilt, float d_distance);
 	void add_camera(Qt3DExtras::Qt3DWindow& view, Qt3DCore::QEntity* root_entity);
 	Qt3DCore::QEntity* add_light(const QVector3D position, Qt3DCore::QNode* parent);
 

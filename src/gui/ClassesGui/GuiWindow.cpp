@@ -42,7 +42,12 @@ GuiWindow::GuiWindow(rayEngine* engine)
 
 QGroupBox* GuiWindow::create_3d_view()
 {
-	view_3d_ = new SceneViewer();
+
+	auto s_dist = engine_->get_sample()->distance_from_source();
+	auto s_tilt = engine_->get_sample()->rotation;
+	auto d_dist = engine_->get_detector()->distance_from_source();
+	
+	view_3d_ = new SceneViewer(s_dist, s_tilt, d_dist);
 	view_3d_widget_ = view_3d_->get_window_widget();
 
 	auto layout = new QBoxLayout{ QBoxLayout::BottomToTop };
@@ -50,9 +55,6 @@ QGroupBox* GuiWindow::create_3d_view()
 	auto view_3d_box = new QGroupBox;
 	layout->addWidget(view_3d_widget_);
 	view_3d_box->setLayout(layout);
-
-	engine_->set_sample_distance_from_source(10.); // TODO this is probably not good
-	engine_->set_detector_distance_from_source(30.); // TODO this either
 
 	return view_3d_box;
 }
