@@ -7,6 +7,7 @@
 #include "MiscEditor.h"
 #include "SceneViewer.h"
 #include "ShapeViewer.h"
+#include "SurfaceInfoPanel.h"
 #include "src/common/macros.h"
 
 GuiWindow::GuiWindow(rayEngine* engine)
@@ -128,8 +129,10 @@ QGroupBox* GuiWindow::create_sample_info()
 	i_box->setTitle(tr("Informations about rays passing through the sample."));
 
 	QHBoxLayout* vbox = new QHBoxLayout;
-
-	vbox->addWidget(new ShapeViewer);
+	auto a = new SurfaceInfoPanel;
+	
+	
+	vbox->addWidget(a);
 
 	i_box->setLayout(vbox);
 

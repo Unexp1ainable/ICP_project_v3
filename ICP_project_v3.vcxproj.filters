@@ -79,6 +79,9 @@
     <ClCompile Include="src\gui\ClassesGui\MiscEditor.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\SurfaceInfoPanel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -137,7 +140,7 @@
     <ClInclude Include="src\gui\Classes3D\Base3D.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\ClassesGui\ShapeViewer.h">
+    <ClInclude Include="src\gui\ClassesGui\SurfaceInfoPanel.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,6 +158,9 @@
       <Filter>Generated Files</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\ClassesGui\MiscEditor.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\ClassesGui\ShapeViewer.h">
       <Filter>Generated Files</Filter>
     </QtMoc>
   </ItemGroup>
