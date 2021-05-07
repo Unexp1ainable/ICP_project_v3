@@ -13,8 +13,8 @@ public:
 	Ray(double angleX, double angleY, double positionX, double positionY, double sourceDistance, int id);
 	
 	double position(int index) const { return position_[index]; }
-	double postionX() const { return position_[0]; }
-	double postionY() const { return position_[1]; }
+	double positionX() const { return position_[0]; }
+	double positionY() const { return position_[1]; }
 	double angle(int index) const { return angle_[index]; }
 	double angleX() const { return angle_[0]; }
 	double angleY() const { return angle_[1]; }

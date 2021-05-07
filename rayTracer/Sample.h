@@ -20,7 +20,13 @@ public:
 
 	double sizeX() const { return sizeX_; }
 	double sizeY()const { return sizeY_; }
+	double get_rotation()const { return rotation; }
 
+	void set_rotation(double rotation)
+	{
+		this->rotation = rotation;
+	}
+	
 	void set_sizeX(double size)
 	{
 		if(size <= 1)

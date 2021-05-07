@@ -310,16 +310,14 @@ void rayEngine::init_rays(double radius, int count)
 void rayEngine::update()
 {
 
-	ray_points_.clear();
-	sample_intersect_.clear();
-	detector_intersect_.clear();
+	
 
 	for(int i = 0; i < ray_count_; i++)
 	{
 		std::vector<std::shared_ptr<Point>> vector;
 		
 		auto ray = std::make_shared<Ray>(*rays_[i]);	
-		vector.push_back(std::make_shared<Point>(ray->postionX(), ray->postionY(), ray->source_distance()));
+		vector.push_back(std::make_shared<Point>(ray->positionX(), ray->positionY(), ray->source_distance()));
 		
 		for(int j = 0; j < lens_count_;j++)
 		{
@@ -332,7 +330,7 @@ void rayEngine::update()
 				}
 			}
 			lenses_[j]->pass_ray(ray);
-			vector.push_back(std::make_shared<Point>(ray->postionX(), ray->postionY(), ray->source_distance()));
+			vector.push_back(std::make_shared<Point>(ray->positionX(), ray->positionY(), ray->source_distance()));
 		}
 
 		std::shared_ptr<Point> last_point = std::make_shared<Point>(0, 0, 0);
@@ -355,7 +353,145 @@ void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Poin
 {
 	double distance = border_distance_ - ray->source_distance();
 
-	point->x = ray->postionX() + distance * tan(ray->angleX());
-	point->y = ray->postionY() + distance * tan(ray->angleY());
+	point->x = ray->positionX() + distance * tan(ray->angleX());
+	point->y = ray->positionY() + distance * tan(ray->angleY());
 	point->z = border_distance_;
 }
+
+void rayEngine::save_config(std::string path)
+{
+	std::string delimeter = ";";
+	
+	std::ofstream file (path.c_str());
+	file << "D"<< delimeter << detector_->distance_from_source() << delimeter << detector_->sizeX() << delimeter << detector_->sizeY() << delimeter << std::endl;
+	file << "S" << delimeter << sample_->distance_from_source() << delimeter << sample_->sizeX() << delimeter << sample_->sizeY() << delimeter << sample_->rotation << delimeter << std::endl;
+
+	
+
+	if(!file.is_open())
+	{
+		throw file_cannot_be_opened();
+	}
+
+	std::cout << "LENS COUNT: " << lens_count_ << std::endl;
+	
+	for(int i = 0; i<lens_count_;i++)
+	{
+		auto lens = lenses_[i];
+		file << "L" << delimeter << lens->distance_from_source() << delimeter << lens->radius() << delimeter << lens->optical_power() << delimeter << lens->deviation_x() << delimeter << lens->deviation_y() << delimeter << lens->name() << delimeter << std::endl;
+	}
+
+	for(int i = 0; i < ray_count_; i++)
+	{
+		auto ray = rays_[i];
+		file << "R" << delimeter << ray->positionX() << delimeter << ray->positionY() << ";" << ray->angleX() << delimeter << ray->angleY() << delimeter << std::endl;
+	}
+
+	
+	
+	file.close();
+}
+
+void rayEngine::load_config(std::string path)
+{
+	clear_lenses();
+	clear_rays();
+	
+	std::ifstream file(path.c_str());
+	if(!file.is_open())
+	{
+		throw file_cannot_be_opened();
+	}
+
+	std::string line;
+	std::string delimeter = ";";
+	std::string token;
+	std::string identifier;
+	int args_count = 0;
+	double args[5];
+	
+
+	
+	while(std::getline(file,line))
+	{
+		identifier = line.substr(0, line.find(delimeter));
+		line.erase(0, line.find(delimeter) + delimeter.length());
+		if(identifier == "D")
+		{
+			args_count = 3;
+		}else if(identifier == "S" || identifier == "R")
+		{
+			args_count = 4;
+		}else if(identifier == "L")
+		{
+			args_count = 5;
+		}else
+		{
+			throw  invalid_save_file();
+		}
+		
+		
+		for(int i = 0; i < args_count; i++)
+		{
+			token = line.substr(0, line.find(delimeter));
+			line.erase(0, line.find(delimeter) + delimeter.length());
+			args[i] = stod(token);
+		}
+
+		if(token == "D")
+		{
+			if(!line.empty()) { throw invalid_save_file(); }
+			try
+			{
+				detector_->set_distance_from_source(args[0]);
+				detector_->set_sizeX(args[1]);
+				detector_->set_sizeY(args[2]);
+			}
+			catch(...)
+			{
+				throw invalid_save_file();
+			}
+		}
+		else if(identifier == "S")
+		{
+			if(!line.empty()) { throw invalid_save_file(); }
+			try
+			{
+				set_sample_distance_from_source(args[0]);
+				sample_->set_sizeX(args[1]);
+				sample_->set_sizeY(args[2]);
+				sample_->set_rotation(args[3]);
+			}
+			catch(...)
+			{
+				throw invalid_save_file();
+			}
+		}
+		else if(identifier == "L")
+		{
+			try
+			{
+				add_lens(args[0], args[1], args[2], line.erase(line.size() - 1), args[3], args[4]);
+			}
+			catch(...)
+			{
+				throw invalid_save_file();
+ 			}
+		}else if(identifier == "R")
+		{
+			try
+			{
+				add_ray(args[0], args[1], args[2], args[3]);
+			}
+			catch(...)
+			{
+				throw invalid_save_file();
+			}
+		}
+		
+		//
+	}
+
+	file.close();
+}
+

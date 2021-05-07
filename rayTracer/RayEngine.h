@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 #include <cmath>
+#include <iostream>
+#include <fstream>
 #include "RayPath.h"
 #include "Point.h"
 #include "Lens.h"
@@ -57,7 +59,11 @@ public:
 	void remove_lens(int id);
 	void set_lens_distance_from_source(int id, double distance);
 	bool position_valid_lens(double distance, int id);
-	void clear_lenses() { lenses_.clear(); }
+	void clear_lenses()
+	{
+		lens_count_ = 0;
+		lenses_.clear();
+	}
 	
 	
 
@@ -67,7 +73,11 @@ public:
 	int add_ray(double positionX, double positionY, double angleX, double angleY);
 	void remove_ray(int id);
 	void init_rays(double radius, int count);
-	void clear_rays() { rays_.clear(); }
+	void clear_rays()
+	{
+		ray_count_ = 0;
+		rays_.clear();
+	}
 
 	std::shared_ptr<Sample> get_sample() const { return sample_; }
 	bool position_valid_sample(double distance);
@@ -76,7 +86,10 @@ public:
 	std::shared_ptr<Detector> get_detector() const { return detector_; }
 	bool position_valid_detector(double distance);
 	void set_detector_distance_from_source(double distance);
-	
+
+	void save_config(std::string path);
+	void load_config(std::string path); 
+		
 	double edge_distance() const
 	{
 		return border_distance_;
@@ -97,5 +110,7 @@ public:
 	//exceptions
 	class out_of_range{};
 	class invalid_distance {};
+	class file_cannot_be_opened{};
+	class invalid_save_file{};
 };
 
