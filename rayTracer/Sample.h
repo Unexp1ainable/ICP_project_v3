@@ -8,6 +8,7 @@ class Sample :
     public Axis_object
 {
 private:
+	double rotation_ = 0;
 	double sizeX_ = 10;
 	double sizeY_ = 10;
 public:
@@ -17,15 +18,15 @@ public:
 	}
 
 	//TODO make this private
-	double rotation = 0;
+	
 
 	double sizeX() const { return sizeX_; }
 	double sizeY()const { return sizeY_; }
-	double get_rotation()const { return rotation; }
+	double rotation()const { return rotation_; }
 
 	void set_rotation(double rotation)
 	{
-		this->rotation = rotation;
+		this->rotation_ = rotation;
 	}
 	
 	void set_sizeX(double size)
