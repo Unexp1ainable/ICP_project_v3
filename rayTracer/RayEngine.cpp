@@ -4,11 +4,11 @@
 
 int rayEngine::add_lens(double distance_from_source, double radius, double optical_power, std::string name, double deviationX, double deviationY)
 {
-	if(!position_valid_lens(distance_from_source,0))
+	if(!position_valid_lens(distance_from_source, 0))
 	{
 		throw invalid_distance();
 	}
-	
+
 	std::shared_ptr<Lens> lens = std::make_shared<Lens>(distance_from_source, radius, optical_power, lens_id_, deviationX, deviationY, name);
 	insert_lens(lens);
 	lens_id_++;
@@ -23,7 +23,7 @@ void rayEngine::set_lens_distance_from_source(int id, double distance)
 		throw invalid_distance();
 	}
 
-	
+
 	get_lens_by_id(id)->set_distance_from_source(distance);
 	std::shared_ptr<Lens> lens = get_lens_by_id(id);
 	remove_lens(id);
@@ -35,9 +35,9 @@ void rayEngine::insert_lens(const std::shared_ptr<Lens>& lens)
 {
 	int i = 0;
 
-	
-	
-	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++ , i++)
+
+
+	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
 	{
 		if(lenses_[i]->distance_from_source() >= lens->distance_from_source())
 		{
@@ -73,7 +73,7 @@ void rayEngine::remove_lens(int id)
 			return;
 		}
 	}
-	
+
 }
 
 std::shared_ptr<Lens> rayEngine::get_lens_by_id(int id)
@@ -86,13 +86,13 @@ std::shared_ptr<Lens> rayEngine::get_lens_by_id(int id)
 			return lenses_[i];
 		}
 	}
-	return nullptr;
+	throw id_not_found();
 }
 
 
 std::shared_ptr<Lens> rayEngine::get_lens_by_index(int index)
 {
-	if(index >= lens_count_|| index < 0)
+	if(index >= lens_count_ || index < 0)
 	{
 		throw out_of_range();
 	}
@@ -102,7 +102,7 @@ std::shared_ptr<Lens> rayEngine::get_lens_by_index(int index)
 
 int rayEngine::add_ray(double positionX, double positionY, double angleX, double angleY)
 {
-	std::shared_ptr<Ray> ray = std::make_shared<Ray>(angleX, angleY, positionX, positionY, 0,ray_id_);
+	std::shared_ptr<Ray> ray = std::make_shared<Ray>(angleX, angleY, positionX, positionY, 0, ray_id_);
 	rays_.push_back(ray);
 	ray_id_++;
 	ray_count_++;
@@ -153,9 +153,9 @@ std::shared_ptr<Ray> rayEngine::get_ray_by_id(int id)
 			return rays_[i];
 		}
 	}
-	return nullptr;
+	throw id_not_found();
 
-	
+
 }
 
 void rayEngine::set_sample_distance_from_source(double distance)
@@ -185,18 +185,18 @@ bool rayEngine::position_valid_lens(double distance, int id)
 	{
 		return true;
 	}*/
-	
+
 	if(distance < MIN_DISTANCE || distance > detector_->distance_from_source() - MIN_DISTANCE || abs(sample_->distance_from_source() - distance) < MIN_DISTANCE)
 	{
 		return false;
 	}
-	
+
 	int i = 0;
 	for(std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
 	{
 		if(lenses_[i]->id() != id && abs(lenses_[i]->distance_from_source() - distance) <= MIN_DISTANCE)
 		{
-			
+
 			return false;
 		}
 	}
@@ -251,7 +251,7 @@ void rayEngine::init_rays(double radius, int count)
 		x = rotX;
 		y = rotY;
 	}
-	
+
 	/*int fraction =(count -1) / 13;
 	int inner_layer_count = fraction;
 	int middle_layer_count = fraction * 3;
@@ -311,21 +311,21 @@ void rayEngine::init_rays(double radius, int count)
 void rayEngine::update()
 {
 
-	
+
 
 	for(int i = 0; i < ray_count_; i++)
 	{
 		std::vector<std::shared_ptr<Point>> vector;
-		
-		auto ray = std::make_shared<Ray>(*rays_[i]);	
+
+		auto ray = std::make_shared<Ray>(*rays_[i]);
 		vector.push_back(std::make_shared<Point>(ray->positionX(), ray->positionY(), ray->source_distance()));
-		
-		for(int j = 0; j < lens_count_;j++)
+
+		for(int j = 0; j < lens_count_; j++)
 		{
 			if(ray->source_distance() < sample_->distance_from_source() && lenses_[j]->distance_from_source() > sample_->distance_from_source())
 			{
 				auto point = std::make_shared<Point>(0, 0, 0);
-				if(sample_->calculate_intersection(ray,point))
+				if(sample_->calculate_intersection(ray, point))
 				{
 					sample_intersect_.push_back(point);
 				}
@@ -338,13 +338,14 @@ void rayEngine::update()
 
 		if(detector_->calculate_intersection(ray, last_point)) {
 			detector_intersect_.push_back(std::make_shared<Point>(*last_point));
-		}else
+		}
+		else
 		{
 			this->cross_with_border(ray, last_point);
 		}
 
 		vector.push_back(last_point);
-	
+
 		ray_points_.push_back(vector);
 	}
 
@@ -362,21 +363,21 @@ void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Poin
 void rayEngine::save_config(std::string path)
 {
 	std::string delimeter = ";";
-	
-	std::ofstream file (path.c_str());
-	file << "D"<< delimeter << detector_->distance_from_source() << delimeter << detector_->sizeX() << delimeter << detector_->sizeY() << delimeter << std::endl;
+
+	std::ofstream file(path.c_str());
+	file << "D" << delimeter << detector_->distance_from_source() << delimeter << detector_->sizeX() << delimeter << detector_->sizeY() << delimeter << std::endl;
 	file << "S" << delimeter << sample_->distance_from_source() << delimeter << sample_->sizeX() << delimeter << sample_->sizeY() << delimeter << sample_->rotation << delimeter << std::endl;
 
-	
+
 
 	if(!file.is_open())
 	{
 		throw file_cannot_be_opened();
 	}
 
-	
-	
-	for(int i = 0; i<lens_count_;i++)
+
+
+	for(int i = 0; i < lens_count_; i++)
 	{
 		auto lens = lenses_[i];
 		file << "L" << delimeter << lens->distance_from_source() << delimeter << lens->radius() << delimeter << lens->optical_power() << delimeter << lens->deviation_x() << delimeter << lens->deviation_y() << delimeter << lens->name() << delimeter << std::endl;
@@ -388,8 +389,8 @@ void rayEngine::save_config(std::string path)
 		file << "R" << delimeter << ray->positionX() << delimeter << ray->positionY() << ";" << ray->angleX() << delimeter << ray->angleY() << delimeter << std::endl;
 	}
 
-	
-	
+
+
 	file.close();
 }
 
@@ -397,7 +398,7 @@ void rayEngine::load_config(std::string path)
 {
 	clear_lenses();
 	clear_rays();
-	
+
 	std::ifstream file(path.c_str());
 	if(!file.is_open())
 	{
@@ -410,28 +411,31 @@ void rayEngine::load_config(std::string path)
 	std::string identifier;
 	int args_count = 0;
 	double args[5];
-	
 
-	
-	while(std::getline(file,line))
+
+
+	while(std::getline(file, line))
 	{
 		identifier = line.substr(0, line.find(delimeter));
 		line.erase(0, line.find(delimeter) + delimeter.length());
 		if(identifier == "D")
 		{
 			args_count = 3;
-		}else if(identifier == "S" || identifier == "R")
+		}
+		else if(identifier == "S" || identifier == "R")
 		{
 			args_count = 4;
-		}else if(identifier == "L")
+		}
+		else if(identifier == "L")
 		{
 			args_count = 5;
-		}else
+		}
+		else
 		{
 			throw  invalid_save_file();
 		}
-		
-		
+
+
 		for(int i = 0; i < args_count; i++)
 		{
 			token = line.substr(0, line.find(delimeter));
@@ -477,8 +481,9 @@ void rayEngine::load_config(std::string path)
 			catch(...)
 			{
 				throw invalid_save_file();
- 			}
-		}else if(identifier == "R")
+			}
+		}
+		else if(identifier == "R")
 		{
 			try
 			{
@@ -489,7 +494,7 @@ void rayEngine::load_config(std::string path)
 				throw invalid_save_file();
 			}
 		}
-		
+
 		//
 	}
 

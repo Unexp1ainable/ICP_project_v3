@@ -2,7 +2,8 @@
 
 #include <memory>
 #include "AxisObject.h"
-#include "Point.h"
+
+
 class Sample :
     public Axis_object
 {
@@ -10,12 +11,12 @@ private:
 	double sizeX_ = 10;
 	double sizeY_ = 10;
 public:
-
-	Sample(double distance)
+	explicit Sample(double distance)
 	{
 		distance_from_source_ = distance;
 	}
-	
+
+	//TODO make this private
 	double rotation = 0;
 
 	double sizeX() const { return sizeX_; }
@@ -32,10 +33,8 @@ public:
 		if(size <= 1)
 		{
 			throw invalid_size();
-		}else
-		{
-			sizeX_ = size;
 		}
+		sizeX_ = size;
 	}
 
 	void set_sizeY(double size)
@@ -43,10 +42,8 @@ public:
 		if(size <= 1)
 		{
 			throw invalid_size();
-		}else
-		{
-			sizeY_ = size;
 		}
+		sizeY_ = size;
 	}
 
 	bool calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
@@ -54,4 +51,9 @@ public:
 	//exceptions
 	class invalid_size{};
 };
+
+
+
+
+
 

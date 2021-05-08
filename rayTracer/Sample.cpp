@@ -11,7 +11,7 @@ bool Sample::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Po
 	double rotX = posX * cos(rotation) - posY * sin(rotation);
 	double rotY = posX * sin(rotation) + posY * cos(rotation);
 
-	if(abs(rotX) > sizeX_/2 || abs(rotY) > sizeY_/2 )
+	if(abs(rotX) > sizeX_ / 2 || abs(rotY) > sizeY_ / 2)
 	{
 		return false;
 	}
@@ -20,5 +20,5 @@ bool Sample::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Po
 	point->y = rotY;
 	point->z = this->distance_from_source_;
 	return true;
-	
+
 }
