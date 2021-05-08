@@ -161,6 +161,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="rayTracer\Detector.cpp" />
+    <ClCompile Include="rayTracer\Sample.cpp" />
     <ClCompile Include="src\gui\ClassesGui\MiscEditor.cpp" />
     <ClCompile Include="src\gui\ClassesGui\ShapeViewer.cpp" />
     <ClCompile Include="src\gui\Classes3D\Base3D.cpp" />
@@ -171,9 +173,7 @@
     <ClCompile Include="src\gui\ClassesGui\SceneViewer.cpp" />
     <ClCompile Include="src\gui\ClassesGui\LensList.cpp" />
     <ClCompile Include="src\gui\ClassesGui\LensEditor.cpp" />
-    <ClCompile Include="rayTracer\AxisObject.cpp" />
     <ClCompile Include="rayTracer\Lens.cpp" />
-    <ClCompile Include="rayTracer\Ray.cpp" />
     <ClCompile Include="rayTracer\RayEngine.cpp" />
     <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp" />
     <ClCompile Include="main.cpp" />
@@ -202,6 +202,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="rayTracer\Point.h" />
     <ClInclude Include="src\gui\ClassesGui\SurfaceInfoPanel.h" />
     <QtMoc Include="src\gui\ClassesGui\GuiWindow.h" />
     <QtMoc Include="src\gui\ClassesGui\LensList.h" />

@@ -14,6 +14,8 @@ GuiWindow::GuiWindow(rayEngine* engine)
 {
 	engine_ = engine;
 
+	create_menu();
+	
 	auto editor_box = create_lens_editor();
 	auto view_3d_box = create_3d_view();
 	auto selector_box = create_selector();
@@ -40,6 +42,27 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	connect_elements();
 
 }
+
+void GuiWindow::create_menu()
+{
+	const QIcon openIcon = QIcon::fromTheme("document-open", QIcon(":/images/open.png"));
+	QAction* load_act = new QAction(openIcon, tr("&Open..."), this);
+	load_act->setShortcuts(QKeySequence::Open);
+	load_act->setStatusTip(tr("Open an existing file"));
+
+	const QIcon saveIcon = QIcon::fromTheme("document-save", QIcon(":/images/save.png"));
+	QAction* save_act = new QAction(saveIcon, tr("&Save..."), this);
+	load_act->setShortcuts(QKeySequence::Save);
+	load_act->setStatusTip(tr("Save to file"));
+
+	auto file_menu = menuBar()->addMenu(tr("File"));
+	file_menu->addAction(load_act);
+	file_menu->addAction(save_act);
+
+	connect(load_act, &QAction::triggered, this, &GuiWindow::open_file_slot);
+	connect(save_act, &QAction::triggered, this, &GuiWindow::save_file_slot);
+}
+
 
 QGroupBox* GuiWindow::create_3d_view()
 {
@@ -183,6 +206,28 @@ void GuiWindow::connect_elements()
 
 	// connect error signals
 	connect(view_3d_, &SceneViewer::error_signal, this, &GuiWindow::error_slot);
+}
+
+void GuiWindow::open_file_slot()
+{
+	auto fileName = QFileDialog::getOpenFileName(this,
+		tr("Open configuration"), "", tr("*.re"));
+
+	if (fileName.compare("") == 0)
+		return;
+	
+	engine_->load_config(fileName.toStdString());
+}
+
+void GuiWindow::save_file_slot()
+{
+	auto fileName = QFileDialog::getSaveFileName(this,
+		tr("Open configuration"), "", tr("*.re"));
+
+	if (fileName.compare("") == 0)
+		return;
+
+	engine_->save_config(fileName.toStdString());
 }
 
 

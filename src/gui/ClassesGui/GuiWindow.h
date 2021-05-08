@@ -22,6 +22,9 @@ public:
 
 
 private:
+
+	void create_menu();
+	
 	/**
 	 * Constructs 3D viewer and scene inside.
 	 * Reference will be stored in view_3d_widget_
@@ -86,6 +89,9 @@ private:
 	
 
 private slots:
+	void open_file_slot();
+	void save_file_slot();
+	
 	void selection_changed_slot(QListWidgetItem* item);
 	void mode_new_slot();
 	void mode_edit_slot();
