@@ -90,14 +90,7 @@ std::shared_ptr<Lens> rayEngine::get_lens_by_id(int id)
 }
 
 
-std::shared_ptr<Lens> rayEngine::get_lens_by_index(int index)
-{
-	if(index >= lens_count_ || index < 0)
-	{
-		throw out_of_range();
-	}
-	return lenses_[index];
-}
+
 
 
 int rayEngine::add_ray(double positionX, double positionY, double angleX, double angleY)
@@ -128,15 +121,7 @@ void rayEngine::remove_ray(int id)
 	}
 }
 
-std::shared_ptr<Ray> rayEngine::get_ray_by_index(int index)
-{
-	if(index >= ray_count_ || index < 0)
-	{
-		throw out_of_range();
-	}
 
-	return rays_[index];
-}
 
 
 std::shared_ptr<Ray> rayEngine::get_ray_by_id(int id)
@@ -366,7 +351,7 @@ void rayEngine::save_config(std::string path)
 
 	std::ofstream file(path.c_str());
 	file << "D" << delimeter << detector_->distance_from_source() << delimeter << detector_->sizeX() << delimeter << detector_->sizeY() << delimeter << std::endl;
-	file << "S" << delimeter << sample_->distance_from_source() << delimeter << sample_->sizeX() << delimeter << sample_->sizeY() << delimeter << sample_->rotation << delimeter << std::endl;
+	file << "S" << delimeter << sample_->distance_from_source() << delimeter << sample_->sizeX() << delimeter << sample_->sizeY() << delimeter << sample_->rotation() << delimeter << std::endl;
 
 
 
