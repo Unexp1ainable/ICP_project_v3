@@ -22,6 +22,8 @@ public:
 
 
 private:
+	void load_configuration();
+	void clear_configuration();
 
 	void create_menu();
 	

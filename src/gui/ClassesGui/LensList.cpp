@@ -21,3 +21,4 @@ void LensList::edit_lens(QString label)
 {
 	currentItem()->setText(label);
 }
+

@@ -170,4 +170,11 @@
   <ItemGroup>
     <None Include="ICP_project_v3.pro" />
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="src\gui\meshes\cube.obj" />
+    <Object Include="src\gui\meshes\detector.obj" />
+    <Object Include="src\gui\meshes\lens.obj" />
+    <Object Include="src\gui\meshes\sample.obj" />
+    <Object Include="src\gui\meshes\source.obj" />
+  </ItemGroup>
 </Project>

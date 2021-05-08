@@ -15,7 +15,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	engine_ = engine;
 
 	create_menu();
-	
+
 	auto editor_box = create_lens_editor();
 	auto view_3d_box = create_3d_view();
 	auto selector_box = create_selector();
@@ -41,6 +41,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	setCentralWidget(central_widget);
 	connect_elements();
 
+	load_configuration();
 }
 
 void GuiWindow::create_menu()
@@ -69,7 +70,7 @@ QGroupBox* GuiWindow::create_3d_view()
 	auto s_dist = engine_->get_sample()->distance_from_source();
 	auto s_tilt = engine_->get_sample()->rotation;
 	auto d_dist = engine_->get_detector()->distance_from_source();
-	
+
 	view_3d_ = new SceneViewer(s_dist, s_tilt, d_dist);
 	view_3d_widget_ = view_3d_->get_window_widget();
 
@@ -88,11 +89,9 @@ QGroupBox* GuiWindow::create_lens_editor()
 	e_box->setTitle(tr("Lens editor."));
 
 	editor_ = new LensEditor;
-	// init editor
-	editor_->disable_form();
-	editor_->get_button_edit()->setDisabled(true);
-	editor_->get_button_delete()->setDisabled(true);
 
+	// init editor
+	editor_->mode_default();
 
 	auto vbox = new QVBoxLayout;
 	vbox->addWidget(editor_);
@@ -112,19 +111,6 @@ QGroupBox* GuiWindow::create_selector()
 	layout->addWidget(selector_);
 	s_box->setLayout(layout);
 
-	// initialise items
-	for (int i = 0; i < engine_->lens_count(); i++)
-	{
-		auto lens = engine_->get_lens_by_index(i);
-		auto distance = lens->distance_from_source();
-		auto x_tilt = TO_DEGREES(lens->deviation_x());
-		auto z_tilt = TO_DEGREES(lens->deviation_y());
-		auto id = lens->id();
-		view_3d_->add_lens(distance, x_tilt, z_tilt, id);
-
-		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
-	}
-
 	return s_box;
 }
 
@@ -136,7 +122,6 @@ QGroupBox* GuiWindow::create_misc_editor()
 	QHBoxLayout* vbox = new QHBoxLayout;
 
 	misc_editor_ = new MiscEditor;
-	misc_editor_cancel_slot_(); // it will initialize values from engine
 
 	vbox->addWidget(misc_editor_);
 
@@ -153,8 +138,8 @@ QGroupBox* GuiWindow::create_sample_info()
 
 	QHBoxLayout* vbox = new QHBoxLayout;
 	auto a = new SurfaceInfoPanel;
-	
-	
+
+
 	vbox->addWidget(a);
 
 	i_box->setLayout(vbox);
@@ -178,6 +163,43 @@ QGroupBox* GuiWindow::create_detector_info()
 	return i_box;
 }
 
+void GuiWindow::clear_configuration()
+{
+	
+	misc_editor_->default_mode();
+}
+
+
+void GuiWindow::load_configuration()
+{
+	// clear
+	view_3d_->clear_lenses();
+	selector_->clear();
+	
+	// lenses
+	for (int i = 0; i < engine_->lens_count(); i++)
+	{
+		auto lens = engine_->get_lens_by_index(i);
+		auto distance = lens->distance_from_source();
+		auto x_tilt = TO_DEGREES(lens->deviation_x());
+		auto z_tilt = TO_DEGREES(lens->deviation_y());
+		auto id = lens->id();
+		view_3d_->add_lens(distance, x_tilt, z_tilt, id);
+
+		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
+	}
+
+	// detector and sample
+	misc_editor_cancel_slot_(); // it will initialize values from engine
+
+	// misc editor
+	misc_editor_->default_mode();
+
+	//infopanels
+
+
+}
+
 
 void GuiWindow::connect_elements()
 {
@@ -187,7 +209,9 @@ void GuiWindow::connect_elements()
 	// connect button new
 	connect(editor_->get_button_new(), &QPushButton::clicked, this, &GuiWindow::mode_new_slot);
 	// connect button edit
-	connect(editor_->get_button_edit(), &QPushButton::clicked, this, &GuiWindow::mode_edit_slot);
+	connect(editor_->get_button_edit(), &QPushButton::clicked, this, &GuiWindow::mode_edit_slot); //infopanels
+
+	// 3d view;
 	// connect button delete
 	connect(editor_->get_button_delete(), &QPushButton::clicked, this, &GuiWindow::delete_slot);
 	// connect button cancel
@@ -215,8 +239,9 @@ void GuiWindow::open_file_slot()
 
 	if (fileName.compare("") == 0)
 		return;
-	
+
 	engine_->load_config(fileName.toStdString());
+	load_configuration();
 }
 
 void GuiWindow::save_file_slot()
@@ -389,7 +414,7 @@ void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double dis
 	// TODO not good
 	engine_->get_sample()->rotation = y_tilt;
 	//engine_->set_number_rays(rays_n);
-	
+
 	// 3dview
 	view_3d_->edit_sample(distance_s, y_tilt);
 	view_3d_->edit_detector(distance_d);

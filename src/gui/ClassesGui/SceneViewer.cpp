@@ -114,7 +114,8 @@ Qt3DCore::QEntity* SceneViewer::create_scene(float s_distance, float s_tilt, flo
 void SceneViewer::add_lens(float distance, float x_tilt, float z_tilt, int id)
 {
 	auto lens = new Lens3D{ root_entity_, distance,x_tilt, z_tilt };
-	lenses_.emplace(id, lens);
+	//lenses_.emplace(id, lens);
+	lenses_[id] = lens;
 }
 
 void SceneViewer::edit_lens(int id, float x_tilt, float z_tilt, float distance)
@@ -135,7 +136,9 @@ void SceneViewer::edit_lens(int id, float x_tilt, float z_tilt, float distance)
 
 void SceneViewer::remove_lens(int id)
 {
+	set_active(0);
 	auto lens = lenses_[id];
+	lenses_.erase(lenses_.find(id));
 	delete lens;
 }
 
@@ -167,3 +170,14 @@ void SceneViewer::edit_detector(float distance)
 	detector_->get_transform()->setTranslation(QVector3D(0., -distance, 0.)); // -distance
 }
 
+void SceneViewer::clear_lenses()
+{
+	if (lenses_.empty())
+		return;
+	
+	for (auto& lens : lenses_)
+	{
+		delete lens.second;
+	}
+	lenses_.clear();
+}
