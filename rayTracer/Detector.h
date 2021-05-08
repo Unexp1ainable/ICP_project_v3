@@ -1,8 +1,6 @@
 #pragma once
 
 #include <memory>
-
-#include "Point.h"
 #include "AxisObject.h"
 #include <cmath>
 
@@ -13,7 +11,7 @@ private:
 	double sizeX_ = 10;
 	double sizeY_ = 10;
 public:
-	Detector(double distance)
+	explicit Detector(double distance)
 	{
 		distance_from_source_ = distance;
 	}

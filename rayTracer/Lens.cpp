@@ -1,16 +1,10 @@
 #include "Lens.h"
-#include <cmath>
-#include <iostream>
 
-#include <utility>
-
-
-
-Lens::Lens(double distanceFromSource, double radius, double opticalPower, int id, double deviationX, double deviationY, std::string name)
+Lens::Lens(double distance_from_source, double radius, double optical_power, int id, double deviationX, double deviationY, std::string name)
 {
 	double pi2 = acos(0.0);
 	
-	if(opticalPower == 0)
+	if(optical_power == 0)
 	{
 		throw invalid_optical_power();
 	}
@@ -27,53 +21,13 @@ Lens::Lens(double distanceFromSource, double radius, double opticalPower, int id
 	}
 
 	id_ = id;
-	distance_from_source_ = distanceFromSource;
+	distance_from_source_ = distance_from_source;
 	radius_ = radius;
-	optical_power_ = opticalPower;
-	focal_length_ = 1.0 / opticalPower;
+	optical_power_ = optical_power;
+	focal_length_ = 1.0 / optical_power;
 	deviation_[0] = deviationX;
 	deviation_[1] = deviationY;
 	name_ = name;
-}
-
-void Lens::set_radius(double radius)
-{
-	if(radius <= 0)
-	{
-		throw invalid_radius();
-	}
-
-	this->radius_ = radius;
-}
-
-void Lens::set_optical_power(double opticalPower)
-{
-	if(opticalPower == 0)
-	{
-		throw invalid_optical_power();
-	}
-	optical_power_ = opticalPower;
-	focal_length_ = 1.0 / opticalPower;
-}
-
-void Lens::set_deviationX(double deviation)
-{
-	if(abs(deviation) >= acos(0.0))
-	{
-		throw invalid_deviation();
-	}
-
-	deviation_[0] = deviation;
-}
-
-void Lens::set_deviationY(double deviation)
-{
-	if(abs(deviation) >= acos(0.0))
-	{
-		throw invalid_deviation();
-	}
-	
-	deviation_[1] = deviation;
 }
 
 
@@ -85,7 +39,7 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 		double distances[2] = { 0,0 };
 		double const pi = 2 * acos(0.0);
 		double const pi2 = acos(0.0);
-		std::cout.precision(17);
+		
 
 
 		for(int i = 0; i < 2; i++) //najprv sa spocita prienik paprsku po osi X, potom po osi Y
@@ -159,7 +113,3 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 	}
 }
 
-void Lens::set_name(std::string name)
-{
-	name_ = name;
-}
