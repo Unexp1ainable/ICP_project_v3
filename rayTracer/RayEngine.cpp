@@ -232,6 +232,7 @@ bool rayEngine::position_valid_detector(double distance)
 
 void rayEngine::init_rays(double radius, int count)
 {
+	clear_rays();
 	double _2pi = 4 * acos(0.0);
 
 	double rotation_angle = _2pi / count;
@@ -373,7 +374,7 @@ void rayEngine::save_config(std::string path)
 		throw file_cannot_be_opened();
 	}
 
-	std::cout << "LENS COUNT: " << lens_count_ << std::endl;
+	
 	
 	for(int i = 0; i<lens_count_;i++)
 	{
