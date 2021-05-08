@@ -9,7 +9,6 @@
 #include "src/gui/Classes3D/Lens3D.h"
 #include "src/gui/Classes3D/Line3D.h"
 #include "src/gui/Classes3D/Source3D.h"
-#include "src/common/macros.h"
 #include "src/gui/Classes3D/Detector3D.h"
 #include "src/gui/Classes3D/Sample3D.h"
 #include "src/gui/commonGui/Scene.h"
@@ -171,10 +170,7 @@ void SceneViewer::edit_detector(float distance)
 }
 
 void SceneViewer::clear_lenses()
-{
-	if (lenses_.empty())
-		return;
-	
+{	
 	for (auto& lens : lenses_)
 	{
 		delete lens.second;

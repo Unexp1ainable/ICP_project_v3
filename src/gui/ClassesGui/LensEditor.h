@@ -18,9 +18,13 @@ public:
 	/**
 	 * Load data from lens to editable fields.
 	 * 
-	 * \param lens Data to load
+	 * @param name
+	 * @param tilt_x
+	 * @param tilt_z
+	 * @param o_power
+	 * @param distance
 	 */
-	void load_lens(std::shared_ptr<Lens> lens);
+	void load_lens(std::string name, double tilt_x, double tilt_z, double o_power, double distance);
 
 	QPushButton* get_button_new() const;
 	QPushButton* get_button_edit() const;

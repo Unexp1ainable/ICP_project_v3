@@ -56,21 +56,21 @@ LensEditor::LensEditor()
 
 
 
-void LensEditor::load_lens(std::shared_ptr<Lens> lens)
+void LensEditor::load_lens(std::string name, double tilt_x, double tilt_z, double o_power, double distance)
 {
-	name_->setText(QString::fromStdString(lens->name()));
+	name_->setText(QString::fromStdString(name));
 	name_->setDisabled(true);
 	
-	tilt_x_->setValue(TO_DEGREES(lens->deviation_x()));
+	tilt_x_->setValue(tilt_x);
 	tilt_x_->setDisabled(true);
 	
-	tilt_z_->setValue(TO_DEGREES(lens->deviation_y()));
+	tilt_z_->setValue(tilt_z);
 	tilt_z_->setDisabled(true);
 
-	optical_power_->setValue(lens->optical_power());
+	optical_power_->setValue(o_power);
 	optical_power_->setDisabled(true);
 
-	distance_->setValue(lens->distance_from_source());
+	distance_->setValue(distance);
 	distance_->setDisabled(true);
 }
 

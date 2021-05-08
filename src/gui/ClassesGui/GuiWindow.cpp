@@ -67,9 +67,9 @@ void GuiWindow::create_menu()
 
 QGroupBox* GuiWindow::create_3d_view()
 {
-	auto s_dist = engine_->get_sample()->distance_from_source();
-	auto s_tilt = engine_->get_sample()->rotation;
-	auto d_dist = engine_->get_detector()->distance_from_source();
+	auto s_dist = engine_->get_sample_distance_from_source();
+	auto s_tilt = engine_->get_sample_rotation();
+	auto d_dist = engine_->get_detector_distance_from_source();
 
 	view_3d_ = new SceneViewer(s_dist, s_tilt, d_dist);
 	view_3d_widget_ = view_3d_->get_window_widget();
@@ -179,24 +179,23 @@ void GuiWindow::load_configuration()
 	// lenses
 	for (int i = 0; i < engine_->lens_count(); i++)
 	{
-		auto lens = engine_->get_lens_by_index(i);
-		auto distance = lens->distance_from_source();
-		auto x_tilt = TO_DEGREES(lens->deviation_x());
-		auto z_tilt = TO_DEGREES(lens->deviation_y());
-		auto id = lens->id();
+		auto id = engine_->lens_index_to_id(i);
+		auto distance = engine_->get_lens_distance_from_source(id);
+		auto x_tilt = TO_DEGREES(engine_->get_lens_deviation_x(id));
+		auto z_tilt = TO_DEGREES(engine_->get_lens_deviation_y(id));
+		
 		view_3d_->add_lens(distance, x_tilt, z_tilt, id);
-
-		selector_->addItem(new LensListItem{ lens->id(), QString::fromStdString(lens->name()) });
+		selector_->addItem(new LensListItem{ id, QString::fromStdString(engine_->get_lens_name(id)) });
 	}
 
 	// detector and sample
-	misc_editor_cancel_slot_(); // it will initialize values from engine
+	misc_editor_cancel_slot_(); // it will initialize values from the engine
 
 	// misc editor
 	misc_editor_->default_mode();
 
 	//infopanels
-
+	// TODO
 
 }
 
@@ -259,16 +258,21 @@ void GuiWindow::save_file_slot()
 void GuiWindow::selection_changed_slot(QListWidgetItem* item)
 {
 	auto lens_item = dynamic_cast<LensListItem*>(item);	// casting back so I can access id
-	auto lens_id = lens_item->getId();
+	auto id = lens_item->getId();
 
-	auto to_load = engine_->get_lens_by_id(lens_id);
-	editor_->load_lens(to_load);
+	auto name = engine_->get_lens_name(id);
+	auto distance = engine_->get_lens_distance_from_source(id);
+	auto x_tilt = TO_DEGREES(engine_->get_lens_deviation_x(id));
+	auto z_tilt = TO_DEGREES(engine_->get_lens_deviation_y(id));
+	auto o_power = engine_->get_lens_optical_power(id);
+	
+	editor_->load_lens(name, x_tilt, z_tilt, o_power, distance);
 
 	// enable buttons
 	editor_->get_button_edit()->setDisabled(false);
 	editor_->get_button_delete()->setDisabled(false);
 
-	view_3d_->set_active(lens_id);
+	view_3d_->set_active(id);
 }
 
 void GuiWindow::mode_new_slot()
@@ -357,14 +361,11 @@ void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distan
 	auto std_name = name.toStdString();
 
 	// edit engine
-	auto lens = engine_->get_lens_by_id(id);
-
-	lens->set_name(name.toStdString());
-
 	engine_->set_lens_distance_from_source(id, distance);
-	lens->set_optical_power(optical_power);
-	lens->set_deviationX(TO_RADIANS(x_tilt));
-	lens->set_deviationY(TO_RADIANS(z_tilt));
+	engine_->set_lens_optical_power(id, optical_power);
+	engine_->set_lens_deviation_x(id, TO_RADIANS(x_tilt));
+	engine_->set_lens_deviation_y(id, TO_RADIANS(z_tilt));
+	engine_->set_lens_name(id, name.toStdString());
 
 	// edit list
 	selector_->edit_lens(name);
@@ -382,11 +383,11 @@ void GuiWindow::misc_editor_edit_slot_()
 void GuiWindow::misc_editor_cancel_slot_()
 {
 	// TODO load conf
-	auto sample = engine_->get_sample();
 	auto rays_n = engine_->ray_count();
-	auto s_distance = sample->distance_from_source();
-	auto s_tilt_y = engine_->get_sample()->rotation;
-	auto d_distance = engine_->get_detector()->distance_from_source();
+	auto s_distance = engine_->get_sample_distance_from_source();
+	auto s_tilt_y = engine_->get_sample_rotation();
+	auto d_distance = engine_->get_detector_distance_from_source();
+	
 	misc_editor_->set_configuration(rays_n, s_tilt_y, s_distance, d_distance);
 	misc_editor_->default_mode();
 }
@@ -411,9 +412,12 @@ void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double dis
 		error_slot("Detector position is invalid.");
 		return;
 	}
-	// TODO not good
-	engine_->get_sample()->rotation = y_tilt;
-	//engine_->set_number_rays(rays_n);
+	
+	engine_->set_sample_rotation(y_tilt);
+
+	//TODO change magic number
+	engine_->init_rays(1., 10);
+	
 
 	// 3dview
 	view_3d_->edit_sample(distance_s, y_tilt);
