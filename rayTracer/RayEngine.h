@@ -54,6 +54,8 @@ public:
 
 
 	//lens methods
+	
+	
 	double get_lens_distance_from_source(int id) { return get_lens_by_id(id)->distance_from_source(); }
 	double get_lens_optical_power(int id) { return get_lens_by_id(id)->optical_power(); }
 	double get_lens_radius(int id) { return get_lens_by_id(id)->radius(); }
@@ -78,6 +80,16 @@ public:
 		lens_id_ = 1;
 		lens_count_ = 0;
 		lenses_.clear();
+	}
+	
+	int lens_index_to_id(int index)
+	{
+		if(index < 0 || index >= lens_count_)
+		{
+			throw out_of_range();
+		}
+
+		return lenses_[index]->id();
 	}
 
 	
@@ -157,5 +169,6 @@ public:
 	class file_cannot_be_opened{};
 	class invalid_save_file{};
 	class id_not_found{};
+	
 };
 
