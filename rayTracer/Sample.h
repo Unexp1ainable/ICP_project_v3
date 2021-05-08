@@ -1,6 +1,8 @@
 #pragma once
 
+#include <memory>
 #include "AxisObject.h"
+#include "Point.h"
 class Sample :
     public Axis_object
 {
@@ -9,20 +11,22 @@ private:
 	double sizeY_ = 10;
 public:
 
-	Sample()
+	Sample(double distance)
 	{
-		distance_from_source_ = 10;
+		distance_from_source_ = distance;
 	}
 	
-	double rotationX = 0;
-	double rotationY = 0;
-
-	double positionX = 0;
-	double postitionY = 0;
+	double rotation = 0;
 
 	double sizeX() const { return sizeX_; }
 	double sizeY()const { return sizeY_; }
+	double get_rotation()const { return rotation; }
 
+	void set_rotation(double rotation)
+	{
+		this->rotation = rotation;
+	}
+	
 	void set_sizeX(double size)
 	{
 		if(size <= 1)
@@ -45,6 +49,7 @@ public:
 		}
 	}
 
+	bool calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
 
 	//exceptions
 	class invalid_size{};

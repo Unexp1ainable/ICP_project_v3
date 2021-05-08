@@ -161,6 +161,12 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\gui\ClassesGui\MiscEditor.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\ShapeViewer.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Base3D.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Detector3D.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Sample3D.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Source3D.cpp" />
     <ClCompile Include="src\gui\ClassesGui\LensListItem.cpp" />
     <ClCompile Include="src\gui\ClassesGui\SceneViewer.cpp" />
     <ClCompile Include="src\gui\ClassesGui\LensList.cpp" />
@@ -171,10 +177,11 @@
     <ClCompile Include="rayTracer\RayEngine.cpp" />
     <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\gui\Classes3D\GuiLens.cpp" />
-    <ClCompile Include="src\gui\Classes3D\Line.cpp" />
-    <ClCompile Include="src\gui\common\Scene.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Lens3D.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Line3D.cpp" />
+    <ClCompile Include="src\gui\commonGui\Scene.cpp" />
     <ClCompile Include="src\gui\MainGui.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\SurfaceInfoPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -195,8 +202,15 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\gui\ClassesGui\SurfaceInfoPanel.h" />
     <QtMoc Include="src\gui\ClassesGui\GuiWindow.h" />
     <QtMoc Include="src\gui\ClassesGui\LensList.h" />
+    <QtMoc Include="src\gui\ClassesGui\MiscEditor.h" />
+    <QtMoc Include="src\gui\ClassesGui\ShapeViewer.h" />
+    <ClInclude Include="src\gui\Classes3D\Base3D.h" />
+    <ClInclude Include="src\gui\Classes3D\Detector3D.h" />
+    <ClInclude Include="src\gui\Classes3D\Sample3D.h" />
+    <ClInclude Include="src\gui\Classes3D\Source3D.h" />
     <ClInclude Include="src\gui\ClassesGui\LensListItem.h" />
     <QtMoc Include="src\gui\ClassesGui\SceneViewer.h" />
     <QtMoc Include="src\gui\ClassesGui\LensEditor.h" />
@@ -206,11 +220,14 @@
     <ClInclude Include="rayTracer\Ray.h" />
     <ClInclude Include="rayTracer\RayEngine.h" />
     <ClInclude Include="rayTracer\Sample.h" />
-    <ClInclude Include="src\gui\Classes3D\GuiLens.h" />
-    <ClInclude Include="src\gui\Classes3D\Line.h" />
-    <ClInclude Include="src\gui\common\macros.h" />
-    <ClInclude Include="src\gui\common\Scene.h" />
+    <ClInclude Include="src\gui\Classes3D\Lens3D.h" />
+    <ClInclude Include="src\gui\Classes3D\Line3D.h" />
+    <ClInclude Include="src\common\macros.h" />
+    <ClInclude Include="src\gui\commonGui\Scene.h" />
     <ClInclude Include="src\gui\MainGui.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ICP_project_v3.pro" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -25,12 +25,6 @@
     <ClCompile Include="src\gui\MainGui.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\common\Scene.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\Classes3D\Line.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -41,9 +35,6 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="rayTracer\RayEngine.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gui\Classes3D\GuiLens.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="rayTracer\Lens.cpp">
@@ -61,6 +52,36 @@
     <ClCompile Include="src\gui\ClassesGui\LensListItem.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\Classes3D\Lens3D.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Classes3D\Line3D.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Classes3D\Source3D.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Classes3D\Sample3D.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Classes3D\Detector3D.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\commonGui\Scene.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Classes3D\Base3D.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\ShapeViewer.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\MiscEditor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\ClassesGui\SurfaceInfoPanel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -72,12 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gui\MainGui.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\common\Scene.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\Classes3D\Line.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="rayTracer\AxisObject.h">
@@ -95,16 +110,37 @@
     <ClInclude Include="rayTracer\Sample.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\Classes3D\GuiLens.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="rayTracer\Lens.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\ClassesGui\LensListItem.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\common\macros.h">
+    <ClInclude Include="src\gui\Classes3D\Lens3D.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Classes3D\Line3D.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Classes3D\Source3D.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Classes3D\Sample3D.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Classes3D\Detector3D.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\commonGui\Scene.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\macros.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Classes3D\Base3D.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\ClassesGui\SurfaceInfoPanel.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -121,5 +157,14 @@
     <QtMoc Include="src\gui\ClassesGui\SceneViewer.h">
       <Filter>Generated Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\gui\ClassesGui\MiscEditor.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\gui\ClassesGui\ShapeViewer.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ICP_project_v3.pro" />
   </ItemGroup>
 </Project>

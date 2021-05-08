@@ -3,7 +3,7 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 
-#include "src/gui/common/macros.h"
+#include "src/common/macros.h"
 
 
 LensEditor::LensEditor()

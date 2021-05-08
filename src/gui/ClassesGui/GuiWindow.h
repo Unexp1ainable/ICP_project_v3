@@ -6,6 +6,7 @@
 #include "LensEditor.h"
 #include "LensList.h"
 #include "LensListItem.h"
+#include "MiscEditor.h"
 #include "SceneViewer.h"
 #include "rayTracer/RayEngine.h"
 
@@ -31,7 +32,7 @@ private:
 	 * Creates lens editing part of the window.
 	 * Reference will be stored in editor_
 	 */
-	QGroupBox* create_editor();
+	QGroupBox* create_lens_editor();
 
 	/**
 	 * Creates part of the window with all lenses listed.
@@ -39,31 +40,50 @@ private:
 	 */
 	QGroupBox* create_selector();
 
+	QGroupBox* create_misc_editor();
+
 	/**
-	 * Creates informative part of the window.
-	 * Reference will be stored in info_
+	 * TODO
 	 */
-	QGroupBox* create_info();
+	QGroupBox* create_sample_info();
+
+	
+	QGroupBox* create_detector_info();
 
 	/**
 	 * Connects signals and slots 
 	 */
 	void connect_elements();
 
+	/**
+	 * @brief This function is called when an existing lens is being edited. It sends signal to all necessary parts to edit their contents.
+	 * 
+	 * @param name Name of the lens
+	 * @param x_tilt Tilt on the x axis
+	 * @param z_tilt Tilt on the z axis
+	 * @param distance Distance from source
+	 * @param optical_power Optical power of the lens
+	 * @param id Id of the lens that is being edited
+	*/
 	void edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id);
+
+	
 	void create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
 
 	QWidget* view_3d_widget_;
 	SceneViewer* view_3d_;
 	LensList* selector_;
 	LensEditor* editor_;
-	QGroupBox* info_;
+	MiscEditor* misc_editor_;
+	QGroupBox* sample_info_;
+	QGroupBox* detector_info_;
 	QWidget *central_widget_;
 	rayEngine *engine_;
 
 	QGridLayout *main_layout_;
 
 	bool editing_ = false;
+	
 
 private slots:
 	void selection_changed_slot(QListWidgetItem* item);
@@ -72,6 +92,10 @@ private slots:
 	void delete_slot();
 	void save_slot(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
 	void cancel_slot();
+
+	void misc_editor_edit_slot_();
+	void misc_editor_cancel_slot_();
+	void misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d);
 
 	void error_slot(std::string error);
 };

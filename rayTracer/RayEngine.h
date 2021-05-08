@@ -2,31 +2,55 @@
 
 #include <vector>
 #include <memory>
+#include <cmath>
+#include <iostream>
+#include <fstream>
+#include "RayPath.h"
+#include "Point.h"
 #include "Lens.h"
 #include "Ray.h"
 #include "Sample.h"
 #include "Detector.h"
 
+#define MIN_DISTANCE 0.11
+#define EDGE_DISTANCE 50
+
 class rayEngine
 {
 private:
 	int lens_count_ = 0;
+	double border_distance_ = 50;
 	int lens_id_ = 1;
 	int ray_count_ = 0;
 	int ray_id_ = 1;
+	std::vector<std::vector<std::shared_ptr<Point>>> ray_points_;
+	std::vector<std::shared_ptr<Point>> sample_intersect_;
+	std::vector<std::shared_ptr<Point>> detector_intersect_;
+	double source_radius_ = 0.5;
 	std::shared_ptr<Sample> sample_;
 	std::shared_ptr<Detector> detector_;
 	std::vector<std::shared_ptr<Lens>> lenses_;
 	std::vector<std::shared_ptr<Ray>> rays_;
 	void insert_lens(const std::shared_ptr<Lens>& lens);
+	void cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
 
 public:
 
-	rayEngine()
+	rayEngine(double sample_distance, double detector_distance, double edge_distance)
 	{
-		sample_ = std::make_shared<Sample>();
-		detector_ = std::make_shared<Detector>();
+		if(detector_distance - sample_distance < MIN_DISTANCE || edge_distance - detector_distance < MIN_DISTANCE || edge_distance <= 0)
+		{
+			throw invalid_distance();
+		}
+		
+		sample_ = std::make_shared<Sample>(sample_distance);
+		detector_ = std::make_shared<Detector>(detector_distance);
+		border_distance_ = edge_distance;
 	}
+
+	std::vector<std::vector<std::shared_ptr<Point>>> get_ray_points()const { return ray_points_; }
+	std::vector<std::shared_ptr<Point>> get_sample_intersect()const { return sample_intersect_; }
+	std::vector<std::shared_ptr<Point>> get_detector_intersect(){ return detector_intersect_; }
 	
 	std::shared_ptr<Lens> get_lens_by_index(int index);
 	std::shared_ptr<Lens> get_lens_by_id(int id);
@@ -35,15 +59,25 @@ public:
 	void remove_lens(int id);
 	void set_lens_distance_from_source(int id, double distance);
 	bool position_valid_lens(double distance, int id);
-	
+	void clear_lenses()
+	{
+		lens_count_ = 0;
+		lenses_.clear();
+	}
 	
 	
 
 	std::shared_ptr<Ray> get_ray_by_id(int id);
 	std::shared_ptr<Ray> get_ray_by_index(int index);
 	int ray_count() const { return ray_count_; }
-	int add_ray(double angleX, double angleY, double positionX, double positionY, double source_distance);
+	int add_ray(double positionX, double positionY, double angleX, double angleY);
 	void remove_ray(int id);
+	void init_rays(double radius, int count);
+	void clear_rays()
+	{
+		ray_count_ = 0;
+		rays_.clear();
+	}
 
 	std::shared_ptr<Sample> get_sample() const { return sample_; }
 	bool position_valid_sample(double distance);
@@ -53,10 +87,30 @@ public:
 	bool position_valid_detector(double distance);
 	void set_detector_distance_from_source(double distance);
 
-	double* pass_rays();
+	void save_config(std::string path);
+	void load_config(std::string path); 
+		
+	double edge_distance() const
+	{
+		return border_distance_;
+	}
+
+	void set_edge_distance(double distance)
+	{
+		if(border_distance_ - detector_->distance_from_source() < MIN_DISTANCE)
+		{
+			throw invalid_distance();
+		}
+
+		border_distance_ = distance;
+	}
+
+	void update();
 
 	//exceptions
 	class out_of_range{};
 	class invalid_distance {};
+	class file_cannot_be_opened{};
+	class invalid_save_file{};
 };
 
