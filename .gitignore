@@ -405,3 +405,11 @@ build
 
 *.vcxproj
 *.vcxproj.filters
+moc_GuiWindow.cpp
+moc_LensEditor.cpp
+moc_LensList.cpp
+moc_MiscEditor.cpp
+moc_predefs.h
+moc_SceneViewer.cpp
+moc_ShapeViewer.cpp
+uic_wrapper.sh
