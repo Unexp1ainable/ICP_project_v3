@@ -16,15 +16,19 @@ LensEditor::LensEditor()
 	form_layout->addRow(new QLabel(tr("Name")), name_);
 	// tilt X
 	tilt_x_ = new QDoubleSpinBox;
+	tilt_x_->setRange(-90.0, 90.0);
 	form_layout->addRow(new QLabel(tr("Tilt X:")), tilt_x_);
 	// tilt Z
 	tilt_z_ = new QDoubleSpinBox;
+	tilt_z_->setRange(-90.0, 90.0);
 	form_layout->addRow(new QLabel(tr("Tilt Y:")), tilt_z_);
 	// optical power
 	optical_power_ = new QDoubleSpinBox;
+	optical_power_->setRange(.0, 1000.0);
 	form_layout->addRow(new QLabel(tr("Optical power:")), optical_power_);
 	// distance from source
 	distance_ = new QDoubleSpinBox;
+	optical_power_->setRange(.0, 1000.0);
 	form_layout->addRow(new QLabel(tr("Distance:")), distance_);
 
 	// buttons

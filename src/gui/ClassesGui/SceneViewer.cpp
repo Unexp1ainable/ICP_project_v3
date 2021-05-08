@@ -14,8 +14,8 @@
 #include "src/gui/commonGui/Scene.h"
 
 
-SceneViewer::SceneViewer(float s_distance, float s_tilt, float d_distance)
-{
+SceneViewer::SceneViewer(rayEngine* engine)
+{	
 	// 3D view
 	window_ = new Qt3DExtras::Qt3DWindow;
 	window_->defaultFrameGraph()->setClearColor(Scene::bg_color);
@@ -24,15 +24,13 @@ SceneViewer::SceneViewer(float s_distance, float s_tilt, float d_distance)
 	window_widget_ = createWindowContainer(window_);
 	
 	// 3D root entity
-	root_entity_ = create_scene(s_distance, s_tilt, d_distance);
-
+	root_entity_ = create_scene(engine);
 
 	// world axes
 	Line3D{ QVector3D(0.0f,0.0f,0.0f), QVector3D(100.0f,0.0f,0.0f),QColor(255,0,0), root_entity_ };
 	Line3D{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,100.0f,0.0f),QColor(0,255,0), root_entity_ };
-	Line3D{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,0.0f,100.0f),QColor(0,0,255), root_entity_ };
-
-
+	auto a = new Line3D{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,0.0f,100.0f),QColor(0,0,255), root_entity_ };
+	delete a;// TODO
 	add_camera(*window_, root_entity_);
 	window_->setRootEntity(root_entity_);
 }
@@ -89,8 +87,12 @@ Qt3DCore::QEntity* SceneViewer::add_light(const QVector3D position, Qt3DCore::QN
 	return light_entity;
 }
 
-Qt3DCore::QEntity* SceneViewer::create_scene(float s_distance, float s_tilt, float d_distance)
+Qt3DCore::QEntity* SceneViewer::create_scene(rayEngine* engine)
 {
+	auto s_distance = engine->get_sample_distance_from_source();
+	auto s_tilt = engine->get_sample_rotation();
+	auto d_distance = engine->get_detector_distance_from_source();
+	
 	const auto result_entity = new Qt3DCore::QEntity;
 
 	// lights
@@ -98,14 +100,11 @@ Qt3DCore::QEntity* SceneViewer::create_scene(float s_distance, float s_tilt, flo
 	add_light(QVector3D(0.0f, -20.0f, -30.0f), result_entity);
 	add_light(QVector3D(40.0f, -20.0f, -30.0f), result_entity);
 
-	// electron source
+	// components
 	source_ = new Source3D{ result_entity };
-
-	// sample
-	sample_ = new Sample3D{ result_entity, s_distance, s_tilt}; // placeholder value, will be changed on global init
-
-	//
-	detector_ = new Detector3D{ result_entity, d_distance }; // TODO ^ < magic numbers
+	sample_ = new Sample3D{ result_entity, s_distance, s_tilt}; 
+	detector_ = new Detector3D{ result_entity, d_distance };
+	ray_cluster_ = new RayCluster3D{ result_entity,engine->get_ray_points()};
 	
 	return result_entity;
 }
@@ -176,4 +175,10 @@ void SceneViewer::clear_lenses()
 		delete lens.second;
 	}
 	lenses_.clear();
+}
+
+void SceneViewer::update(vector<vector<std::shared_ptr<Point>>> rays)
+{
+	delete ray_cluster_;
+	ray_cluster_ = new RayCluster3D{ root_entity_, rays };
 }

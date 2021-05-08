@@ -3,12 +3,12 @@
 
 #include "rayTracer/Lens.h"
 
-class LensList : public QListWidget
+class LensSelector : public QListWidget
 {
 	Q_OBJECT
 
 public:
-	LensList();
+	LensSelector();
 
 	void add_lens(int id, QString label);
 	void edit_lens(QString label);

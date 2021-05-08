@@ -20,6 +20,6 @@ public:
 	 * @param root_entity Root entity of created lens
 	 * @param distance Distance from electron gun on Y axis
 	 */
-	Detector3D(Qt3DCore::QEntity* root_entity, float distance);
+	Detector3D(Qt3DCore::QEntity* root_entity, double distance);
 };
 

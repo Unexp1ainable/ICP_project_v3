@@ -4,8 +4,8 @@
 #include <QtWidgets>
 
 #include "LensEditor.h"
-#include "LensList.h"
-#include "LensListItem.h"
+#include "LensSelector.h"
+#include "LensSelectorItem.h"
 #include "MiscEditor.h"
 #include "SceneViewer.h"
 #include "rayTracer/RayEngine.h"
@@ -75,9 +75,11 @@ private:
 	
 	void create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
 
+	void update();
+	
 	QWidget* view_3d_widget_;
 	SceneViewer* view_3d_;
-	LensList* selector_;
+	LensSelector* selector_;
 	LensEditor* editor_;
 	MiscEditor* misc_editor_;
 	QGroupBox* sample_info_;

@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "LensEditor.h"
-#include "LensListItem.h"
+#include "LensSelectorItem.h"
 #include "MiscEditor.h"
 #include "SceneViewer.h"
 #include "ShapeViewer.h"
@@ -13,7 +13,9 @@
 GuiWindow::GuiWindow(rayEngine* engine)
 {
 	engine_ = engine;
-
+	engine_->init_rays(1, 10);
+	engine_->update();
+	
 	create_menu();
 
 	auto editor_box = create_lens_editor();
@@ -39,6 +41,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	auto central_widget = new QWidget(this);
 	central_widget->setLayout(main_layout_);
 	setCentralWidget(central_widget);
+	
 	connect_elements();
 
 	load_configuration();
@@ -47,7 +50,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 void GuiWindow::create_menu()
 {
 	const QIcon openIcon = QIcon::fromTheme("document-open", QIcon(":/images/open.png"));
-	QAction* load_act = new QAction(openIcon, tr("&Open..."), this);
+	QAction* load_act = new QAction(openIcon, tr("&Load..."), this);
 	load_act->setShortcuts(QKeySequence::Open);
 	load_act->setStatusTip(tr("Open an existing file"));
 
@@ -67,13 +70,9 @@ void GuiWindow::create_menu()
 
 QGroupBox* GuiWindow::create_3d_view()
 {
-	auto s_dist = engine_->get_sample_distance_from_source();
-	auto s_tilt = engine_->get_sample_rotation();
-	auto d_dist = engine_->get_detector_distance_from_source();
-
-	view_3d_ = new SceneViewer(s_dist, s_tilt, d_dist);
+	view_3d_ = new SceneViewer(engine_);
 	view_3d_widget_ = view_3d_->get_window_widget();
-
+	
 	auto layout = new QBoxLayout{ QBoxLayout::BottomToTop };
 
 	auto view_3d_box = new QGroupBox;
@@ -105,7 +104,7 @@ QGroupBox* GuiWindow::create_selector()
 	auto s_box = new QGroupBox;
 	s_box->setTitle(tr("Lens selector."));
 
-	selector_ = new LensList;
+	selector_ = new LensSelector;
 	auto* layout = new QGridLayout;
 
 	layout->addWidget(selector_);
@@ -165,16 +164,16 @@ QGroupBox* GuiWindow::create_detector_info()
 
 void GuiWindow::clear_configuration()
 {
-	
 	misc_editor_->default_mode();
+	view_3d_->clear_lenses();
+	selector_->clear();
 }
 
 
 void GuiWindow::load_configuration()
 {
 	// clear
-	view_3d_->clear_lenses();
-	selector_->clear();
+	clear_configuration();
 	
 	// lenses
 	for (int i = 0; i < engine_->lens_count(); i++)
@@ -185,7 +184,7 @@ void GuiWindow::load_configuration()
 		auto z_tilt = TO_DEGREES(engine_->get_lens_deviation_y(id));
 		
 		view_3d_->add_lens(distance, x_tilt, z_tilt, id);
-		selector_->addItem(new LensListItem{ id, QString::fromStdString(engine_->get_lens_name(id)) });
+		selector_->addItem(new LensSelectorItem{ id, QString::fromStdString(engine_->get_lens_name(id)) });
 	}
 
 	// detector and sample
@@ -257,7 +256,7 @@ void GuiWindow::save_file_slot()
 
 void GuiWindow::selection_changed_slot(QListWidgetItem* item)
 {
-	auto lens_item = dynamic_cast<LensListItem*>(item);	// casting back so I can access id
+	auto lens_item = dynamic_cast<LensSelectorItem*>(item);	// casting back so I can access id
 	auto id = lens_item->getId();
 
 	auto name = engine_->get_lens_name(id);
@@ -288,11 +287,12 @@ void GuiWindow::mode_edit_slot()
 	editing_ = true;
 	editor_->mode_edit();
 	selector_->setDisabled(true);
+	update();
 }
 
 void GuiWindow::delete_slot()
 {
-	auto item = dynamic_cast<LensListItem*>(selector_->currentItem());
+	auto item = dynamic_cast<LensSelectorItem*>(selector_->currentItem());
 	auto id = item->getId();
 
 	// engine
@@ -307,6 +307,7 @@ void GuiWindow::delete_slot()
 	// editor
 	editor_->mode_default();
 
+	update();
 }
 
 
@@ -314,7 +315,7 @@ void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distan
 {
 	if (editing_)
 	{
-		auto item = dynamic_cast<LensListItem*>(selector_->currentItem());
+		auto item = dynamic_cast<LensSelectorItem*>(selector_->currentItem());
 		if (engine_->position_valid_lens(distance, item->getId()))
 		{
 			edit_lens(name, x_tilt, z_tilt, distance, optical_power, item->getId());
@@ -337,6 +338,8 @@ void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distan
 			error_slot("Invalid distance.");
 		}
 	}
+
+	update();
 }
 
 void GuiWindow::cancel_slot()
@@ -382,7 +385,6 @@ void GuiWindow::misc_editor_edit_slot_()
 
 void GuiWindow::misc_editor_cancel_slot_()
 {
-	// TODO load conf
 	auto rays_n = engine_->ray_count();
 	auto s_distance = engine_->get_sample_distance_from_source();
 	auto s_tilt_y = engine_->get_sample_rotation();
@@ -433,3 +435,8 @@ void GuiWindow::error_slot(std::string error)
 	messageBox.setFixedSize(500, 200);
 }
 
+void GuiWindow::update()
+{
+	engine_->update();
+	view_3d_->update(engine_->get_ray_points());
+}

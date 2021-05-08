@@ -161,27 +161,29 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\gui\Classes3D\Ray3D.cpp" />
+    <ClCompile Include="src\gui\Classes3D\RayCluster3D.cpp" />
     <ClCompile Include="rayTracer\Detector.cpp" />
-    <ClCompile Include="rayTracer\Sample.cpp" />
-    <ClCompile Include="src\gui\ClassesGui\MiscEditor.cpp" />
-    <ClCompile Include="src\gui\ClassesGui\ShapeViewer.cpp" />
-    <ClCompile Include="src\gui\Classes3D\Base3D.cpp" />
-    <ClCompile Include="src\gui\Classes3D\Detector3D.cpp" />
-    <ClCompile Include="src\gui\Classes3D\Sample3D.cpp" />
-    <ClCompile Include="src\gui\Classes3D\Source3D.cpp" />
-    <ClCompile Include="src\gui\ClassesGui\LensListItem.cpp" />
-    <ClCompile Include="src\gui\ClassesGui\SceneViewer.cpp" />
-    <ClCompile Include="src\gui\ClassesGui\LensList.cpp" />
-    <ClCompile Include="src\gui\ClassesGui\LensEditor.cpp" />
     <ClCompile Include="rayTracer\Lens.cpp" />
     <ClCompile Include="rayTracer\RayEngine.cpp" />
-    <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="rayTracer\Sample.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Base3D.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Detector3D.cpp" />
     <ClCompile Include="src\gui\Classes3D\Lens3D.cpp" />
     <ClCompile Include="src\gui\Classes3D\Line3D.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Sample3D.cpp" />
+    <ClCompile Include="src\gui\Classes3D\Source3D.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\LensEditor.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\LensSelector.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\LensSelectorItem.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\MiscEditor.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\SceneViewer.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\ShapeViewer.cpp" />
+    <ClCompile Include="src\gui\ClassesGui\SurfaceInfoPanel.cpp" />
     <ClCompile Include="src\gui\commonGui\Scene.cpp" />
     <ClCompile Include="src\gui\MainGui.cpp" />
-    <ClCompile Include="src\gui\ClassesGui\SurfaceInfoPanel.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -202,40 +204,32 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rayTracer\Point.h" />
-    <ClInclude Include="src\gui\ClassesGui\SurfaceInfoPanel.h" />
-    <QtMoc Include="src\gui\ClassesGui\GuiWindow.h" />
-    <QtMoc Include="src\gui\ClassesGui\LensList.h" />
-    <QtMoc Include="src\gui\ClassesGui\MiscEditor.h" />
-    <QtMoc Include="src\gui\ClassesGui\ShapeViewer.h" />
-    <ClInclude Include="src\gui\Classes3D\Base3D.h" />
-    <ClInclude Include="src\gui\Classes3D\Detector3D.h" />
-    <ClInclude Include="src\gui\Classes3D\Sample3D.h" />
-    <ClInclude Include="src\gui\Classes3D\Source3D.h" />
-    <ClInclude Include="src\gui\ClassesGui\LensListItem.h" />
-    <QtMoc Include="src\gui\ClassesGui\SceneViewer.h" />
-    <QtMoc Include="src\gui\ClassesGui\LensEditor.h" />
+    <ClInclude Include="src\gui\Classes3D\Ray3D.h" />
+    <ClInclude Include="src\gui\Classes3D\RayCluster3D.h" />
     <ClInclude Include="rayTracer\AxisObject.h" />
     <ClInclude Include="rayTracer\Detector.h" />
     <ClInclude Include="rayTracer\Lens.h" />
+    <ClInclude Include="rayTracer\Point.h" />
     <ClInclude Include="rayTracer\Ray.h" />
     <ClInclude Include="rayTracer\RayEngine.h" />
     <ClInclude Include="rayTracer\Sample.h" />
+    <ClInclude Include="src\common\macros.h" />
+    <ClInclude Include="src\gui\Classes3D\Base3D.h" />
+    <ClInclude Include="src\gui\Classes3D\Detector3D.h" />
     <ClInclude Include="src\gui\Classes3D\Lens3D.h" />
     <ClInclude Include="src\gui\Classes3D\Line3D.h" />
-    <ClInclude Include="src\common\macros.h" />
+    <ClInclude Include="src\gui\Classes3D\Sample3D.h" />
+    <ClInclude Include="src\gui\Classes3D\Source3D.h" />
+    <ClInclude Include="src\gui\ClassesGui\LensSelectorItem.h" />
+    <ClInclude Include="src\gui\ClassesGui\SurfaceInfoPanel.h" />
     <ClInclude Include="src\gui\commonGui\Scene.h" />
     <ClInclude Include="src\gui\MainGui.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ICP_project_v3.pro" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="src\gui\meshes\cube.obj" />
-    <Object Include="src\gui\meshes\detector.obj" />
-    <Object Include="src\gui\meshes\lens.obj" />
-    <Object Include="src\gui\meshes\sample.obj" />
-    <Object Include="src\gui\meshes\source.obj" />
+    <QtMoc Include="src\gui\ClassesGui\ShapeViewer.h" />
+    <QtMoc Include="src\gui\ClassesGui\SceneViewer.h" />
+    <QtMoc Include="src\gui\ClassesGui\MiscEditor.h" />
+    <QtMoc Include="src\gui\ClassesGui\LensSelector.h" />
+    <QtMoc Include="src\gui\ClassesGui\LensEditor.h" />
+    <QtMoc Include="src\gui\ClassesGui\GuiWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
