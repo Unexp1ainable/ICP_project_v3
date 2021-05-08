@@ -28,12 +28,6 @@
     <ClCompile Include="src\gui\ClassesGui\GuiWindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="rayTracer\AxisObject.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rayTracer\Ray.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="rayTracer\RayEngine.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -80,6 +74,12 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\ClassesGui\SurfaceInfoPanel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rayTracer\Detector.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rayTracer\Sample.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,6 +143,9 @@
     <ClInclude Include="src\gui\ClassesGui\SurfaceInfoPanel.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="rayTracer\Point.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\gui\ClassesGui\GuiWindow.h">
@@ -166,5 +169,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ICP_project_v3.pro" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="src\gui\meshes\cube.obj" />
+    <Object Include="src\gui\meshes\detector.obj" />
+    <Object Include="src\gui\meshes\lens.obj" />
+    <Object Include="src\gui\meshes\sample.obj" />
+    <Object Include="src\gui\meshes\source.obj" />
   </ItemGroup>
 </Project>
