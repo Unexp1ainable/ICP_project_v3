@@ -403,3 +403,11 @@ ICP_project_v3
 build
 
 /CppProperties.json
+moc_GuiWindow.cpp
+moc_LensEditor.cpp
+moc_LensList.cpp
+moc_MiscEditor.cpp
+moc_predefs.h
+moc_SceneViewer.cpp
+moc_ShapeViewer.cpp
+uic_wrapper.sh

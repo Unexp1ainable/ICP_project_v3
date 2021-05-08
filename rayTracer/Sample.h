@@ -3,6 +3,7 @@
 #include <memory>
 #include "AxisObject.h"
 #include "Point.h"
+#include <cmath>
 class Sample :
     public Axis_object
 {

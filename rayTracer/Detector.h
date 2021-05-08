@@ -4,6 +4,7 @@
 
 #include "Point.h"
 #include "AxisObject.h"
+#include <cmath>
 
 class Detector :
 	public Axis_object
