@@ -25,12 +25,7 @@ SceneViewer::SceneViewer(rayEngine* engine)
 	
 	// 3D root entity
 	root_entity_ = create_scene(engine);
-
-	// world axes
-	Line3D{ QVector3D(0.0f,0.0f,0.0f), QVector3D(100.0f,0.0f,0.0f),QColor(255,0,0), root_entity_ };
-	Line3D{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,100.0f,0.0f),QColor(0,255,0), root_entity_ };
-	auto a = new Line3D{ QVector3D(0.0f,0.0f,0.0f), QVector3D(0.0f,0.0f,100.0f),QColor(0,0,255), root_entity_ };
-	delete a;// TODO
+	
 	add_camera(*window_, root_entity_);
 	window_->setRootEntity(root_entity_);
 }
@@ -180,5 +175,6 @@ void SceneViewer::clear_lenses()
 void SceneViewer::update(vector<vector<std::shared_ptr<Point>>> rays)
 {
 	delete ray_cluster_;
+	window_->requestUpdate();
 	ray_cluster_ = new RayCluster3D{ root_entity_, rays };
 }

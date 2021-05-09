@@ -48,7 +48,10 @@ public:
 		border_distance_ = edge_distance;
 	}
 
-	std::vector<std::vector<std::shared_ptr<Point>>> get_ray_points()const { return ray_points_; }
+	std::vector<std::vector<std::shared_ptr<Point>>> get_ray_points()const
+	{
+		return ray_points_;
+	}
 	std::vector<std::shared_ptr<Point>> get_sample_intersect()const { return sample_intersect_; }
 	std::vector<std::shared_ptr<Point>> get_detector_intersect() const { return detector_intersect_; }
 

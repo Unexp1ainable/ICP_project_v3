@@ -7,12 +7,13 @@
 
 using std::vector;
 
-class RayCluster3D : public Qt3DCore::QEntity
+class RayCluster3D : Qt3DCore::QEntity
 {
 public:
-	RayCluster3D(QEntity* parent, vector<vector<std::shared_ptr<Point>>> rays);
+	RayCluster3D(Qt3DCore::QEntity* parent, vector<vector<std::shared_ptr<Point>>> rays);
 
-	~RayCluster3D();
+	Line3D* b;
+
 
 	void deleteChildrenRecursively(Qt3DCore::QNode* node);
 

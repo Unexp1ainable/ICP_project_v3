@@ -297,7 +297,7 @@ void rayEngine::update()
 {
 
 
-
+	ray_points_.clear(); //TODO maybe memory leak
 	for(int i = 0; i < ray_count_; i++)
 	{
 		std::vector<std::shared_ptr<Point>> vector;
