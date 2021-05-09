@@ -13,8 +13,7 @@
 GuiWindow::GuiWindow(rayEngine* engine)
 {
 	engine_ = engine;
-	engine_->init_rays(1, 10);
-	engine_->update();
+	engine_->init_rays(INIT_RAY_RADIUS, INIT_RAY_COUNT);
 	
 	create_menu();
 
@@ -45,6 +44,8 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	connect_elements();
 
 	load_configuration();
+
+	update();
 }
 
 void GuiWindow::create_menu()
@@ -136,14 +137,10 @@ QGroupBox* GuiWindow::create_sample_info()
 	i_box->setTitle(tr("Informations about rays passing through the sample."));
 
 	QHBoxLayout* vbox = new QHBoxLayout;
-	auto a = new SurfaceInfoPanel;
+	sample_info_ = new SurfaceInfoPanel{SAMPLE_SIZE};
 
-
-	vbox->addWidget(a);
-
+	vbox->addWidget(sample_info_);
 	i_box->setLayout(vbox);
-
-	sample_info_ = i_box; // TODO temporary
 	return i_box;
 }
 
@@ -153,12 +150,10 @@ QGroupBox* GuiWindow::create_detector_info()
 	i_box->setTitle(tr("Informations about rays striking the detector."));
 
 	QHBoxLayout* vbox = new QHBoxLayout;
-
-	vbox->addWidget(new ShapeViewer);
-
+	detector_info_ = new SurfaceInfoPanel{DETECTOR_SIZE};
+	
+	vbox->addWidget(detector_info_);
 	i_box->setLayout(vbox);
-
-	detector_info_ = i_box; // TODO temporary
 	return i_box;
 }
 
@@ -194,7 +189,7 @@ void GuiWindow::load_configuration()
 	misc_editor_->default_mode();
 
 	//infopanels
-	// TODO
+	//update();
 
 }
 
@@ -443,4 +438,6 @@ void GuiWindow::update()
 {
 	engine_->update();
 	view_3d_->update(engine_->get_ray_points());
+	sample_info_->parse_points(engine_->get_sample_intersect());
+	detector_info_->parse_points(engine_->get_detector_intersect());
 }

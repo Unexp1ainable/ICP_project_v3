@@ -8,6 +8,7 @@
 #include "LensSelectorItem.h"
 #include "MiscEditor.h"
 #include "SceneViewer.h"
+#include "SurfaceInfoPanel.h"
 #include "rayTracer/RayEngine.h"
 
 /**
@@ -82,8 +83,8 @@ private:
 	LensSelector* selector_;
 	LensEditor* editor_;
 	MiscEditor* misc_editor_;
-	QGroupBox* sample_info_;
-	QGroupBox* detector_info_;
+	SurfaceInfoPanel* sample_info_;
+	SurfaceInfoPanel* detector_info_;
 	QWidget *central_widget_;
 	rayEngine *engine_;
 
