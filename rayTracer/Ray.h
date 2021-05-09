@@ -1,4 +1,7 @@
 #pragma once
+
+#include "Point.h"
+
 class Ray
 {
 private:
@@ -61,7 +64,11 @@ public:
 	void set_positionX(double position){	position_[0] = position; }
 	void set_positionY(double position){	position_[1] = position; }
 
-	
+	Point create_directional_vector()
+	{
+		auto vec = Point(0,0,1);
+		return vec;
+	}
 
 	//Exceptions
 	

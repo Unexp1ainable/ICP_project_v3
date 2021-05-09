@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include "AxisObject.h"
+#include "../src/common/macros.h"
 #include <cmath>
 
 class Lens:
@@ -25,6 +26,7 @@ public:
 
 	Lens(double distance_from_source, double radius, double optical_power, int id,double deviationX = 0, double deviationY = 0, std::string name = "Lens");
 
+	Point create_normal();
 	
 	double optical_power() const { return optical_power_; }
 	double radius() const { return radius_; }

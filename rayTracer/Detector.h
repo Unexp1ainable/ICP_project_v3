@@ -43,7 +43,7 @@ public:
 		}
 	}
 
-	bool calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point) const;
+	bool calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
 
 	//exceptions
 	class invalid_size {};
