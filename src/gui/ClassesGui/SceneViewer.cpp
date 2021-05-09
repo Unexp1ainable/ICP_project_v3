@@ -164,7 +164,9 @@ void SceneViewer::edit_detector(float distance)
 }
 
 void SceneViewer::clear_lenses()
-{	
+{
+	set_active(0);
+
 	for (auto& lens : lenses_)
 	{
 		delete lens.second;

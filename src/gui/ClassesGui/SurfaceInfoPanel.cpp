@@ -54,6 +54,15 @@ void SurfaceInfoPanel::parse_points(std::vector<std::shared_ptr<Point>> points)
 
 void SurfaceInfoPanel::min_max(std::vector<std::shared_ptr<Point>> points, double& min_x, double& max_x, double& min_y, double& max_y)
 {
+	if (points.empty())
+	{
+		min_x = 0.;
+		max_x = 0.;
+		min_y = 0.;
+		max_y = 0.;
+		return;
+	}
+	
 	double border = r_size / 2;
 	double mn_x = border;
 	double mn_y = border;

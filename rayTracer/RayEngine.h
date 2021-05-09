@@ -73,10 +73,29 @@ public:
 	void set_lens_deviation_x(int id, double deviation) { get_lens_by_id(id)->set_deviationX(deviation); }
 	void set_lens_deviation_y(int id, double deviation) { get_lens_by_id(id)->set_deviationY(deviation); }
 	void set_lens_name(int id, std::string name) { get_lens_by_id(id)->set_name(name); }
-	
+
 	int add_lens(double distance_from_source, double radius, double optical_power,std::string name ,double deviationX = 0, double deviationY = 0);
 	void remove_lens(int id);
-	
+
+	/**
+	 * Calculate normal of the lens from given deviation.
+	 * 
+	 * @param deviationX
+	 * @param deviationY
+	 * @return Point Normal vector
+	 */
+	Point create_normal(double deviationX, double deviationY);
+
+	/**
+	 * Checks if lens is going to intersect other lens.
+	 * 
+	 * @param distance_from_source
+	 * @param radius
+	 * @param deviationX
+	 * @param deviationY
+	 * @return True if position is good, false otherwise.
+	 */
+	bool check_intersection(double distance_from_source, double radius, double deviationX, double deviationY);
 	bool position_valid_lens(double distance, int id);
 	int lens_count() const { return lens_count_; }
 	void clear_lenses()

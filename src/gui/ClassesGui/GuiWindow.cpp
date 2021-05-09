@@ -187,10 +187,6 @@ void GuiWindow::load_configuration()
 
 	// misc editor
 	misc_editor_->default_mode();
-
-	//infopanels
-	//update();
-
 }
 
 
@@ -235,6 +231,7 @@ void GuiWindow::open_file_slot()
 
 	engine_->load_config(fileName.toStdString());
 	load_configuration();
+	update();
 }
 
 void GuiWindow::save_file_slot()
@@ -348,10 +345,17 @@ void GuiWindow::cancel_slot()
 
 void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
 {
-	// TODO catch
-	auto id = engine_->add_lens(distance, 10., optical_power, name.toStdString(), TO_RADIANS(x_tilt), TO_RADIANS(z_tilt));
-	view_3d_->add_lens(distance, x_tilt, z_tilt, id);
-	selector_->add_lens(id, name);
+	try
+	{
+		auto id = engine_->add_lens(distance, 10., optical_power, name.toStdString(), TO_RADIANS(x_tilt), TO_RADIANS(z_tilt));
+		view_3d_->add_lens(distance, x_tilt, z_tilt, id);
+		selector_->add_lens(id, name);
+	}
+	catch (rayEngine::invalid_distance)
+	{
+		error_slot("Invalid lens distance.");
+	}
+	
 }
 
 
@@ -359,7 +363,7 @@ void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distan
 {
 	auto std_name = name.toStdString();
 
-	// edit engine
+	// edit engine TODO catch
 	engine_->set_lens_distance_from_source(id, distance);
 	engine_->set_lens_optical_power(id, optical_power);
 	engine_->set_lens_deviation_x(id, TO_RADIANS(x_tilt));
@@ -414,7 +418,6 @@ void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double dis
 	
 	engine_->set_sample_rotation(y_tilt);
 
-	//TODO change magic number
 	engine_->init_rays(r_diameter, rays_n);
 	
 
