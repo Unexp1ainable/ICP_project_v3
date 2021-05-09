@@ -105,7 +105,7 @@ private slots:
 
 	void misc_editor_edit_slot_();
 	void misc_editor_cancel_slot_();
-	void misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d);
+	void misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d, double r_diameter);
 
 	void error_slot(std::string error);
 };

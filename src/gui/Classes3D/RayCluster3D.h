@@ -12,11 +12,6 @@ class RayCluster3D : Qt3DCore::QEntity
 public:
 	RayCluster3D(Qt3DCore::QEntity* parent, vector<vector<std::shared_ptr<Point>>> rays);
 
-	Line3D* b;
-
-
-	void deleteChildrenRecursively(Qt3DCore::QNode* node);
-
 private:
 	vector<Ray3D*> rays_;
 };
