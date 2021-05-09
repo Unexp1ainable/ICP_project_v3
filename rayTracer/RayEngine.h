@@ -69,9 +69,33 @@ public:
 
 	void set_lens_distance_from_source(int id, double distance);
 	void set_lens_optical_power(int id, double power) { get_lens_by_id(id)->set_optical_power(power); }
-	void set_lens_radius(int id, double radius) { get_lens_by_id(id)->set_radius(radius); }
-	void set_lens_deviation_x(int id, double deviation) { get_lens_by_id(id)->set_deviationX(deviation); }
-	void set_lens_deviation_y(int id, double deviation) { get_lens_by_id(id)->set_deviationY(deviation); }
+	void set_lens_radius(int id, double radius)
+	{
+		auto lens = get_lens_by_id(id);
+		if(!check_intersection(lens->distance_from_source(), radius, lens->deviation_x(), lens->deviation_y(), id))
+		{
+			throw invalid_distance();
+		}
+		lens->set_radius(radius);
+	}
+	void set_lens_deviation_x(int id, double deviation)
+	{
+		auto lens = get_lens_by_id(id);
+		if(!check_intersection(lens->distance_from_source(), lens->radius(), deviation, lens->deviation_y(), id))
+		{
+			throw invalid_distance();
+		}
+		lens->set_deviationX(deviation);
+	}
+	void set_lens_deviation_y(int id, double deviation)
+	{
+		auto lens = get_lens_by_id(id);
+		if(!check_intersection(lens->distance_from_source(), lens->radius(), lens->deviation_x(), deviation, id))
+		{
+			throw invalid_distance();
+		}
+		lens->set_deviationY(deviation);
+	}
 	void set_lens_name(int id, std::string name) { get_lens_by_id(id)->set_name(name); }
 
 	int add_lens(double distance_from_source, double radius, double optical_power,std::string name ,double deviationX = 0, double deviationY = 0);

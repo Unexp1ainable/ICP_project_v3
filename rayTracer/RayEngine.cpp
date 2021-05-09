@@ -1,6 +1,6 @@
 #include "RayEngine.h"
 
-#include "src/common/macros.h"
+#include "../src/common/macros.h"
 
 Point rayEngine::create_normal(double deviationX, double deviationY)
 {
@@ -52,14 +52,16 @@ int rayEngine::add_lens(double distance_from_source, double radius, double optic
 
 void rayEngine::set_lens_distance_from_source(int id, double distance)
 {
-	if (!position_valid_lens(distance, id))
+	auto lens = get_lens_by_id(id);
+
+	if (!position_valid_lens(distance, id) || !check_intersection(distance, lens->radius(), lens->deviation_x(), lens->deviation_y(), id))
 	{
 		throw invalid_distance();
 	}
 
 
-	get_lens_by_id(id)->set_distance_from_source(distance);
-	std::shared_ptr<Lens> lens = get_lens_by_id(id);
+	lens->set_distance_from_source(distance);
+	
 	remove_lens(id);
 	insert_lens(lens);
 }
