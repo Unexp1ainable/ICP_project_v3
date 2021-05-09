@@ -15,16 +15,21 @@ Point rayEngine::create_normal(double deviationX, double deviationY)
 	return Point(x, y, z);
 }
 
-bool rayEngine::check_intersection(double distance_from_source, double radius, double deviationX, double deviationY)
+bool rayEngine::check_intersection(double distance_from_source, double radius, double deviationX, double deviationY, int id)
 {
 	auto vec1 = create_normal(deviationX, deviationY);
 
 	for (auto lens : lenses_)
 	{
+		if (lens->id() == id)	// skip itself if necessary
+			continue;
+		
 		auto vec2 = create_normal(lens->deviation_x(), lens->deviation_y());
-		auto f = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
-		f = (f < -1.) ? -1. : ((f > 1) ? 1. : f);
-		auto vec_angle = acos(f);
+		
+		auto dot_product = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;	// calculate dot_product between normals
+		dot_product = (dot_product < -1.) ? -1. : ((dot_product > 1) ? 1. : dot_product);	// clamp if necessary
+		auto vec_angle = acos(dot_product);	// angle between normals
+		
 		if (sin(vec_angle) * radius >= abs(distance_from_source - lens->distance_from_source()))
 			return false;
 	}
@@ -33,7 +38,7 @@ bool rayEngine::check_intersection(double distance_from_source, double radius, d
 
 int rayEngine::add_lens(double distance_from_source, double radius, double optical_power, std::string name, double deviationX, double deviationY)
 {
-	if (!position_valid_lens(distance_from_source, 0) || !check_intersection(distance_from_source, radius, deviationX, deviationY))
+	if (!position_valid_lens(distance_from_source, 0) || !check_intersection(distance_from_source, radius, deviationX, deviationY, 0))
 	{
 		throw invalid_distance();
 	}

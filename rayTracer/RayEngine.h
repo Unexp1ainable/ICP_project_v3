@@ -80,8 +80,8 @@ public:
 	/**
 	 * Calculate normal of the lens from given deviation.
 	 * 
-	 * @param deviationX
-	 * @param deviationY
+	 * @param deviationX x rotation
+	 * @param deviationY y rotation
 	 * @return Point Normal vector
 	 */
 	Point create_normal(double deviationX, double deviationY);
@@ -89,13 +89,13 @@ public:
 	/**
 	 * Checks if lens is going to intersect other lens.
 	 * 
-	 * @param distance_from_source
-	 * @param radius
-	 * @param deviationX
-	 * @param deviationY
+	 * @param distance_from_source Distance from source
+	 * @param radius Radius of the lens
+	 * @param deviationX X rotation
+	 * @param deviationY Y rotation
 	 * @return True if position is good, false otherwise.
 	 */
-	bool check_intersection(double distance_from_source, double radius, double deviationX, double deviationY);
+	bool check_intersection(double distance_from_source, double radius, double deviationX, double deviationY, int id);
 	bool position_valid_lens(double distance, int id);
 	int lens_count() const { return lens_count_; }
 	void clear_lenses()
