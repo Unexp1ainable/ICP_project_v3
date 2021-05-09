@@ -1,8 +1,9 @@
 #include "RayEngine.h"
+#include <iostream>
 
 #include "../src/common/macros.h"
 
-Point rayEngine::create_normal(double deviationX, double deviationY) const
+Point rayEngine::create_normal(double deviationX, double deviationY)
 {
 	double a = deviationX + PI / 2;
 	double b = deviationY + PI / 2;
@@ -189,7 +190,7 @@ void rayEngine::set_sample_distance_from_source(double distance)
 	sample_->set_distance_from_source(distance);
 }
 
-void rayEngine::set_detector_distance_from_source(double distance) const
+void rayEngine::set_detector_distance_from_source(double distance)
 {
 	if (!position_valid_detector(distance))
 	{
@@ -243,7 +244,7 @@ bool rayEngine::position_valid_sample(double distance)
 	return true;
 }
 
-bool rayEngine::position_valid_detector(double distance) const
+bool rayEngine::position_valid_detector(double distance)
 {
 	if (distance <= 0 || distance - this->sample_->distance_from_source() < MIN_DISTANCE)
 	{
@@ -261,8 +262,8 @@ void rayEngine::init_rays(double radius, int count)
 
 	double rotation_angle = _2pi / count;
 
-	double x = 0;
-	double y = radius;
+	double x = radius;
+	double y = 0;
 	add_ray(x, y, 0, 0);
 	double rotX = 0;
 	double rotY = 0;
@@ -390,7 +391,7 @@ void rayEngine::update()
 
 }
 
-void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point) const
+void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
 {
 	double distance = border_distance_ - ray->source_distance();
 

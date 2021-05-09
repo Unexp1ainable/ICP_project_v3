@@ -1,6 +1,6 @@
 #include "Sample.h"
 
-bool Sample::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point) const
+bool Sample::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
 {
 	double distance = this->distance_from_source_ - ray->source_distance();
 

@@ -34,7 +34,7 @@ private:
 	std::vector<std::shared_ptr<Point>> detector_intersect_;
 
 	void insert_lens(const std::shared_ptr<Lens>& lens);
-	void cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point) const;
+	void cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
 public:
 
 	rayEngine(double sample_distance, double detector_distance, double edge_distance)
@@ -108,7 +108,7 @@ public:
 	 * @param deviationY y rotation
 	 * @return Point Normal vector
 	 */
-	Point create_normal(double deviationX, double deviationY) const;
+	Point create_normal(double deviationX, double deviationY);
 
 	/**
 	 * Checks if lens is going to intersect other lens.
@@ -185,11 +185,11 @@ public:
 	double get_detector_size_x() const { return detector_->sizeX(); }
 	double get_detector_size_y() const { return detector_->sizeY(); }
 
-	void set_detector_distance_from_source(double distance) const;
+	void set_detector_distance_from_source(double distance);
 	void set_detector_size_x(double size) const { detector_->set_sizeX(size); }
 	void set_detector_size_y(double size) const { detector_->set_sizeY(size); }
 	
-	bool position_valid_detector(double distance) const;
+	bool position_valid_detector(double distance);
 	
 
 	//configuration methods
