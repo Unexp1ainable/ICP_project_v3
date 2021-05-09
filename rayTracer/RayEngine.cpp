@@ -328,6 +328,7 @@ void rayEngine::update()
 		}
 		else
 		{
+			detector_intersect_.push_back(std::make_shared<Point>(*last_point));
 			this->cross_with_border(ray, last_point);
 		}
 

@@ -11,10 +11,10 @@ bool Sample::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Po
 	double rotX = posX * cos(rotation_) - posY * sin(rotation_);
 	double rotY = posX * sin(rotation_) + posY * cos(rotation_);
 
-	if(abs(rotX) > sizeX_ / 2 || abs(rotY) > sizeY_ / 2)
+	/*if(abs(rotX) > sizeX_ / 2 || abs(rotY) > sizeY_ / 2)
 	{
 		return false;
-	}
+	}*/
 
 	point->x = rotX;
 	point->y = rotY;
