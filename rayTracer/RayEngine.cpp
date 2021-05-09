@@ -397,9 +397,7 @@ void rayEngine::save_config(std::string path)
 	std::string delimeter = ";";
 
 	std::ofstream file(path.c_str());
-	file << "D" << delimeter << detector_->distance_from_source() << delimeter << detector_->sizeX() << delimeter << detector_->sizeY() << delimeter << std::endl;
-	file << "S" << delimeter << sample_->distance_from_source() << delimeter << sample_->sizeX() << delimeter << sample_->sizeY() << delimeter << sample_->rotation() << delimeter << std::endl;
-
+	
 
 
 	if (!file.is_open())
@@ -407,9 +405,15 @@ void rayEngine::save_config(std::string path)
 		throw file_cannot_be_opened();
 	}
 
+	file << "B" << delimeter << border_distance_ << delimeter << std::endl;
+	file << "C" << delimeter << ray_cluster_diameter_ << delimeter << std::endl;
+	
+	
+	file << "D" << delimeter << detector_->distance_from_source() << delimeter << detector_->sizeX() << delimeter << detector_->sizeY() << delimeter << std::endl;
+	file << "S" << delimeter << sample_->distance_from_source() << delimeter << sample_->sizeX() << delimeter << sample_->sizeY() << delimeter << sample_->rotation() << delimeter << std::endl;
 
 
-	for (int i = 0; i < lens_count_; i++)
+	for(int i = 0; i < lens_count_; i++)
 	{
 		auto lens = lenses_[i];
 		file << "L" << delimeter << lens->distance_from_source() << delimeter << lens->radius() << delimeter << lens->optical_power() << delimeter << lens->deviation_x() << delimeter << lens->deviation_y() << delimeter << lens->name() << delimeter << std::endl;
@@ -450,7 +454,10 @@ void rayEngine::load_config(std::string path)
 	{
 		identifier = line.substr(0, line.find(delimeter));
 		line.erase(0, line.find(delimeter) + delimeter.length());
-		if (identifier == "D")
+		if(identifier == "B" || identifier == "C")
+		{
+			args_count = 1;
+		}else if(identifier == "D")
 		{
 			args_count = 3;
 		}
@@ -517,11 +524,34 @@ void rayEngine::load_config(std::string path)
 		}
 		else if (identifier == "R")
 		{
+			if(!line.empty()) { throw invalid_save_file(); }
 			try
 			{
 				add_ray(args[0], args[1], args[2], args[3]);
 			}
 			catch (...)
+			{
+				throw invalid_save_file();
+			}
+		}else if(identifier == "B")
+		{
+			if(!line.empty()) { throw invalid_save_file(); }
+			try
+			{
+				border_distance_ = args[0];
+			}
+			catch(...)
+			{
+				throw invalid_save_file();
+			}
+		}else if(identifier == "C")
+		{
+			if(!line.empty()) { throw invalid_save_file(); }
+			try
+			{
+				ray_cluster_diameter_ = args[0];
+			}
+			catch(...)
 			{
 				throw invalid_save_file();
 			}
