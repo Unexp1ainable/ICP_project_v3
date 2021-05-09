@@ -299,7 +299,10 @@ void rayEngine::update()
 {
 
 
-	ray_points_.clear(); //TODO maybe memory leak
+	ray_points_.clear();
+	detector_intersect_.clear();
+	sample_intersect_.clear();
+	
 	for(int i = 0; i < ray_count_; i++)
 	{
 		std::vector<std::shared_ptr<Point>> vector;
@@ -320,7 +323,18 @@ void rayEngine::update()
 			lenses_[j]->pass_ray(ray);
 			vector.push_back(std::make_shared<Point>(ray->positionX(), ray->positionY(), ray->source_distance()));
 		}
+		
+		if(ray->source_distance() < sample_->distance_from_source())
+		{
+			auto point = std::make_shared<Point>(0, 0, 0);
+			if(sample_->calculate_intersection(ray, point))
+			{
+				sample_intersect_.push_back(point);
+			}
+		}
 
+
+		
 		std::shared_ptr<Point> last_point = std::make_shared<Point>(0, 0, 0);
 
 		if(detector_->calculate_intersection(ray, last_point)) {
