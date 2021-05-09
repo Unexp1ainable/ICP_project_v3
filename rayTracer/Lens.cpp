@@ -76,32 +76,45 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 		double intersectionY = yp + yt * t;
 		double intersectionZ = zp + zt * t; // this will be source distance of ray
 
+
+
 		double intersection_positions[2];
-		intersection_positions[0] = sqrt(pow(intersectionZ - this->distance_from_source_,2.0) + pow(intersectionX,2.0));
-		intersection_positions[1] = sqrt(pow(intersectionZ - this->distance_from_source_,2.0) + pow(intersectionY,2.0));
 
-		if(intersectionX < 0){
-			//std::cout << "RULE 1\n"; 
-			intersection_positions[0] *= -1;
-		}
 
-		if(intersectionY < 0){
-			//std::cout << "RULE 2\n"; 
-			intersection_positions[1] *= -1;
-		}
+		intersection_positions[0] = intersectionX / sin(pi2 - deviation_[0]);
+		intersection_positions[1] = intersectionY / sin(pi2 - deviation_[1]);
+		//Questionable part
+		// intersection_positions[0] = sqrt(pow(intersectionZ - this->distance_from_source_,2.0) + pow(intersectionX,2.0));
+		// intersection_positions[1] = sqrt(pow(intersectionZ - this->distance_from_source_,2.0) + pow(intersectionY,2.0));
 
-		if(intersectionX < 0.000000001 && intersectionX > -0.000000001)
-		{
-			//std::cout << "RULE 3\n"; 
-			intersection_positions[0] = 0;
-		}
+		// if(intersectionX < 0){
+		// 	//std::cout << "RULE 1\n"; 
+		// 	intersection_positions[0] *= -1;
+		// }
 
-		if(intersectionY < 0.000000001 && intersectionY > -0.000000001)
-		{
-			//std::cout << "RULE 4\n"; 
-			intersection_positions[1] = 0;
-		}
+		// if(intersectionY < 0){
+		// 	//std::cout << "RULE 2\n"; 
+		// 	intersection_positions[1] *= -1;
+		// }
 
+		// // if(intersectionZ - this->distance_from_source_ < 0.0000000000001 && intersectionZ - this->distance_from_source_ > -0.0000000000001)
+		// // {
+		// // 	intersection_positions[0] *= -1;
+		// // 	intersection_positions[1] *= -1;
+		// // }
+
+		// if(intersectionX < 0.0000000000001 && intersectionX > -0.0000000000001)
+		// {
+		// 	//std::cout << "RULE 3\n"; 
+		// 	intersection_positions[0] = 0;
+		// }
+
+		// if(intersectionY < 0.0000000000001 && intersectionY > -0.0000000000001)
+		// {
+		// 	//std::cout << "RULE 4\n"; 
+		// 	intersection_positions[1] = 0;
+		// }
+		//Questionable part ends here
 		
 		//std::cout << "INTERSECTION POSITION: (" << intersectionX << ";" << intersectionY << ";"<< intersectionZ << ")\n";
 		//std::cout << "INTERSECTION POSITIONS[0] = " << intersection_positions[0] << std::endl;
@@ -146,7 +159,7 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 		ray->set_angleY(angles[1]);
 		ray->set_positionX(positions[0]);
 		ray->set_positionY(positions[1]);
-		ray->set_source_distance((distances[0] + distances[1]) / 2.0);
+		ray->set_source_distance(intersectionZ);
 		return;
 	}
 }
