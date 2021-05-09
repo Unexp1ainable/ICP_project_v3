@@ -24,11 +24,11 @@ LensEditor::LensEditor()
 	form_layout->addRow(new QLabel(tr("Tilt Y:")), tilt_z_);
 	// optical power
 	optical_power_ = new QDoubleSpinBox;
-	optical_power_->setRange(.0, 1000.0);
+	optical_power_->setRange(-1000., 1000.0);
 	form_layout->addRow(new QLabel(tr("Optical power:")), optical_power_);
 	// distance from source
 	distance_ = new QDoubleSpinBox;
-	optical_power_->setRange(.0, 1000.0);
+	distance_->setRange(.0, 1000.0);
 	form_layout->addRow(new QLabel(tr("Distance:")), distance_);
 
 	// buttons

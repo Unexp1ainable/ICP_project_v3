@@ -355,6 +355,18 @@ void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float 
 	{
 		error_slot("Invalid lens distance.");
 	}
+	catch (Lens::invalid_optical_power)
+	{
+		error_slot("Invalid optical power.");
+	}
+	catch (Lens::invalid_deviation)
+	{
+		error_slot("Invalid rotation.");
+	}
+	catch (Lens::invalid_radius)
+	{
+		error_slot("Invalid radius.");
+	}
 	
 }
 
@@ -363,18 +375,37 @@ void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distan
 {
 	auto std_name = name.toStdString();
 
-	// edit engine TODO catch
-	engine_->set_lens_distance_from_source(id, distance);
-	engine_->set_lens_optical_power(id, optical_power);
-	engine_->set_lens_deviation_x(id, TO_RADIANS(x_tilt));
-	engine_->set_lens_deviation_y(id, TO_RADIANS(z_tilt));
-	engine_->set_lens_name(id, name.toStdString());
+	try {
+		// edit engine
+		engine_->set_lens_distance_from_source(id, distance);
+		engine_->set_lens_optical_power(id, optical_power);
+		engine_->set_lens_deviation_x(id, TO_RADIANS(x_tilt));
+		engine_->set_lens_deviation_y(id, TO_RADIANS(z_tilt));
+		engine_->set_lens_name(id, name.toStdString());
 
-	// edit list
-	selector_->edit_lens(name);
+		// edit list
+		selector_->edit_lens(name);
 
-	// edit 3d_view
-	view_3d_->edit_lens(id, x_tilt, z_tilt, distance);
+		// edit 3d_view
+		view_3d_->edit_lens(id, x_tilt, z_tilt, distance);
+
+	}
+	catch (rayEngine::invalid_distance)
+	{
+		error_slot("Invalid lens distance.");
+	}
+	catch (Lens::invalid_optical_power)
+	{
+		error_slot("Invalid optical power.");
+	}
+	catch (Lens::invalid_deviation)
+	{
+		error_slot("Invalid rotation.");
+	}
+	catch (Lens::invalid_radius)
+	{
+		error_slot("Invalid radius.");
+	}
 }
 
 
@@ -432,9 +463,9 @@ void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double dis
 
 void GuiWindow::error_slot(std::string error)
 {
-	QMessageBox messageBox;
-	messageBox.critical(0, "Error", QString::fromStdString(error));
-	messageBox.setFixedSize(500, 200);
+	QMessageBox message_box;
+	QMessageBox::critical(nullptr, "Error", QString::fromStdString(error));
+	message_box.setFixedSize(500, 200);
 }
 
 void GuiWindow::update()
