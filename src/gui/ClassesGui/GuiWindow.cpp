@@ -387,7 +387,7 @@ void GuiWindow::misc_editor_edit_slot_()
 void GuiWindow::misc_editor_cancel_slot_()
 {
 	auto rays_n = engine_->ray_count();
-	auto r_diameter = 1.;
+	auto r_diameter = engine_->get_ray_cluster_diameter();
 	auto s_distance = engine_->get_sample_distance_from_source();
 	auto s_tilt_y = engine_->get_sample_rotation();
 	auto d_distance = engine_->get_detector_distance_from_source();

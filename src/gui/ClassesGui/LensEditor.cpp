@@ -44,7 +44,7 @@ LensEditor::LensEditor()
 	auto secondary_button_layout = new QHBoxLayout;
 	button_save_ = new QPushButton{ tr("Save") };
 	primary_button_layout->addWidget(button_save_);
-	button_cancel_ = new QPushButton{ tr("Cancel") };
+	button_cancel_ = new QPushButton{ tr("Done") };
 	primary_button_layout->addWidget(button_cancel_);
 	button_save_->setHidden(true);
 	button_cancel_->setHidden(true);
