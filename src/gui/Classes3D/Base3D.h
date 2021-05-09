@@ -18,12 +18,12 @@ public:
 	/**
 	 * @brief  tranform_ getter
 	 */
-	Qt3DCore::QTransform* get_transform();
+	Qt3DCore::QTransform* get_transform() const;
 
 	/**
 	 * @brief  material_ getter
 	 */
-	Qt3DExtras::QDiffuseSpecularMaterial* get_material();
+	Qt3DExtras::QDiffuseSpecularMaterial* get_material() const;
 
 protected:
 	/**

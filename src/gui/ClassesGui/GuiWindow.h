@@ -1,11 +1,9 @@
 #pragma once
 #include <qmainwindow.h>
-#include <Qt3DExtras>
 #include <QtWidgets>
 
 #include "LensEditor.h"
 #include "LensSelector.h"
-#include "LensSelectorItem.h"
 #include "MiscEditor.h"
 #include "SceneViewer.h"
 #include "SurfaceInfoPanel.h"
@@ -19,12 +17,13 @@ class GuiWindow : public QMainWindow
 	Q_OBJECT
 
 public:
+	void init_engine(rayEngine* engine);
 	GuiWindow(rayEngine *engine);
 
 
 private:
-	void load_configuration();
-	void clear_configuration();
+	void load_configuration() const;
+	void clear_configuration() const;
 
 	void create_menu();
 	
@@ -59,7 +58,7 @@ private:
 	/**
 	 * Connects signals and slots 
 	 */
-	void connect_elements();
+	void connect_elements() const;
 
 	/**
 	 * @brief This function is called when an existing lens is being edited. It sends signal to all necessary parts to edit their contents.
@@ -71,12 +70,12 @@ private:
 	 * @param optical_power Optical power of the lens
 	 * @param id Id of the lens that is being edited
 	*/
-	void edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id);
+	void edit_lens(QString name, double x_tilt, double z_tilt, double distance, double optical_power, int id) const;
 
 	
-	void create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
+	void create_new_lens(QString name, double x_tilt, double z_tilt, double distance, double optical_power) const;
 
-	void update();
+	void update_system() const;
 	
 	QWidget* view_3d_widget_;
 	SceneViewer* view_3d_;
@@ -97,17 +96,17 @@ private slots:
 	void open_file_slot();
 	void save_file_slot();
 	
-	void selection_changed_slot(QListWidgetItem* item);
+	void selection_changed_slot(QListWidgetItem* item) const;
 	void mode_new_slot();
 	void mode_edit_slot();
 	void delete_slot();
-	void save_slot(QString name, float x_tilt, float z_tilt, float distance, float optical_power);
-	void cancel_slot();
+	void save_slot(QString name, double x_tilt, double z_tilt, double distance, double optical_power);
+	void cancel_slot() const;
 
-	void misc_editor_edit_slot_();
-	void misc_editor_cancel_slot_();
+	void misc_editor_edit_slot_() const;
+	void misc_editor_cancel_slot_() const;
 	void misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d, double r_diameter);
 
-	void error_slot(std::string error);
+	void error_slot(std::string error) const;
 };
 

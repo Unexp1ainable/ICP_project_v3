@@ -10,7 +10,7 @@ public:
 	SurfaceInfoPanel(double reference_size);
 
 	void parse_points(std::vector<std::shared_ptr<Point>> points);
-	void min_max(std::vector<std::shared_ptr<Point>> points, double& min_x, double& max_x, double& min_y, double& max_y);
+	void min_max(std::vector<std::shared_ptr<Point>> points, double& min_x, double& max_x, double& min_y, double& max_y) const;
 
 	const double r_size;
 

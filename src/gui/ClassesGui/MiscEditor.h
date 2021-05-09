@@ -10,14 +10,14 @@ class MiscEditor : public QWidget
 public:
 	MiscEditor();
 
-	void edit_mode();
-	void default_mode();
+	void edit_mode() const;
+	void default_mode() const;
 
-	QPushButton* get_button_edit_();
-	QPushButton* get_button_save_();
-	QPushButton* get_button_cancel_();
+	QPushButton* get_button_edit_() const;
+	QPushButton* get_button_save_() const;
+	QPushButton* get_button_cancel_() const;
 	
-	void set_configuration(unsigned rays_number, double y_tilt, double distance_s, double distance_d, double r_diameter);
+	void set_configuration(unsigned rays_number, double y_tilt, double distance_s, double distance_d, double r_diameter) const;
 	
 
 private:

@@ -11,8 +11,8 @@ public:
 	LensSelector();
 
 	void add_lens(int id, QString label);
-	void edit_lens(QString label);
-	void remove_lens(int index);
+	void edit_lens(QString label) const;
+	void remove_lens(int index) const;
 
 };
 

@@ -2,7 +2,7 @@
 
 #include "../src/common/macros.h"
 
-Point rayEngine::create_normal(double deviationX, double deviationY)
+Point rayEngine::create_normal(double deviationX, double deviationY) const
 {
 	double a = deviationX + PI / 2;
 	double b = deviationY + PI / 2;
@@ -189,7 +189,7 @@ void rayEngine::set_sample_distance_from_source(double distance)
 	sample_->set_distance_from_source(distance);
 }
 
-void rayEngine::set_detector_distance_from_source(double distance)
+void rayEngine::set_detector_distance_from_source(double distance) const
 {
 	if (!position_valid_detector(distance))
 	{
@@ -243,7 +243,7 @@ bool rayEngine::position_valid_sample(double distance)
 	return true;
 }
 
-bool rayEngine::position_valid_detector(double distance)
+bool rayEngine::position_valid_detector(double distance) const
 {
 	if (distance <= 0 || distance - this->sample_->distance_from_source() < MIN_DISTANCE)
 	{
@@ -390,7 +390,7 @@ void rayEngine::update()
 
 }
 
-void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
+void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point) const
 {
 	double distance = border_distance_ - ray->source_distance();
 

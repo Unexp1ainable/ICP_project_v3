@@ -6,7 +6,7 @@ LensSelectorItem::LensSelectorItem(const int id, QString label)
 	setText(label);
 }
 
-int LensSelectorItem::getId()
+int LensSelectorItem::getId() const
 {
 	return id_;
 }

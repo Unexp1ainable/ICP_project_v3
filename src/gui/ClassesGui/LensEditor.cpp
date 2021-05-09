@@ -60,7 +60,7 @@ LensEditor::LensEditor()
 
 
 
-void LensEditor::load_lens(std::string name, double tilt_x, double tilt_z, double o_power, double distance)
+void LensEditor::load_lens(std::string name, double tilt_x, double tilt_z, double o_power, double distance) const
 {
 	name_->setText(QString::fromStdString(name));
 	name_->setDisabled(true);
@@ -106,7 +106,7 @@ QPushButton* LensEditor::get_button_save() const
 
 
 
-void LensEditor::disable_form()
+void LensEditor::disable_form() const
 {
 	name_->setDisabled(true);
 	tilt_x_->setDisabled(true);
@@ -115,7 +115,7 @@ void LensEditor::disable_form()
 	distance_->setDisabled(true);
 }
 
-void LensEditor::enable_form()
+void LensEditor::enable_form() const
 {
 	name_->setDisabled(false);
 	tilt_x_->setDisabled(false);
@@ -124,7 +124,7 @@ void LensEditor::enable_form()
 	distance_->setDisabled(false);
 }
 
-void LensEditor::primary_buttons()
+void LensEditor::primary_buttons() const
 {
 	button_new_->setHidden(false);
 	button_edit_->setHidden(false);
@@ -134,7 +134,7 @@ void LensEditor::primary_buttons()
 	button_cancel_->setHidden(true);
 }
 
-void LensEditor::secondary_buttons()
+void LensEditor::secondary_buttons() const
 {
 	button_new_->setHidden(true);
 	button_edit_->setHidden(true);
@@ -147,7 +147,7 @@ void LensEditor::secondary_buttons()
 
 
 
-void LensEditor::mode_new()
+void LensEditor::mode_new() const
 {
 	enable_form();
 	secondary_buttons();
@@ -159,14 +159,14 @@ void LensEditor::mode_new()
 	distance_->setValue(10);
 }
 
-void LensEditor::mode_edit()
+void LensEditor::mode_edit() const
 {
 	// item are already loaded
 	enable_form();
 	secondary_buttons();
 }
 
-void LensEditor::mode_default()
+void LensEditor::mode_default() const
 {
 	disable_form();
 	primary_buttons();

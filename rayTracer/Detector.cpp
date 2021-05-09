@@ -2,7 +2,7 @@
 
 
 
-bool Detector::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
+bool Detector::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point) const
 {
 	double distance = this->distance_from_source_ - ray->source_distance();
 

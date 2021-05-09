@@ -30,12 +30,12 @@ Base3D::Base3D(Qt3DCore::QEntity* root_entity, const QUrl* mesh_location, const 
     addComponent(transform_);
 }
 
-Qt3DExtras::QDiffuseSpecularMaterial* Base3D::get_material()
+Qt3DExtras::QDiffuseSpecularMaterial* Base3D::get_material() const
 {
     return material_;
 }
 
-Qt3DCore::QTransform* Base3D::get_transform()
+Qt3DCore::QTransform* Base3D::get_transform() const
 {
     return transform_;
 }

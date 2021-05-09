@@ -3,6 +3,7 @@
 #include <Qt3DRender>
 #include <QTransform>
 
+#include "src/common/macros.h"
 #include "src/gui/commonGui/Scene.h"
 
 
@@ -13,4 +14,5 @@ const QUrl Detector3D::mesh_location = QUrl::fromLocalFile("./src/gui/meshes/det
 Detector3D::Detector3D(Qt3DCore::QEntity* root_entity, const double distance) : Base3D(root_entity, &mesh_location, &diffuse_color_default)
 {
     transform_->setTranslation(QVector3D(.0f, -distance, .0f)); // -distance
+	transform_->setScale(DETECTOR_SIZE);
 }

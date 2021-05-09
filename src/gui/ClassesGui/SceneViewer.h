@@ -21,17 +21,17 @@ public:
 	void add_lens(float distance, float x_tilt, float z_tilt, int id);
 	void remove_lens(int id);
 	void edit_lens(int id, float x_tilt, float z_tilt, float distance);
-	void edit_sample(float distance, float tilt_y);
-	void edit_detector(float distance);
+	void edit_sample(float distance, float tilt_y) const;
+	void edit_detector(float distance) const;
 	void clear_lenses();
 
 	void set_active(int id);
 	
-	Qt3DExtras::Qt3DWindow* get_window();
-	QWidget* get_window_widget();
-	Source3D* get_source();
-	Sample3D* get_sample();
-	Detector3D* get_detector();
+	Qt3DExtras::Qt3DWindow* get_window() const;
+	QWidget* get_window_widget() const;
+	Source3D* get_source() const;
+	Sample3D* get_sample() const;
+	Detector3D* get_detector() const;
 
 	void update(vector<vector<std::shared_ptr<Point>>> rays);
 

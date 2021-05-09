@@ -5,6 +5,8 @@
 #include <qlabel.h>
 #include <qspinbox.h>
 
+#include "src/common/macros.h"
+
 MiscEditor::MiscEditor()
 {
 	auto wrapper_layout = new QVBoxLayout;
@@ -15,7 +17,7 @@ MiscEditor::MiscEditor()
 	form_layout->addRow(new QLabel(tr("Number of rays:")), number_rays_);
 	// Diameter of the ray cluster
 	r_diameter_ = new QDoubleSpinBox;
-	r_diameter_->setRange(.0, 1.);
+	r_diameter_->setRange(.0, SOURCE_SIZE);
 	r_diameter_->setStepType(QAbstractSpinBox::StepType::AdaptiveDecimalStepType);
 	r_diameter_->setSingleStep(0.1);
 	form_layout->addRow(new QLabel(tr("Diameter of the ray cluster:")), r_diameter_);
@@ -53,7 +55,7 @@ MiscEditor::MiscEditor()
 	connect(button_save_, &QPushButton::clicked, this, &MiscEditor::save_slot);
 }
 
-void MiscEditor::edit_mode()
+void MiscEditor::edit_mode() const
 {
 	number_rays_->setDisabled(false);
 	r_diameter_->setDisabled(false);
@@ -66,7 +68,7 @@ void MiscEditor::edit_mode()
 	button_edit_->setHidden(true);
 }
 
-void MiscEditor::default_mode()
+void MiscEditor::default_mode() const
 {
 	number_rays_->setDisabled(true);
 	r_diameter_->setDisabled(true);
@@ -79,21 +81,21 @@ void MiscEditor::default_mode()
 	button_edit_->setHidden(false);
 }
 
-QPushButton* MiscEditor::get_button_edit_()
+QPushButton* MiscEditor::get_button_edit_() const
 {
 	return button_edit_;
 }
 
-QPushButton* MiscEditor::get_button_save_()
+QPushButton* MiscEditor::get_button_save_() const
 {
 	return button_save_;
 }
-QPushButton* MiscEditor::get_button_cancel_()
+QPushButton* MiscEditor::get_button_cancel_() const
 {
 	return button_cancel_;
 }
 
-void MiscEditor::set_configuration(unsigned rays_number, double y_tilt, double distance_s, double distance_d, double r_diameter)
+void MiscEditor::set_configuration(unsigned rays_number, double y_tilt, double distance_s, double distance_d, double r_diameter) const
 {
 	number_rays_->setValue(rays_number);
 	r_diameter_->setValue(r_diameter);

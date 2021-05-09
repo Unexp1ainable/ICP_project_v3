@@ -30,27 +30,27 @@ SceneViewer::SceneViewer(rayEngine* engine)
 	window_->setRootEntity(root_entity_);
 }
 
-Qt3DExtras::Qt3DWindow* SceneViewer::get_window()
+Qt3DExtras::Qt3DWindow* SceneViewer::get_window() const
 {
 	return window_;
 }
 
-QWidget* SceneViewer::get_window_widget()
+QWidget* SceneViewer::get_window_widget() const
 {
 	return window_widget_;
 }
 
-Sample3D* SceneViewer::get_sample()
+Sample3D* SceneViewer::get_sample() const
 {
 	return sample_;
 }
 
-Source3D* SceneViewer::get_source()
+Source3D* SceneViewer::get_source() const
 {
 	return source_;
 }
 
-Detector3D* SceneViewer::get_detector()
+Detector3D* SceneViewer::get_detector() const
 {
 	return detector_;
 }
@@ -151,14 +151,14 @@ void SceneViewer::set_active(int id)
 	}
 }
 
-void SceneViewer::edit_sample(float distance, float tilt_y)
+void SceneViewer::edit_sample(float distance, float tilt_y) const
 {
 	auto transform = sample_->get_transform();
 	transform->setTranslation(QVector3D(0., -distance, 0.)); //-distance
 	transform->setRotationY(tilt_y);
 }
 
-void SceneViewer::edit_detector(float distance)
+void SceneViewer::edit_detector(float distance) const
 {
 	detector_->get_transform()->setTranslation(QVector3D(0., -distance, 0.)); // -distance
 }

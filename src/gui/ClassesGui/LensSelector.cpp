@@ -12,12 +12,12 @@ void LensSelector::add_lens(int id, QString label)
 	addItem(item);
 }
 
-void LensSelector::remove_lens(int index)
+void LensSelector::remove_lens(int index) const
 {
 	delete currentItem();
 }
 
-void LensSelector::edit_lens(QString label)
+void LensSelector::edit_lens(QString label) const
 {
 	currentItem()->setText(label);
 }

@@ -24,7 +24,7 @@ public:
 	 * @param o_power
 	 * @param distance
 	 */
-	void load_lens(std::string name, double tilt_x, double tilt_z, double o_power, double distance);
+	void load_lens(std::string name, double tilt_x, double tilt_z, double o_power, double distance) const;
 
 	QPushButton* get_button_new() const;
 	QPushButton* get_button_edit() const;
@@ -32,10 +32,10 @@ public:
 	QPushButton* get_button_save() const;
 	QPushButton* get_button_cancel() const;
 
-	void disable_form();
-	void enable_form();
-	void primary_buttons();
-	void secondary_buttons();
+	void disable_form() const;
+	void enable_form() const;
+	void primary_buttons() const;
+	void secondary_buttons() const;
 	
 private:
 	QGroupBox* group_box_;
@@ -52,9 +52,9 @@ private:
 	QPushButton* button_cancel_;
 
 public slots:
-	void mode_new();
-	void mode_edit();
-	void mode_default();
+	void mode_new() const;
+	void mode_edit() const;
+	void mode_default() const;
 	void save_new();
 
 signals:

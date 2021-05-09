@@ -6,23 +6,22 @@
 #include "LensSelectorItem.h"
 #include "MiscEditor.h"
 #include "SceneViewer.h"
-#include "ShapeViewer.h"
 #include "SurfaceInfoPanel.h"
 #include "src/common/macros.h"
 
+
 GuiWindow::GuiWindow(rayEngine* engine)
 {
-	engine_ = engine;
-	engine_->init_rays(INIT_RAY_RADIUS, INIT_RAY_COUNT);
+	init_engine(engine);
 	
 	create_menu();
 
-	auto editor_box = create_lens_editor();
-	auto view_3d_box = create_3d_view();
-	auto selector_box = create_selector();
-	auto misc_editor_box = create_misc_editor();
-	auto s_info_box = create_sample_info();
-	auto d_info_box = create_detector_info();
+	const auto editor_box = create_lens_editor();
+	const auto view_3d_box = create_3d_view();
+	const auto selector_box = create_selector();
+	const auto misc_editor_box = create_misc_editor();
+	const auto s_info_box = create_sample_info();
+	const auto d_info_box = create_detector_info();
 
 	main_layout_ = new QGridLayout;
 	main_layout_->setColumnStretch(0, 4);
@@ -45,18 +44,29 @@ GuiWindow::GuiWindow(rayEngine* engine)
 
 	load_configuration();
 
-	update();
+	update_system();
+}
+
+
+void GuiWindow::init_engine(rayEngine* engine)
+{
+	engine_ = engine;
+	engine_->init_rays(INIT_RAY_RADIUS, INIT_RAY_COUNT);
+	engine_->set_detector_size_x(DETECTOR_SIZE);
+	engine_->set_detector_size_y(DETECTOR_SIZE);
+	engine_->set_sample_size_x(SAMPLE_SIZE);
+	engine_->set_sample_size_y(SAMPLE_SIZE);
 }
 
 void GuiWindow::create_menu()
 {
 	const QIcon openIcon = QIcon::fromTheme("document-open", QIcon(":/images/open.png"));
-	QAction* load_act = new QAction(openIcon, tr("&Load..."), this);
+	auto load_act = new QAction(openIcon, tr("&Load..."), this);
 	load_act->setShortcuts(QKeySequence::Open);
 	load_act->setStatusTip(tr("Open an existing file"));
 
 	const QIcon saveIcon = QIcon::fromTheme("document-save", QIcon(":/images/save.png"));
-	QAction* save_act = new QAction(saveIcon, tr("&Save..."), this);
+	auto save_act = new QAction(saveIcon, tr("&Save..."), this);
 	load_act->setShortcuts(QKeySequence::Save);
 	load_act->setStatusTip(tr("Save to file"));
 
@@ -119,7 +129,7 @@ QGroupBox* GuiWindow::create_misc_editor()
 	auto i_box = new QGroupBox;
 	i_box->setTitle(tr("Sample and detector editor."));
 
-	QHBoxLayout* vbox = new QHBoxLayout;
+	auto vbox = new QHBoxLayout;
 
 	misc_editor_ = new MiscEditor;
 
@@ -136,7 +146,7 @@ QGroupBox* GuiWindow::create_sample_info()
 	auto i_box = new QGroupBox;
 	i_box->setTitle(tr("Informations about rays passing through the sample."));
 
-	QHBoxLayout* vbox = new QHBoxLayout;
+	auto vbox = new QHBoxLayout;
 	sample_info_ = new SurfaceInfoPanel{SAMPLE_SIZE};
 
 	vbox->addWidget(sample_info_);
@@ -149,7 +159,7 @@ QGroupBox* GuiWindow::create_detector_info()
 	auto i_box = new QGroupBox;
 	i_box->setTitle(tr("Informations about rays striking the detector."));
 
-	QHBoxLayout* vbox = new QHBoxLayout;
+	auto vbox = new QHBoxLayout;
 	detector_info_ = new SurfaceInfoPanel{DETECTOR_SIZE};
 	
 	vbox->addWidget(detector_info_);
@@ -157,7 +167,7 @@ QGroupBox* GuiWindow::create_detector_info()
 	return i_box;
 }
 
-void GuiWindow::clear_configuration()
+void GuiWindow::clear_configuration() const
 {
 	misc_editor_->default_mode();
 	view_3d_->clear_lenses();
@@ -165,7 +175,7 @@ void GuiWindow::clear_configuration()
 }
 
 
-void GuiWindow::load_configuration()
+void GuiWindow::load_configuration() const
 {
 	// clear
 	clear_configuration();
@@ -173,10 +183,10 @@ void GuiWindow::load_configuration()
 	// lenses
 	for (int i = 0; i < engine_->lens_count(); i++)
 	{
-		auto id = engine_->lens_index_to_id(i);
-		auto distance = engine_->get_lens_distance_from_source(id);
-		auto x_tilt = TO_DEGREES(engine_->get_lens_deviation_x(id));
-		auto z_tilt = TO_DEGREES(engine_->get_lens_deviation_y(id));
+		const auto id = engine_->lens_index_to_id(i);
+		const auto distance = engine_->get_lens_distance_from_source(id);
+		const auto x_tilt = TO_DEGREES(engine_->get_lens_deviation_x(id));
+		const auto z_tilt = TO_DEGREES(engine_->get_lens_deviation_y(id));
 		
 		view_3d_->add_lens(distance, x_tilt, z_tilt, id);
 		selector_->addItem(new LensSelectorItem{ id, QString::fromStdString(engine_->get_lens_name(id)) });
@@ -190,7 +200,7 @@ void GuiWindow::load_configuration()
 }
 
 
-void GuiWindow::connect_elements()
+void GuiWindow::connect_elements() const
 {
 	// -------- Lens Editor ---------
 	// connect selection loading
@@ -223,7 +233,7 @@ void GuiWindow::connect_elements()
 
 void GuiWindow::open_file_slot()
 {
-	auto fileName = QFileDialog::getOpenFileName(this,
+	const auto fileName = QFileDialog::getOpenFileName(this,
 		tr("Open configuration"), "", tr("*.re"));
 
 	if (fileName.compare("") == 0)
@@ -231,12 +241,12 @@ void GuiWindow::open_file_slot()
 
 	engine_->load_config(fileName.toStdString());
 	load_configuration();
-	update();
+	update_system();
 }
 
 void GuiWindow::save_file_slot()
 {
-	auto fileName = QFileDialog::getSaveFileName(this,
+	const auto fileName = QFileDialog::getSaveFileName(this,
 		tr("Open configuration"), "", tr("*.re"));
 
 	if (fileName.compare("") == 0)
@@ -246,16 +256,16 @@ void GuiWindow::save_file_slot()
 }
 
 
-void GuiWindow::selection_changed_slot(QListWidgetItem* item)
+void GuiWindow::selection_changed_slot(QListWidgetItem* item) const
 {
-	auto lens_item = dynamic_cast<LensSelectorItem*>(item);	// casting back so I can access id
-	auto id = lens_item->getId();
-
-	auto name = engine_->get_lens_name(id);
-	auto distance = engine_->get_lens_distance_from_source(id);
-	auto x_tilt = TO_DEGREES(engine_->get_lens_deviation_x(id));
-	auto z_tilt = TO_DEGREES(engine_->get_lens_deviation_y(id));
-	auto o_power = engine_->get_lens_optical_power(id);
+	const auto lens_item = dynamic_cast<LensSelectorItem*>(item);	// casting back so I can access id
+	const auto id = lens_item->getId();
+	
+	const auto name = engine_->get_lens_name(id);
+	const auto distance = engine_->get_lens_distance_from_source(id);
+	const auto x_tilt = TO_DEGREES(engine_->get_lens_deviation_x(id));
+	const auto z_tilt = TO_DEGREES(engine_->get_lens_deviation_y(id));
+	const auto o_power = engine_->get_lens_optical_power(id);
 	
 	editor_->load_lens(name, x_tilt, z_tilt, o_power, distance);
 
@@ -279,7 +289,7 @@ void GuiWindow::mode_edit_slot()
 	editing_ = true;
 	editor_->mode_edit();
 	selector_->setDisabled(true);
-	update();
+	update_system();
 }
 
 void GuiWindow::delete_slot()
@@ -299,11 +309,11 @@ void GuiWindow::delete_slot()
 	// editor
 	editor_->mode_default();
 
-	update();
+	update_system();
 }
 
 
-void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
+void GuiWindow::save_slot(QString name, double x_tilt, double z_tilt, double distance, double optical_power)
 {
 	if (editing_)
 	{
@@ -331,10 +341,10 @@ void GuiWindow::save_slot(QString name, float x_tilt, float z_tilt, float distan
 		}
 	}
 
-	update();
+	update_system();
 }
 
-void GuiWindow::cancel_slot()
+void GuiWindow::cancel_slot() const
 {
 	editor_->mode_default();
 	selector_->setDisabled(false);
@@ -343,7 +353,7 @@ void GuiWindow::cancel_slot()
 }
 
 
-void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
+void GuiWindow::create_new_lens(QString name, double x_tilt, double z_tilt, double distance, double optical_power) const
 {
 	try
 	{
@@ -371,7 +381,7 @@ void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float 
 }
 
 
-void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power, int id)
+void GuiWindow::edit_lens(QString name, double x_tilt, double z_tilt, double distance, double optical_power, int id) const
 {
 	auto std_name = name.toStdString();
 
@@ -409,12 +419,12 @@ void GuiWindow::edit_lens(QString name, float x_tilt, float z_tilt, float distan
 }
 
 
-void GuiWindow::misc_editor_edit_slot_()
+void GuiWindow::misc_editor_edit_slot_() const
 {
 	misc_editor_->edit_mode();
 }
 
-void GuiWindow::misc_editor_cancel_slot_()
+void GuiWindow::misc_editor_cancel_slot_() const
 {
 	auto rays_n = engine_->ray_count();
 	auto r_diameter = engine_->get_ray_cluster_diameter();
@@ -456,19 +466,19 @@ void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double dis
 	view_3d_->edit_sample(distance_s, y_tilt);
 	view_3d_->edit_detector(distance_d);
 
-	update();
+	update_system();
 }
 
 
 
-void GuiWindow::error_slot(std::string error)
+void GuiWindow::error_slot(std::string error) const
 {
 	QMessageBox message_box;
 	QMessageBox::critical(nullptr, "Error", QString::fromStdString(error));
 	message_box.setFixedSize(500, 200);
 }
 
-void GuiWindow::update()
+void GuiWindow::update_system() const
 {
 	engine_->update();
 	view_3d_->update(engine_->get_ray_points());
