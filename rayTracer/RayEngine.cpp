@@ -217,7 +217,9 @@ bool rayEngine::position_valid_detector(double distance)
 
 void rayEngine::init_rays(double radius, int count)
 {
+	
 	clear_rays();
+	ray_cluster_diameter_ = radius * 2;
 	double _2pi = 4 * acos(0.0);
 
 	double rotation_angle = _2pi / count;

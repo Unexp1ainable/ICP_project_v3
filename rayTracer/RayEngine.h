@@ -21,6 +21,7 @@ private:
 	std::vector<std::shared_ptr<Ray>> rays_;
 	int ray_count_ = 0;
 	int ray_id_ = 1;
+	double ray_cluster_diameter_ = 0;
 	std::shared_ptr<Ray> get_ray_by_id(int id);
 
 	std::shared_ptr<Sample> sample_;
@@ -102,6 +103,7 @@ public:
 	double get_ray_angle_x(int id) { return get_ray_by_id(id)->angleX(); }
 	double get_ray_angle_y(int id) { return get_ray_by_id(id)->angleY(); }
 	double get_ray_source_distance(int id) { return get_ray_by_id(id)->source_distance(); }
+	double get_ray_cluster_diameter()const { return ray_cluster_diameter_; }
 
 	void set_ray_position_x(int id, double position) { get_ray_by_id(id)->set_positionX(position); }
 	void set_ray_position_y(int id, double position) { get_ray_by_id(id)->set_positionY(position); }
@@ -114,6 +116,7 @@ public:
 	int ray_count() const { return ray_count_; }
 	void clear_rays()
 	{
+		ray_cluster_diameter_ = 0;
 		ray_id_ = 1;
 		ray_count_ = 0;
 		rays_.clear();

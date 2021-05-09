@@ -37,7 +37,6 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 		double positions[2] = { 0,0 };
 		double distance_from_source = 0;
 		double distances[2] = { 0,0 };
-		double const pi = 2 * acos(0.0);
 		double const pi2 = acos(0.0);
 		
 
