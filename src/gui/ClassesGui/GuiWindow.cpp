@@ -353,6 +353,7 @@ void GuiWindow::cancel_slot()
 
 void GuiWindow::create_new_lens(QString name, float x_tilt, float z_tilt, float distance, float optical_power)
 {
+	// TODO catch
 	auto id = engine_->add_lens(distance, 10., optical_power, name.toStdString(), TO_RADIANS(x_tilt), TO_RADIANS(z_tilt));
 	view_3d_->add_lens(distance, x_tilt, z_tilt, id);
 	selector_->add_lens(id, name);
@@ -386,15 +387,16 @@ void GuiWindow::misc_editor_edit_slot_()
 void GuiWindow::misc_editor_cancel_slot_()
 {
 	auto rays_n = engine_->ray_count();
+	auto r_diameter = 1.;
 	auto s_distance = engine_->get_sample_distance_from_source();
 	auto s_tilt_y = engine_->get_sample_rotation();
 	auto d_distance = engine_->get_detector_distance_from_source();
 	
-	misc_editor_->set_configuration(rays_n, s_tilt_y, s_distance, d_distance);
+	misc_editor_->set_configuration(rays_n, s_tilt_y, s_distance, d_distance, r_diameter);
 	misc_editor_->default_mode();
 }
 
-void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d)
+void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d, double r_diameter)
 {
 	// engine
 	if (engine_->position_valid_sample(distance_s))
@@ -418,12 +420,14 @@ void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double dis
 	engine_->set_sample_rotation(y_tilt);
 
 	//TODO change magic number
-	engine_->init_rays(1., 10);
+	engine_->init_rays(r_diameter, rays_n);
 	
 
 	// 3dview
 	view_3d_->edit_sample(distance_s, y_tilt);
 	view_3d_->edit_detector(distance_d);
+
+	update();
 }
 
 
