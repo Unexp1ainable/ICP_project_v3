@@ -16,5 +16,5 @@ Ray3D::Ray3D(Qt3DCore::QEntity* parent, std::vector<std::shared_ptr<Point>> poin
 
 QVector3D Ray3D::toQVector3D(std::shared_ptr<Point> p)
 {
-	return QVector3D(p->y, -p->z, p->x);
+	return QVector3D(-p->y, -p->z, p->x);
 }
