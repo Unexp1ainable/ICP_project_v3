@@ -14,7 +14,10 @@ MiscEditor::MiscEditor()
 	number_rays_ = new QSpinBox;
 	form_layout->addRow(new QLabel(tr("Number of rays:")), number_rays_);
 	// Diameter of the ray cluster
-	r_diameter_ = new QSpinBox;
+	r_diameter_ = new QDoubleSpinBox;
+	r_diameter_->setRange(.0, 1.);
+	r_diameter_->setStepType(QAbstractSpinBox::StepType::AdaptiveDecimalStepType);
+	r_diameter_->setSingleStep(0.1);
 	form_layout->addRow(new QLabel(tr("Diameter of the ray cluster:")), r_diameter_);
 	// tilt Y
 	sample_tilt_y_ = new QDoubleSpinBox;
@@ -36,7 +39,7 @@ MiscEditor::MiscEditor()
 	auto secondary_button_layout = new QHBoxLayout;
 	button_save_ = new QPushButton{ tr("Save") };
 	secondary_button_layout->addWidget(button_save_);
-	button_cancel_ = new QPushButton{ tr("Cancel") };
+	button_cancel_ = new QPushButton{ tr("Done") };
 	secondary_button_layout->addWidget(button_cancel_);
 
 	wrapper_layout->addLayout(form_layout);

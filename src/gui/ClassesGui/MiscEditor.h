@@ -28,7 +28,7 @@ private:
 	QPushButton* button_edit_;
 	QPushButton* button_save_;
 	QPushButton* button_cancel_;
-	QSpinBox* r_diameter_;
+	QDoubleSpinBox* r_diameter_;
 
 public slots:
 	void save_slot();
