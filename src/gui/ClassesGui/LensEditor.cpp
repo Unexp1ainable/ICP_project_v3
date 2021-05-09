@@ -3,8 +3,6 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 
-#include "src/common/macros.h"
-
 
 LensEditor::LensEditor()
 {	
@@ -33,7 +31,6 @@ LensEditor::LensEditor()
 
 	// buttons
 	auto primary_button_layout = new QHBoxLayout;
-
 	button_new_ = new QPushButton{ tr("New") };
 	primary_button_layout->addWidget(button_new_);
 	button_edit_ = new QPushButton{ tr("Edit") };
@@ -144,9 +141,6 @@ void LensEditor::secondary_buttons() const
 	button_cancel_->setHidden(false);
 }
 
-
-
-
 void LensEditor::mode_new() const
 {
 	enable_form();
@@ -161,7 +155,7 @@ void LensEditor::mode_new() const
 
 void LensEditor::mode_edit() const
 {
-	// item are already loaded
+	// items are already loaded
 	enable_form();
 	secondary_buttons();
 }
@@ -177,11 +171,11 @@ void LensEditor::mode_default() const
 
 void LensEditor::save_new()
 {
-	auto p_name = name_->text();
-	auto p_x_tilt = tilt_x_->value();
-	auto p_y_tilt = tilt_z_->value();
-	auto p_distance = distance_->value();
-	auto p_optical_power = optical_power_->value();
+	const auto p_name = name_->text();
+	const auto p_x_tilt = tilt_x_->value();
+	const auto p_y_tilt = tilt_z_->value();
+	const auto p_distance = distance_->value();
+	const auto p_optical_power = optical_power_->value();
 	
 	emit save_lens_signal(p_name, p_x_tilt,p_y_tilt, p_distance, p_optical_power);
 }
