@@ -16,6 +16,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	
 	create_menu();
 
+	// initialise control elements
 	const auto editor_box = create_lens_editor();
 	const auto view_3d_box = create_3d_view();
 	const auto selector_box = create_selector();
@@ -23,6 +24,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	const auto s_info_box = create_sample_info();
 	const auto d_info_box = create_detector_info();
 
+	// initialise layout
 	main_layout_ = new QGridLayout;
 	main_layout_->setColumnStretch(0, 4);
 	main_layout_->setRowStretch(2, 1);
@@ -41,9 +43,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 	setCentralWidget(central_widget);
 	
 	connect_elements();
-
 	load_configuration();
-
 	update_system();
 }
 
@@ -61,21 +61,18 @@ void GuiWindow::init_engine(rayEngine* engine)
 void GuiWindow::create_menu()
 {
 	const QIcon openIcon = QIcon::fromTheme("document-open", QIcon(":/images/open.png"));
-	auto load_act = new QAction(openIcon, tr("&Load..."), this);
-	load_act->setShortcuts(QKeySequence::Open);
-	load_act->setStatusTip(tr("Open an existing file"));
+	load_action_ = new QAction(openIcon, tr("&Load..."), this);
+	load_action_->setShortcuts(QKeySequence::Open);
+	load_action_->setStatusTip(tr("Open an existing file"));
 
 	const QIcon saveIcon = QIcon::fromTheme("document-save", QIcon(":/images/save.png"));
-	auto save_act = new QAction(saveIcon, tr("&Save..."), this);
-	load_act->setShortcuts(QKeySequence::Save);
-	load_act->setStatusTip(tr("Save to file"));
+	save_action_ = new QAction(saveIcon, tr("&Save..."), this);
+	save_action_->setShortcuts(QKeySequence::Save);
+	save_action_->setStatusTip(tr("Save to file"));
 
 	auto file_menu = menuBar()->addMenu(tr("File"));
-	file_menu->addAction(load_act);
-	file_menu->addAction(save_act);
-
-	connect(load_act, &QAction::triggered, this, &GuiWindow::open_file_slot);
-	connect(save_act, &QAction::triggered, this, &GuiWindow::save_file_slot);
+	file_menu->addAction(load_action_);
+	file_menu->addAction(save_action_);
 }
 
 
@@ -100,12 +97,11 @@ QGroupBox* GuiWindow::create_lens_editor()
 
 	editor_ = new LensEditor;
 
-	// init editor
 	editor_->mode_default();
 
-	auto vbox = new QVBoxLayout;
-	vbox->addWidget(editor_);
-	e_box->setLayout(vbox);
+	auto layout = new QVBoxLayout;
+	layout->addWidget(editor_);
+	e_box->setLayout(layout);
 
 	return e_box;
 }
@@ -129,13 +125,13 @@ QGroupBox* GuiWindow::create_misc_editor()
 	auto i_box = new QGroupBox;
 	i_box->setTitle(tr("Sample and detector editor."));
 
-	auto vbox = new QHBoxLayout;
+	auto layout = new QHBoxLayout;
 
 	misc_editor_ = new MiscEditor;
 
-	vbox->addWidget(misc_editor_);
+	layout->addWidget(misc_editor_);
 
-	i_box->setLayout(vbox);
+	i_box->setLayout(layout);
 	return i_box;
 }
 
@@ -146,11 +142,11 @@ QGroupBox* GuiWindow::create_sample_info()
 	auto i_box = new QGroupBox;
 	i_box->setTitle(tr("Informations about rays passing through the sample."));
 
-	auto vbox = new QHBoxLayout;
+	auto layout = new QHBoxLayout;
 	sample_info_ = new SurfaceInfoPanel{SAMPLE_SIZE};
 
-	vbox->addWidget(sample_info_);
-	i_box->setLayout(vbox);
+	layout->addWidget(sample_info_);
+	i_box->setLayout(layout);
 	return i_box;
 }
 
@@ -159,11 +155,11 @@ QGroupBox* GuiWindow::create_detector_info()
 	auto i_box = new QGroupBox;
 	i_box->setTitle(tr("Informations about rays striking the detector."));
 
-	auto vbox = new QHBoxLayout;
+	auto layout = new QHBoxLayout;
 	detector_info_ = new SurfaceInfoPanel{DETECTOR_SIZE};
 	
-	vbox->addWidget(detector_info_);
-	i_box->setLayout(vbox);
+	layout->addWidget(detector_info_);
+	i_box->setLayout(layout);
 	return i_box;
 }
 
@@ -202,6 +198,9 @@ void GuiWindow::load_configuration() const
 
 void GuiWindow::connect_elements() const
 {
+	// menu bar
+	connect(load_action_, &QAction::triggered, this, &GuiWindow::open_file_slot);
+	connect(save_action_, &QAction::triggered, this, &GuiWindow::save_file_slot);
 	// -------- Lens Editor ---------
 	// connect selection loading
 	connect(selector_, &QListWidget::itemClicked, this, &GuiWindow::selection_changed_slot);
@@ -233,26 +232,26 @@ void GuiWindow::connect_elements() const
 
 void GuiWindow::open_file_slot()
 {
-	const auto fileName = QFileDialog::getOpenFileName(this,
+	const auto file_name = QFileDialog::getOpenFileName(this,
 		tr("Open configuration"), "", tr("*.re"));
 
-	if (fileName.compare("") == 0)
+	if (file_name.compare("") == 0)
 		return;
 
-	engine_->load_config(fileName.toStdString());
+	engine_->load_config(file_name.toStdString());
 	load_configuration();
 	update_system();
 }
 
 void GuiWindow::save_file_slot()
 {
-	const auto fileName = QFileDialog::getSaveFileName(this,
+	const auto file_name = QFileDialog::getSaveFileName(this,
 		tr("Open configuration"), "", tr("*.re"));
 
-	if (fileName.compare("") == 0)
+	if (file_name.compare("") == 0)
 		return;
 
-	engine_->save_config(fileName.toStdString());
+	engine_->save_config(file_name.toStdString());
 }
 
 
@@ -292,10 +291,10 @@ void GuiWindow::mode_edit_slot()
 	update_system();
 }
 
-void GuiWindow::delete_slot()
+void GuiWindow::delete_slot() const
 {
-	auto item = dynamic_cast<LensSelectorItem*>(selector_->currentItem());
-	auto id = item->getId();
+	const auto item = dynamic_cast<LensSelectorItem*>(selector_->currentItem());
+	const auto id = item->getId();
 
 	// engine
 	engine_->remove_lens(id);
@@ -313,7 +312,7 @@ void GuiWindow::delete_slot()
 }
 
 
-void GuiWindow::save_slot(QString name, double x_tilt, double z_tilt, double distance, double optical_power)
+void GuiWindow::save_slot(QString name, double x_tilt, double z_tilt, double distance, double optical_power) const
 {
 	if (editing_)
 	{
@@ -426,17 +425,17 @@ void GuiWindow::misc_editor_edit_slot_() const
 
 void GuiWindow::misc_editor_cancel_slot_() const
 {
-	auto rays_n = engine_->ray_count();
-	auto r_diameter = engine_->get_ray_cluster_diameter();
-	auto s_distance = engine_->get_sample_distance_from_source();
-	auto s_tilt_y = engine_->get_sample_rotation();
-	auto d_distance = engine_->get_detector_distance_from_source();
+	const auto rays_n = engine_->ray_count();
+	const auto r_diameter = engine_->get_ray_cluster_diameter();
+	const auto s_distance = engine_->get_sample_distance_from_source();
+	const auto s_tilt_y = engine_->get_sample_rotation();
+	const auto d_distance = engine_->get_detector_distance_from_source();
 	
 	misc_editor_->set_configuration(rays_n, s_tilt_y, s_distance, d_distance, r_diameter);
 	misc_editor_->default_mode();
 }
 
-void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d, double r_diameter)
+void GuiWindow::misc_editor_save_slot(unsigned rays_n, double y_tilt, double distance_s, double distance_d, double r_diameter) const
 {
 	// engine
 	if (engine_->position_valid_sample(distance_s))
