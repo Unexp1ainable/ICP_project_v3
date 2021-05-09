@@ -53,12 +53,9 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
-		rayTracer/AxisObject.cpp \
 		rayTracer/Detector.cpp \
 		rayTracer/Lens.cpp \
-		rayTracer/Ray.cpp \
 		rayTracer/RayEngine.cpp \
-		rayTracer/RayPath.cpp \
 		rayTracer/Sample.cpp \
 		src/gui/MainGui.cpp \
 		src/gui/Classes3D/Base3D.cpp \
@@ -82,12 +79,9 @@ SOURCES       = main.cpp \
 		moc_SceneViewer.cpp \
 		moc_ShapeViewer.cpp
 OBJECTS       = main.o \
-		AxisObject.o \
 		Detector.o \
 		Lens.o \
-		Ray.o \
 		RayEngine.o \
-		RayPath.o \
 		Sample.o \
 		MainGui.o \
 		Base3D.o \
@@ -293,7 +287,6 @@ DIST          = /home/unex/Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		rayTracer/Point.h \
 		rayTracer/Ray.h \
 		rayTracer/RayEngine.h \
-		rayTracer/RayPath.h \
 		rayTracer/Sample.h \
 		src/common/macros.h \
 		src/gui/MainGui.h \
@@ -312,12 +305,9 @@ DIST          = /home/unex/Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		src/gui/ClassesGui/ShapeViewer.h \
 		src/gui/ClassesGui/SurfaceInfoPanel.h \
 		src/gui/commonGui/Scene.h main.cpp \
-		rayTracer/AxisObject.cpp \
 		rayTracer/Detector.cpp \
 		rayTracer/Lens.cpp \
-		rayTracer/Ray.cpp \
 		rayTracer/RayEngine.cpp \
-		rayTracer/RayPath.cpp \
 		rayTracer/Sample.cpp \
 		src/gui/MainGui.cpp \
 		src/gui/Classes3D/Base3D.cpp \
@@ -716,8 +706,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/unex/Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents rayTracer/AxisObject.h rayTracer/Detector.h rayTracer/Lens.h rayTracer/Point.h rayTracer/Ray.h rayTracer/RayEngine.h rayTracer/RayPath.h rayTracer/Sample.h src/common/macros.h src/gui/MainGui.h src/gui/Classes3D/Base3D.h src/gui/Classes3D/Detector3D.h src/gui/Classes3D/Lens3D.h src/gui/Classes3D/Line3D.h src/gui/Classes3D/Sample3D.h src/gui/Classes3D/Source3D.h src/gui/ClassesGui/GuiWindow.h src/gui/ClassesGui/LensEditor.h src/gui/ClassesGui/LensList.h src/gui/ClassesGui/LensListItem.h src/gui/ClassesGui/MiscEditor.h src/gui/ClassesGui/SceneViewer.h src/gui/ClassesGui/ShapeViewer.h src/gui/ClassesGui/SurfaceInfoPanel.h src/gui/commonGui/Scene.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp rayTracer/AxisObject.cpp rayTracer/Detector.cpp rayTracer/Lens.cpp rayTracer/Ray.cpp rayTracer/RayEngine.cpp rayTracer/RayPath.cpp rayTracer/Sample.cpp src/gui/MainGui.cpp src/gui/Classes3D/Base3D.cpp src/gui/Classes3D/Detector3D.cpp src/gui/Classes3D/Lens3D.cpp src/gui/Classes3D/Line3D.cpp src/gui/Classes3D/Sample3D.cpp src/gui/Classes3D/Source3D.cpp src/gui/ClassesGui/GuiWindow.cpp src/gui/ClassesGui/LensEditor.cpp src/gui/ClassesGui/LensList.cpp src/gui/ClassesGui/LensListItem.cpp src/gui/ClassesGui/MiscEditor.cpp src/gui/ClassesGui/SceneViewer.cpp src/gui/ClassesGui/ShapeViewer.cpp src/gui/ClassesGui/SurfaceInfoPanel.cpp src/gui/commonGui/Scene.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents rayTracer/AxisObject.h rayTracer/Detector.h rayTracer/Lens.h rayTracer/Point.h rayTracer/Ray.h rayTracer/RayEngine.h rayTracer/Sample.h src/common/macros.h src/gui/MainGui.h src/gui/Classes3D/Base3D.h src/gui/Classes3D/Detector3D.h src/gui/Classes3D/Lens3D.h src/gui/Classes3D/Line3D.h src/gui/Classes3D/Sample3D.h src/gui/Classes3D/Source3D.h src/gui/ClassesGui/GuiWindow.h src/gui/ClassesGui/LensEditor.h src/gui/ClassesGui/LensList.h src/gui/ClassesGui/LensListItem.h src/gui/ClassesGui/MiscEditor.h src/gui/ClassesGui/SceneViewer.h src/gui/ClassesGui/ShapeViewer.h src/gui/ClassesGui/SurfaceInfoPanel.h src/gui/commonGui/Scene.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp rayTracer/Detector.cpp rayTracer/Lens.cpp rayTracer/RayEngine.cpp rayTracer/Sample.cpp src/gui/MainGui.cpp src/gui/Classes3D/Base3D.cpp src/gui/Classes3D/Detector3D.cpp src/gui/Classes3D/Lens3D.cpp src/gui/Classes3D/Line3D.cpp src/gui/Classes3D/Sample3D.cpp src/gui/Classes3D/Source3D.cpp src/gui/ClassesGui/GuiWindow.cpp src/gui/ClassesGui/LensEditor.cpp src/gui/ClassesGui/LensList.cpp src/gui/ClassesGui/LensListItem.cpp src/gui/ClassesGui/MiscEditor.cpp src/gui/ClassesGui/SceneViewer.cpp src/gui/ClassesGui/ShapeViewer.cpp src/gui/ClassesGui/SurfaceInfoPanel.cpp src/gui/commonGui/Scene.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1540,6 +1530,7 @@ moc_GuiWindow.cpp: src/gui/ClassesGui/GuiWindow.h \
 		rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
 		rayTracer/Ray.h \
+		rayTracer/Point.h \
 		src/gui/ClassesGui/LensList.h \
 		src/gui/ClassesGui/LensListItem.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/QtWidgets/QListWidgetItem \
@@ -1554,8 +1545,6 @@ moc_GuiWindow.cpp: src/gui/ClassesGui/GuiWindow.h \
 		src/gui/Classes3D/Sample3D.h \
 		src/gui/Classes3D/Source3D.h \
 		rayTracer/RayEngine.h \
-		rayTracer/RayPath.h \
-		rayTracer/Point.h \
 		rayTracer/Sample.h \
 		rayTracer/Detector.h \
 		moc_predefs.h \
@@ -1685,6 +1674,7 @@ moc_LensEditor.cpp: src/gui/ClassesGui/LensEditor.h \
 		rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
 		rayTracer/Ray.h \
+		rayTracer/Point.h \
 		moc_predefs.h \
 		/home/unex/Qt/5.15.2/gcc_64/bin/moc
 	/home/unex/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/unex/Desktop/VUT/4sem/Projekt/ICP_project_v3/moc_predefs.h -I/home/unex/Qt/5.15.2/gcc_64/mkspecs/linux-g++ -I/home/unex/Desktop/VUT/4sem/Projekt/ICP_project_v3 -I/home/unex/Desktop/VUT/4sem/Projekt/ICP_project_v3 -I/home/unex/Qt/5.15.2/gcc_64/include -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DExtras -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DAnimation -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DRender -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DInput -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DLogic -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DCore -I/home/unex/Qt/5.15.2/gcc_64/include/QtGamepad -I/home/unex/Qt/5.15.2/gcc_64/include/QtWidgets -I/home/unex/Qt/5.15.2/gcc_64/include/QtGui -I/home/unex/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/unex/Qt/5.15.2/gcc_64/include/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/gui/ClassesGui/LensEditor.h -o moc_LensEditor.cpp
@@ -1814,6 +1804,7 @@ moc_LensList.cpp: src/gui/ClassesGui/LensList.h \
 		rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
 		rayTracer/Ray.h \
+		rayTracer/Point.h \
 		moc_predefs.h \
 		/home/unex/Qt/5.15.2/gcc_64/bin/moc
 	/home/unex/Qt/5.15.2/gcc_64/bin/moc $(DEFINES) --include /home/unex/Desktop/VUT/4sem/Projekt/ICP_project_v3/moc_predefs.h -I/home/unex/Qt/5.15.2/gcc_64/mkspecs/linux-g++ -I/home/unex/Desktop/VUT/4sem/Projekt/ICP_project_v3 -I/home/unex/Desktop/VUT/4sem/Projekt/ICP_project_v3 -I/home/unex/Qt/5.15.2/gcc_64/include -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DExtras -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DAnimation -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DRender -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DInput -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DLogic -I/home/unex/Qt/5.15.2/gcc_64/include/Qt3DCore -I/home/unex/Qt/5.15.2/gcc_64/include/QtGamepad -I/home/unex/Qt/5.15.2/gcc_64/include/QtWidgets -I/home/unex/Qt/5.15.2/gcc_64/include/QtGui -I/home/unex/Qt/5.15.2/gcc_64/include/QtNetwork -I/home/unex/Qt/5.15.2/gcc_64/include/QtCore -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/gui/ClassesGui/LensList.h -o moc_LensList.cpp
@@ -2327,37 +2318,26 @@ main.o: main.cpp src/gui/MainGui.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/QtGui/qcursor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-AxisObject.o: rayTracer/AxisObject.cpp rayTracer/AxisObject.h \
-		rayTracer/Ray.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AxisObject.o rayTracer/AxisObject.cpp
-
 Detector.o: rayTracer/Detector.cpp rayTracer/Detector.h \
-		rayTracer/Point.h \
 		rayTracer/AxisObject.h \
-		rayTracer/Ray.h
+		rayTracer/Ray.h \
+		rayTracer/Point.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Detector.o rayTracer/Detector.cpp
 
 Lens.o: rayTracer/Lens.cpp rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
-		rayTracer/Ray.h
+		rayTracer/Ray.h \
+		rayTracer/Point.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Lens.o rayTracer/Lens.cpp
 
-Ray.o: rayTracer/Ray.cpp rayTracer/Ray.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Ray.o rayTracer/Ray.cpp
-
 RayEngine.o: rayTracer/RayEngine.cpp rayTracer/RayEngine.h \
-		rayTracer/RayPath.h \
-		rayTracer/Point.h \
 		rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
 		rayTracer/Ray.h \
+		rayTracer/Point.h \
 		rayTracer/Sample.h \
 		rayTracer/Detector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RayEngine.o rayTracer/RayEngine.cpp
-
-RayPath.o: rayTracer/RayPath.cpp rayTracer/RayPath.h \
-		rayTracer/Point.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RayPath.o rayTracer/RayPath.cpp
 
 Sample.o: rayTracer/Sample.cpp rayTracer/Sample.h \
 		rayTracer/AxisObject.h \
@@ -3155,6 +3135,7 @@ MainGui.o: src/gui/MainGui.cpp src/gui/MainGui.h \
 		rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
 		rayTracer/Ray.h \
+		rayTracer/Point.h \
 		src/gui/ClassesGui/LensList.h \
 		src/gui/ClassesGui/LensListItem.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/QtWidgets/QListWidgetItem \
@@ -3168,8 +3149,6 @@ MainGui.o: src/gui/MainGui.cpp src/gui/MainGui.h \
 		src/gui/Classes3D/Sample3D.h \
 		src/gui/Classes3D/Source3D.h \
 		rayTracer/RayEngine.h \
-		rayTracer/RayPath.h \
-		rayTracer/Point.h \
 		rayTracer/Sample.h \
 		rayTracer/Detector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainGui.o src/gui/MainGui.cpp
@@ -6887,6 +6866,7 @@ GuiWindow.o: src/gui/ClassesGui/GuiWindow.cpp src/gui/ClassesGui/GuiWindow.h \
 		rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
 		rayTracer/Ray.h \
+		rayTracer/Point.h \
 		src/gui/ClassesGui/LensList.h \
 		src/gui/ClassesGui/LensListItem.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/QtWidgets/QListWidgetItem \
@@ -6901,8 +6881,6 @@ GuiWindow.o: src/gui/ClassesGui/GuiWindow.cpp src/gui/ClassesGui/GuiWindow.h \
 		src/gui/Classes3D/Sample3D.h \
 		src/gui/Classes3D/Source3D.h \
 		rayTracer/RayEngine.h \
-		rayTracer/RayPath.h \
-		rayTracer/Point.h \
 		rayTracer/Sample.h \
 		rayTracer/Detector.h \
 		src/gui/ClassesGui/ShapeViewer.h \
@@ -7033,6 +7011,7 @@ LensEditor.o: src/gui/ClassesGui/LensEditor.cpp src/gui/ClassesGui/LensEditor.h 
 		rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
 		rayTracer/Ray.h \
+		rayTracer/Point.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/QtWidgets/qlineedit.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/QtGui/qtextcursor.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/QtGui/qtextformat.h \
@@ -7166,6 +7145,7 @@ LensList.o: src/gui/ClassesGui/LensList.cpp src/gui/ClassesGui/LensList.h \
 		rayTracer/Lens.h \
 		rayTracer/AxisObject.h \
 		rayTracer/Ray.h \
+		rayTracer/Point.h \
 		src/gui/ClassesGui/LensListItem.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/QtWidgets/QListWidgetItem
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LensList.o src/gui/ClassesGui/LensList.cpp
@@ -7599,7 +7579,6 @@ SceneViewer.o: src/gui/ClassesGui/SceneViewer.cpp src/gui/ClassesGui/SceneViewer
 		/home/unex/Qt/5.15.2/gcc_64/include/Qt3DRender/qpointlight.h \
 		/home/unex/Qt/5.15.2/gcc_64/include/Qt3DRender/qabstractlight.h \
 		src/gui/Classes3D/Line3D.h \
-		src/common/macros.h \
 		src/gui/commonGui/Scene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SceneViewer.o src/gui/ClassesGui/SceneViewer.cpp
 

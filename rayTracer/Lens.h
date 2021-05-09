@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include "AxisObject.h"
+#include <cmath>
 
 class Lens:
     public Axis_object
