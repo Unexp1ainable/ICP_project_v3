@@ -6,5 +6,8 @@
 #define DETECTOR_SIZE 1
 #define SAMPLE_SIZE 10
 
+#define LENS_SIZE 10
+constexpr double SOURCE_SIZE =1;
+
 #define INIT_RAY_RADIUS 1.
 #define INIT_RAY_COUNT 10
