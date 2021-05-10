@@ -52,10 +52,10 @@ void GuiWindow::init_engine(rayEngine* engine)
 {
 	engine_ = engine;
 	engine_->init_rays(INIT_RAY_RADIUS, INIT_RAY_COUNT);
-	engine_->set_detector_size_x(DETECTOR_SIZE);
-	engine_->set_detector_size_y(DETECTOR_SIZE);
-	engine_->set_sample_size_x(SAMPLE_SIZE);
-	engine_->set_sample_size_y(SAMPLE_SIZE);
+	engine_->set_detector_size_x(DETECTOR_SIZE*2);
+	engine_->set_detector_size_y(DETECTOR_SIZE*2);
+	engine_->set_sample_size_x(SAMPLE_SIZE*2);
+	engine_->set_sample_size_y(SAMPLE_SIZE*2);
 }
 
 void GuiWindow::create_menu()
