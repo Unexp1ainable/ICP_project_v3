@@ -14,6 +14,7 @@ MiscEditor::MiscEditor()
 
 	// Number of rays
 	number_rays_ = new QSpinBox;
+	number_rays_->setRange(0, 500);
 	form_layout->addRow(new QLabel(tr("Number of rays:")), number_rays_);
 	// Diameter of the ray cluster
 	r_diameter_ = new QDoubleSpinBox;

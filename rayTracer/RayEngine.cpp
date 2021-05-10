@@ -1,6 +1,12 @@
 #include "RayEngine.h"
 
 #include "../src/common/macros.h"
+#include <cmath>
+
+using std::sin;
+using std::cos;
+using std::tan;
+using std::abs;
 
 #include <algorithm>
 
