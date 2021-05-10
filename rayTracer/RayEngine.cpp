@@ -1,5 +1,4 @@
 #include "RayEngine.h"
-#include <iostream>
 
 #include "../src/common/macros.h"
 
@@ -262,8 +261,8 @@ void rayEngine::init_rays(double radius, int count)
 
 	double rotation_angle = _2pi / count;
 
-	double x = radius;
-	double y = 0;
+	double x = 0;
+	double y = radius;
 	add_ray(x, y, 0, 0);
 	double rotX = 0;
 	double rotY = 0;
@@ -336,7 +335,7 @@ void rayEngine::init_rays(double radius, int count)
 void rayEngine::update()
 {
 
-	//std::cout<< "SIZE X = "<<detector_->sizeX() << "\nSIZE Y = "<<detector_->sizeY() << std::endl;
+
 	ray_points_.clear();
 	detector_intersect_.clear();
 	sample_intersect_.clear();

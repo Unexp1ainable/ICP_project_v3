@@ -1,10 +1,9 @@
 #include "Lens.h"
-#include "../src/common/macros.h"
 
 
 Lens::Lens(double distance_from_source, double radius, double optical_power, int id, double deviationX, double deviationY, std::string name)
 {
-	double pi2 = PI/2;
+	double pi2 = acos(0.0);
 	
 	if(optical_power == 0)
 	{
@@ -35,84 +34,82 @@ Lens::Lens(double distance_from_source, double radius, double optical_power, int
 
 void Lens::pass_ray(std::shared_ptr<Ray> ray){
 	{
-		//std::cout << "\n\nRAY ID : " << ray->id() << std::endl;
 		double angles[2] = { 0,0 };
-		double intersection_positions[2];
-		double const pi2 = PI/2;
+		double positions[2] = { 0,0 };
+		double distance_from_source = 0;
+		double distances[2] = { 0,0 };
+		double const pi2 = acos(0.0);
+		double deviated_intersections[2] = {0,0};
+
+
+		for(int i = 0; i < 2; i++) //najprv sa spocita prienik paprsku po osi X, potom po osi Y
+		{
+
+			//std::cout << "I = " << i << std::endl;
+
+			int j = !i;
+			
+			double distance = this->distance_from_source_ - ray->source_distance(); //vzdialenost medzi sosovkou a zdrojom paprsku
+			//std::cout << "DISTANCE = " << distance << std::endl;
+
+
+			//pocitanie pridanej vzdialenosti kvoli vychyleniu sosovky a uhlu paprsku pri pohlade z druhej osi
+			double intersection_position_j = ray->position(j) + distance * tan(ray->angle(j)); //priesecnik so sosovkou pri pohlade z druhej osi
+			//std::cout << "intersection_position_j = " << intersection_position_j << std::endl;
+
+			double deviated_intersection_position_j = sin(pi2 + ray->angle(j)) * intersection_position_j / sin(pi2 - ray->angle(j) - this->deviation_[j]); //vzdialenost priesecniku paprsku a sosovky od stredu sosovky s ohladom na vychylenie sosovky pri pohlade z druhej osi
+			//std::cout << "deviated_intersection_position_j = " << deviated_intersection_position_j << std::endl;
+
+			double deviation_dist_j = deviated_intersection_position_j * cos(pi2 - this->deviation_[j]);
+			//std::cout << "deviation_dist_j = " << deviation_dist_j << std::endl;
+			//
+
+			distance += deviation_dist_j;
+			
+			double deviated_angle = ray->angle(i) + this->deviation_[i]; //uhol paprsku s osou sosovky
+			//std::cout << "deviated_angle = " << deviated_angle << std::endl;
+
+			double intersection_position = ray->position(i) + distance * tan(ray->angle(i)); //priesecnik na sosovke
+			//std::cout << "intersection_position = " << intersection_position << std::endl;
+
+			double deviated_intersection_position = sin(pi2 + ray->angle(i)) * intersection_position / sin(pi2 - ray->angle(i) - this->deviation_[i]); //vzdialenost priesecniku paprsku a sosovky od stredu sosovky s ohladom na vychylenie sosovky, pouzitie sinusove
+			//std::cout << "deviated_intersection_position = " << deviated_intersection_position << std::endl;
+			deviated_intersections[i] = deviated_intersection_position;
+
+
+			double focal_angle_tan = deviated_intersection_position / this->focal_length_; //tangens uhlu stred_sosovky,ohnisko_sosovky,priesecnik (ohniskovy uhol)
+			//std::cout << "focal_length_ = " << focal_length_ << std::endl;
+			//std::cout << "focal_angle_tan = " << focal_angle_tan << std::endl;
+
+			double true_intersection_position = deviated_intersection_position * sin(pi2 - this->deviation_[i]); //vzdialenost priesecniku paprsku a sosovky od osi zdroj->detektor, s ohladom na vychylenie sosovky
+			//std::cout << "true_intersection_position = " << true_intersection_position << std::endl;
+
+			double deviation_distance = deviated_intersection_position * cos(pi2 - this->deviation_[i]); //vzdialenost priesecniku paprsku a sosovky od zaciatku osi, ktora vznikla kvoli vychyleniu sosovky
+			//std::cout << "deviation_distance = " << deviation_distance << std::endl;
+
+			double new_angle = atan(tan(deviated_angle) - focal_angle_tan) - this->deviation_[i];//tan(novy_uhol) = tan(stary_uhol) - tan(ohniskovy_uhol)
+			//std::cout << "new_angle = " << new_angle << std::endl;
+
+			
+			positions[i] = true_intersection_position;
+			angles[i] = new_angle;
+			distance_from_source = this->distance_from_source_ + deviation_distance + deviation_dist_j;
+			distances[i] = distance_from_source;
+			//std::cout << std::endl << std::endl;
+		}
+
+
+		//std::cout << "\nDISTANCE 1: " << distances[0] << "\nDISTANCE 2: " << distances[1] << std::endl;
 		
-		//Here, I will calculate intersection between ray and lens
-
-		//Equation of lens
-		auto normal = create_normal();
-
-		double planeA = normal.x;
-		double planeB = normal.y;
-		double planeC = normal.z;
-
-		double planeD = -1 * planeC * distance_from_source_;
-
-		//Equations of ray
-
-		//
-		double xp = ray->positionX();
-		double yp = ray->positionY();
-		double zp = ray->source_distance();
-
-		//directional vector of ray will be calculated here
-		auto vec = ray->create_directional_vector();
-		double xt = vec.x;
-		double yt = vec.y;
-		double zt = vec.z;
-
-		//Solving equations
-		double rightSide = -1 * planeD - planeA * xp - planeB * yp - planeC * zp;
-		double leftSide = planeA * xt + planeB * yt + planeC * zt;
-
-		double t = rightSide / leftSide;
-
-		//Intersections
-		double intersectionX = xp + xt * t;
-		double intersectionY = yp + yt * t;
-		double intersectionZ = zp + zt * t; // this will be source distance of ray
-
-
-		intersection_positions[0] = intersectionX / sin(pi2 - deviation_[0]);
-		intersection_positions[1] = intersectionY / sin(pi2 - deviation_[1]);
-
-		if(intersection_positions[0] > radius_ || intersection_positions[1] > radius_){
+		if(sqrt(pow(deviated_intersections[0],2.0) + pow(deviated_intersections[1],2.0)) > radius_){
 			return;
 		}
 
-		for(int i = 0; i < 2; i++)
-		{
-
-
-			double deviated_angle = ray->angle(i) + deviation_[i];
-
-			double intersection_position = intersection_positions[i];
-
-			double focal_angle_tan = intersection_position / this->focal_length_; //tangens of focal angle
-
-			
-
-			
-
-			double new_angle = atan(tan(deviated_angle) - focal_angle_tan);//Equation for calculating angle of ray passing trough len
-
-
-			
-
-			angles[i] = new_angle - deviation_[i];
-
-		}
-
-
-		
 		ray->set_angleX(angles[0]);
 		ray->set_angleY(angles[1]);
-		ray->set_positionX(intersectionX);
-		ray->set_positionY(intersectionY);
-		ray->set_source_distance(intersectionZ);
+		ray->set_positionX(positions[0]);
+		ray->set_positionY(positions[1]);
+		ray->set_source_distance((distances[0] + distances[1]) / 2.0);
 		return;
 	}
 }
