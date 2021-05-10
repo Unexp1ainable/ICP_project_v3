@@ -336,7 +336,7 @@ void rayEngine::init_rays(double radius, int count)
 void rayEngine::update()
 {
 
-
+	//std::cout<< "SIZE X = "<<detector_->sizeX() << "\nSIZE Y = "<<detector_->sizeY() << std::endl;
 	ray_points_.clear();
 	detector_intersect_.clear();
 	sample_intersect_.clear();

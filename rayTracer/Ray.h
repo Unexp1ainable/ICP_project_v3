@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include "Point.h"
 
 class Ray
@@ -67,6 +68,15 @@ public:
 	Point create_directional_vector()
 	{
 		auto vec = Point(0,0,1);
+		//rotation by angle_[0]
+		vec.x = vec.x * cos(angle_[0]) + vec.z * sin(angle_[0]);
+		vec.z = vec.x * sin(angle_[0]) + vec.z * cos(angle_[0]);
+
+
+		//rotation by angle_[1]
+		vec.y = vec.y * cos(angle_[1]) + vec.z * sin(angle_[1]);
+		vec.z = vec.y *  sin(angle_[1]) + vec.z * cos(angle_[1]);
+
 		return vec;
 	}
 
