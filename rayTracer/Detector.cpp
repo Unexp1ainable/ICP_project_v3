@@ -1,5 +1,5 @@
 #include "Detector.h"
-
+#include <cmath>
 
 
 bool Detector::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
@@ -9,11 +9,12 @@ bool Detector::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<
 	double posX = ray->positionX() + distance * tan(ray->angleX());
 	double posY = ray->positionY() + distance * tan(ray->angleY());
 
+
 	point->x = posX;
 	point->y = posY;
 	point->z = distance_from_source_;
 
-	if(abs(posX) > sizeX_/2.0 || abs(posY) > sizeY_ / 2)
+	if (std::abs(posX) > sizeX_ / 2.0 || std::abs(posY) > sizeY_ / 2.0)
 	{
 		/*point->x = 0;
 		point->y = 0;
