@@ -10,6 +10,10 @@
 #define MIN_DISTANCE 0.11
 #define EDGE_DISTANCE 50
 
+/*
+ * @brief Main class of ray-tracing part
+ * This class stores all the information about lenses, rays to simulate and other data necessary for simulating electron microscope
+ */
 class rayEngine
 {
 private:
@@ -59,16 +63,72 @@ public:
 
 	//lens methods
 	
-	
+	/*
+	 * @brief Getter of distance from source of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @param id Id of lens
+	 */
 	double get_lens_distance_from_source(int id) { return get_lens_by_id(id)->distance_from_source(); }
+
+	/*
+	 * @brief Getter of optical power of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @param id Id of lens
+	 */
 	double get_lens_optical_power(int id) { return get_lens_by_id(id)->optical_power(); }
+
+	/*
+	 * @brief Getter of radius of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @param id Id of lens
+	 */
 	double get_lens_radius(int id) { return get_lens_by_id(id)->radius(); }
+
+	/*
+	 * @brief Getter of x-axis deviation of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @param id Id of lens
+	 */
 	double get_lens_deviation_x(int id) { return get_lens_by_id(id)->deviation_x(); }
+
+	/*
+	 * @brief Getter of y-axis deviation of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @param id Id of lens
+	 */
 	double get_lens_deviation_y(int id) { return get_lens_by_id(id)->deviation_y(); }
+
+	/*
+	 * @brief Getter of name of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @param id Id of lens
+	 */
 	std::string get_lens_name(int id) { return get_lens_by_id(id)->name(); }
 
+	/*
+	 * @brief Setter of distance from source of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @throws invalid_distance When distance is invalid - it's too close to other lenses or it's not between source and detector
+	 * @param id Id of lens
+	 * @param distance Distance from source
+	 */
 	void set_lens_distance_from_source(int id, double distance);
+
+	/*
+	 * @brief Setter of optical of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @throws invalid_optical_power When optical power is 0
+	 * @param id Id of lens
+	 * @param distance Optical power
+	 */
 	void set_lens_optical_power(int id, double power) { get_lens_by_id(id)->set_optical_power(power); }
+	
+	/*
+	 * @brief Setter of optical of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @throws invalid_radius When radius is 0 or less
+	 * @param radius Radius
+	 */
 	void set_lens_radius(int id, double radius)
 	{
 		auto lens = get_lens_by_id(id);

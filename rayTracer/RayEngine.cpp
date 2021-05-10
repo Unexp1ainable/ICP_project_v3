@@ -464,7 +464,8 @@ void rayEngine::load_config(std::string path)
 		if(identifier == "B" || identifier == "C")
 		{
 			args_count = 1;
-		}else if(identifier == "D")
+		}
+		else if(identifier == "D")
 		{
 			args_count = 3;
 		}
