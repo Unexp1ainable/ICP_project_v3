@@ -21,7 +21,7 @@ public:
 
 	void set_sizeX(double size)
 	{
-		if(size <= 1)
+		if(size < 1)
 		{
 			throw invalid_size();
 		}

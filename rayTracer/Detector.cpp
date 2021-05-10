@@ -13,7 +13,7 @@ bool Detector::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<
 	point->y = posY;
 	point->z = distance_from_source_;
 
-	if(abs(posX) > sizeX_/2.0 || abs(posY) > sizeY_ / 2)
+	if(abs(posX) > sizeX_/2.0 || abs(posY) > sizeY_ / 2.0)
 	{
 		/*point->x = 0;
 		point->y = 0;
