@@ -430,10 +430,26 @@ public:
 	
 
 	//detector methods
+
+	/**
+	 * @brief Getter of distance from source of detector
+	 */
 	double get_detector_distance_from_source() const { return detector_->distance_from_source(); }
+
+	/**
+	 * @brief Getter of x-size of detector
+	 */
 	double get_detector_size_x() const { return detector_->sizeX(); }
+
+	/**
+	 * @brief Getter of y-size of detector
+	 */
 	double get_detector_size_y() const { return detector_->sizeY(); }
 
+	/**
+	 * @brief Setter of distance from source of detector
+	 * @throws 
+	 */
 	void set_detector_distance_from_source(double distance);
 	void set_detector_size_x(double size) const { detector_->set_sizeX(size); }
 	void set_detector_size_y(double size) const { detector_->set_sizeY(size); }
