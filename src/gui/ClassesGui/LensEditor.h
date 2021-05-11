@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file LensEditor.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Subwindow with editing fields for the lens.
+ */
+
 #include <qpushbutton.h>
 #include <qspinbox.h>
 #include <QWidget>

@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file ShapeViewer.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief WIP canvas for showing shape of the ray on the surface
+ */
+
 #include <qpen.h>
 #include <QWidget>
 

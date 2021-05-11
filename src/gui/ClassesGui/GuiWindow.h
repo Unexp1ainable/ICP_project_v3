@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file GuiWindow.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Main GUI window. Contains every subwindow.
+ */
+
 #include <qmainwindow.h>
 #include <QtWidgets>
 

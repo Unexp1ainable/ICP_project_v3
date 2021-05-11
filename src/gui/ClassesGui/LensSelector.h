@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file LensSelector.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Subwindow for selecting lens on the scene.
+ */
+
 #include <qlistwidget.h>
 
 class LensSelector : public QListWidget

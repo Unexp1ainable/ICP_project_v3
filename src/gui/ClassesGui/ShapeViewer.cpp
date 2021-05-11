@@ -1,3 +1,10 @@
+/**
+ * @file ShapeViewer.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of the ShapeViewer class
+ */
+
 #include "ShapeViewer.h"
 
 #include <qpainter.h>

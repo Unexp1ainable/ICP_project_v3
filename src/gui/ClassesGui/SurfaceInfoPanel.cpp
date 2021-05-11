@@ -1,3 +1,10 @@
+/**
+ * @file SurfaceInfoPanel.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of the SurfaceInfoPanel class
+ */
+
 #include "SurfaceInfoPanel.h"
 
 #include <qboxlayout.h>

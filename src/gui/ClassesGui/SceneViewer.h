@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file SceneViewer.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief 3D view of the scene.
+ */
+
 #include <Qt3DWindow>
 #include <QWidget>
 #include <map>
