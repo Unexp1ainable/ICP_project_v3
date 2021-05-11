@@ -413,3 +413,7 @@ moc_predefs.h
 moc_SceneViewer.cpp
 moc_ShapeViewer.cpp
 uic_wrapper.sh
+doc/*
+platforms
+*.zip
+build/*
