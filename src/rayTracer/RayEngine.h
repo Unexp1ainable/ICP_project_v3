@@ -448,16 +448,37 @@ public:
 
 	/**
 	 * @brief Setter of distance from source of detector
-	 * @throws 
+	 * @throws invalid_distance  If detector is not last object on axis
+	 * @param distance New distance from source
 	 */
 	void set_detector_distance_from_source(double distance);
+
+	/**
+	 * @brief Setter of x-size of detector
+	 * @throws Detector::invalid_size If size is less than 1
+	 * @param size X-size of detector
+	 */
 	void set_detector_size_x(double size) const { detector_->set_sizeX(size); }
+
+	/**
+	 * @brief Setter of x-size of detector
+	 * @throws Detector::invalid_size If size is less than 1
+	 * @param size Y-size of detector
+	 */
 	void set_detector_size_y(double size) const { detector_->set_sizeY(size); }
-	
+
+	/**
+	 * @brief Checks if position of detector is valid
+	 * @return True if position is valid, false if not
+	 */
 	bool position_valid_detector(double distance);
 	
 
 	//configuration methods
+
+	/**
+	 * @brief Calculates trajectories of all rays passing trough lenses and stores them
+	 */
 	void update();
 	void save_config(std::string path);
 	void load_config(std::string path); 
