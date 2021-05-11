@@ -188,11 +188,13 @@ void GuiWindow::load_configuration() const
 		selector_->addItem(new LensSelectorItem{ id, QString::fromStdString(engine_->get_lens_name(id)) });
 	}
 
-	// detector and sample
-	misc_editor_cancel_slot_(); // it will initialize values from the engine
-
 	// misc editor
+	misc_editor_cancel_slot_();
 	misc_editor_->default_mode();
+
+	// detector and sample
+	view_3d_->edit_detector(engine_->get_detector_distance_from_source());
+	view_3d_->edit_sample(engine_->get_sample_distance_from_source(), engine_->get_sample_rotation());
 }
 
 

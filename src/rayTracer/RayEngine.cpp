@@ -430,7 +430,7 @@ void RayEngine::load_config(std::string path)
 		}
 
 		
-		if (token == "D")
+		if (identifier == "D")
 		{
 			try
 			{
