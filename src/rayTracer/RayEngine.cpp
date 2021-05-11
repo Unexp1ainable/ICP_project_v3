@@ -525,11 +525,10 @@ void rayEngine::load_config(std::string path)
 		else if (identifier == "L")
 		{	try
 			{
-				add_lens(args[0], args[1], args[2], line.erase(line.size() - 2), args[3], args[4]);
+			add_lens(args[0], args[1], args[2], line.erase(line.find(delimeter)), args[3], args[4]);
 			}
 			catch (...)
 			{
-				
 				throw invalid_save_file();
 			}
 		}

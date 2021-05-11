@@ -17,11 +17,14 @@ public:
 	
 
 	Ray(double angleX, double angleY, double positionX, double positionY, double source_distance, int id) {
-		if(source_distance < 0.1)
+		
+		
+		if(angleX == PI / 2.0 || angleY == PI / 2.0)
 		{
-			invalid_distance();
+			throw invalid_angle();
 		}
 
+		
 		angle_[0] = angleX;
 		angle_[1] = angleY;
 		position_[0] = positionX;
