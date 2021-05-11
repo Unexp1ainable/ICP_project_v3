@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file Base3D.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Base class for 3D models of parts of microscope
+ */
+
 #include <QDiffuseSpecularMaterial>
 #include <QEntity>
 #include <QTransform>

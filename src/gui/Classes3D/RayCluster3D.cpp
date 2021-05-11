@@ -1,3 +1,10 @@
+/**
+ * @file RayCluster3D.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of RayCluster3D class
+ */
+
 #include "RayCluster3D.h"
 
 #include <qcomponent.h>

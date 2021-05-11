@@ -1,3 +1,10 @@
+/**
+ * @file Lens3D.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of Lens3D class
+ */
+
 #include "Lens3D.h"
 
 #include <Qt3DRender>

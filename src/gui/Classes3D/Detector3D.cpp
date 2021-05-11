@@ -1,3 +1,10 @@
+/**
+ * @file Detector3D.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of Detector3D class
+ */
+
 #include "Detector3D.h"
 
 #include <Qt3DRender>
