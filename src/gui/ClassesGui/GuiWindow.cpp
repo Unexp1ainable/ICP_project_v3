@@ -53,7 +53,7 @@ GuiWindow::GuiWindow(RayEngine* engine)
 	
 	try
 	{
-		engine_->load_config(".\\examples\\example1.re");
+		engine_->load_config("./examples/example1.re");
 	}
 	catch (RayEngine::invalid_save_file)
 	{
