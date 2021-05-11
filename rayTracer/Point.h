@@ -1,6 +1,6 @@
 #pragma once
 
-/*
+/**
  * @brief Point with 3 coordinates
  */
 class Point
