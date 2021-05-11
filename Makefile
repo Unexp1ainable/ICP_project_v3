@@ -16,4 +16,4 @@ clean:
 	rm -drf build html doc/* ICP_project_v3 $(ZIP_NAME).zip
 
 pack:
-	zip $(ZIP_NAME) -r src examples Makefile README.txt main.cpp Doxyfile.txt ICP_project_v3.pro
+	zip $(ZIP_NAME) -r src examples Makefile README.txt main.cpp Doxyfile.txt ICP_project_v3.pro *.jpg mainpage.md
