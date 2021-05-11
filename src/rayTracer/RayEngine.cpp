@@ -1,3 +1,10 @@
+﻿/**
+ * @file RayEngine.cpp
+ * @author Leopold Nemček
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief File definitions of methods from RayEngine class
+ */
 #include "RayEngine.h"
 
 #include "../common/macros.h"

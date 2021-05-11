@@ -1,3 +1,9 @@
+﻿/**
+ * @file Ray.h
+ * @author Leopold Nemček
+ * @date 11/05/2021
+ * @brief File containing definition of Ray class
+ */
 #pragma once
 #include "../common/macros.h"
 
@@ -140,8 +146,13 @@ public:
 	
 
 	//Exceptions
-	
+	/**
+	 * @brief Exception
+	 */
 	class invalid_angle {};
+	/**
+	 * @brief Exception
+	 */
 	class invalid_distance {};
 };
 

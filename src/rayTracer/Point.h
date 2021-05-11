@@ -1,3 +1,9 @@
+﻿/**
+ * @file Point.h
+ * @author Leopold Nemček
+ * @date 11/05/2021
+ * @brief File containing definition of Point class
+ */
 #pragma once
 
 /**

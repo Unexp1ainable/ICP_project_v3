@@ -1,3 +1,9 @@
+﻿/**
+ * @file Lens.h
+ * @author Leopold Nemček
+ * @date 11/05/2021
+ * @brief File containing definition of Lens class
+ */
 #pragma once
 
 #include <memory>
@@ -136,8 +142,17 @@ public:
 	}
 
 	//Exceptions
+	/**
+	 * @brief Exception
+	 */
 	class invalid_radius {};
+	/**
+	 * @brief Exception
+	 */
 	class invalid_deviation{};
+	/**
+	 * @brief Exception
+	 */
 	class invalid_optical_power{};
 };
 
