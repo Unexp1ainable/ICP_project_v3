@@ -14,7 +14,7 @@
 #include "src/gui/commonGui/Scene.h"
 
 
-SceneViewer::SceneViewer(rayEngine* engine)
+SceneViewer::SceneViewer(RayEngine* engine)
 {	
 	// 3D view
 	window_ = new Qt3DExtras::Qt3DWindow;
@@ -82,7 +82,7 @@ Qt3DCore::QEntity* SceneViewer::add_light(const QVector3D position, Qt3DCore::QN
 	return light_entity;
 }
 
-Qt3DCore::QEntity* SceneViewer::create_scene(rayEngine* engine)
+Qt3DCore::QEntity* SceneViewer::create_scene(RayEngine* engine)
 {
 	auto s_distance = engine->get_sample_distance_from_source();
 	auto s_tilt = engine->get_sample_rotation();

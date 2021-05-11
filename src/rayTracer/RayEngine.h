@@ -13,7 +13,7 @@
  * @brief Main class of ray-tracing part
  * This class stores all the information about lenses, rays to simulate and other data necessary for simulating electron microscope
  */
-class rayEngine
+class RayEngine
 {
 private:
 	std::vector<std::shared_ptr<Lens>> lenses_;
@@ -58,7 +58,7 @@ public:
 	 * @param detector_distance Initial distance from source of detector
 	 * @param edge_distance Initial distance from source of edge (How far will rays continue after missing detectors)
 	 */
-	rayEngine(double sample_distance, double detector_distance, double edge_distance)
+	RayEngine(double sample_distance, double detector_distance, double edge_distance)
 	{
 		if(detector_distance - sample_distance < MIN_DISTANCE || edge_distance - detector_distance < MIN_DISTANCE || edge_distance <= 0)
 		{

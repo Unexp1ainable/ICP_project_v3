@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     std::setlocale(LC_NUMERIC, "C");
     QApplication app(argc, argv);
-    rayEngine engine{ 15., 30., 50. };
+    RayEngine engine{ 15., 30., 50. };
     GuiWindow window(&engine);
     window.resize(640, 480);
 

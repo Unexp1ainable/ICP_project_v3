@@ -10,7 +10,7 @@
 #include "src/common/macros.h"
 
 
-GuiWindow::GuiWindow(rayEngine* engine)
+GuiWindow::GuiWindow(RayEngine* engine)
 {
 	init_engine(engine);
 	
@@ -48,7 +48,7 @@ GuiWindow::GuiWindow(rayEngine* engine)
 }
 
 
-void GuiWindow::init_engine(rayEngine* engine)
+void GuiWindow::init_engine(RayEngine* engine)
 {
 	engine_ = engine;
 	engine_->init_rays(INIT_RAY_RADIUS, INIT_RAY_COUNT);
@@ -244,11 +244,11 @@ void GuiWindow::open_file_slot()
 	load_configuration();
 	update_system();
 	}
-	catch (rayEngine::invalid_save_file)
+	catch (RayEngine::invalid_save_file)
 	{
 		error_slot("File is corrupted.");
 	}
-	catch (rayEngine::file_cannot_be_opened)
+	catch (RayEngine::file_cannot_be_opened)
 	{
 		error_slot("Unable to open the file.");
 	}
@@ -378,7 +378,7 @@ void GuiWindow::create_new_lens(QString name, double x_tilt, double z_tilt, doub
 		view_3d_->add_lens(distance, x_tilt, z_tilt, id);
 		selector_->add_lens(id, name);
 	}
-	catch (rayEngine::invalid_distance)
+	catch (RayEngine::invalid_distance)
 	{
 		error_slot("Invalid lens distance.");
 	}
@@ -417,7 +417,7 @@ void GuiWindow::edit_lens(QString name, double x_tilt, double z_tilt, double dis
 		view_3d_->edit_lens(id, x_tilt, z_tilt, distance);
 
 	}
-	catch (rayEngine::invalid_distance)
+	catch (RayEngine::invalid_distance)
 	{
 		error_slot("Invalid lens distance.");
 	}

@@ -21,14 +21,14 @@ public:
 	 *
 	 * @param engine rayEngine instance 
 	 */
-	void init_engine(rayEngine* engine);
+	void init_engine(RayEngine* engine);
 
 	/**
 	 * @brief GuiWindow constructor.
 	 *
 	 * @param engine rayEngine instance
 	 */
-	GuiWindow(rayEngine *engine);
+	GuiWindow(RayEngine *engine);
 
 
 private:
@@ -151,7 +151,7 @@ private:
 	/**
 	 * @brief rayEngine instance.
 	 */
-	rayEngine *engine_;
+	RayEngine *engine_;
 	/**
 	 * @brief Layout of the central_widget_.
 	 */

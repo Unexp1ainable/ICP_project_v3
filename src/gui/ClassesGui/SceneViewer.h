@@ -18,7 +18,7 @@ class SceneViewer : public QWidget
 	Q_OBJECT
 
 public:
-	SceneViewer(rayEngine* engine);
+	SceneViewer(RayEngine* engine);
 
 	/**
 	 * @brief Adds lens to the view.
@@ -150,7 +150,7 @@ private:
 	 *
 	 * @param engine rayEngine instance
 	 */
-	Qt3DCore::QEntity* create_scene(rayEngine* engine);
+	Qt3DCore::QEntity* create_scene(RayEngine* engine);
 	/**
 	 * @brief Adds camera to the scene.
 	 *

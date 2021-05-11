@@ -12,7 +12,7 @@ using std::abs;
 #include <algorithm>
 
 
-Point rayEngine::create_normal(double deviationX, double deviationY)
+Point RayEngine::create_normal(double deviationX, double deviationY)
 {
 	double a = deviationX + PI / 2;
 	double b = deviationY + PI / 2;
@@ -25,7 +25,7 @@ Point rayEngine::create_normal(double deviationX, double deviationY)
 	return Point(x, y, z);
 }
 
-bool rayEngine::check_intersection(double distance_from_source, double radius, double deviationX, double deviationY, int id)
+bool RayEngine::check_intersection(double distance_from_source, double radius, double deviationX, double deviationY, int id)
 {
 	auto vec1 = create_normal(deviationX, deviationY);
 
@@ -46,7 +46,7 @@ bool rayEngine::check_intersection(double distance_from_source, double radius, d
 	return true;
 }
 
-int rayEngine::add_lens(double distance_from_source, double radius, double optical_power, std::string name, double deviationX, double deviationY)
+int RayEngine::add_lens(double distance_from_source, double radius, double optical_power, std::string name, double deviationX, double deviationY)
 {
 	if (!position_valid_lens(distance_from_source, 0) || !check_intersection(distance_from_source, radius, deviationX, deviationY, 0))
 	{
@@ -60,7 +60,7 @@ int rayEngine::add_lens(double distance_from_source, double radius, double optic
 }
 
 
-void rayEngine::set_lens_distance_from_source(int id, double distance)
+void RayEngine::set_lens_distance_from_source(int id, double distance)
 {
 	auto lens = get_lens_by_id(id);
 
@@ -77,7 +77,7 @@ void rayEngine::set_lens_distance_from_source(int id, double distance)
 }
 
 
-void rayEngine::insert_lens(const std::shared_ptr<Lens>& lens)
+void RayEngine::insert_lens(const std::shared_ptr<Lens>& lens)
 {
 	int i = 0;
 
@@ -99,7 +99,7 @@ void rayEngine::insert_lens(const std::shared_ptr<Lens>& lens)
 	lens_count_++;
 }
 
-void rayEngine::remove_lens(int id)
+void RayEngine::remove_lens(int id)
 {
 
 	int i = 0;
@@ -115,7 +115,7 @@ void rayEngine::remove_lens(int id)
 
 }
 
-std::shared_ptr<Lens> rayEngine::get_lens_by_id(int id)
+std::shared_ptr<Lens> RayEngine::get_lens_by_id(int id)
 {
 	int i = 0;
 	for (std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
@@ -132,7 +132,7 @@ std::shared_ptr<Lens> rayEngine::get_lens_by_id(int id)
 
 
 
-int rayEngine::add_ray(double positionX, double positionY, double angleX, double angleY)
+int RayEngine::add_ray(double positionX, double positionY, double angleX, double angleY)
 {
 	std::shared_ptr<Ray> ray = std::make_shared<Ray>(angleX, angleY, positionX, positionY, 0, ray_id_);
 	rays_.push_back(ray);
@@ -141,7 +141,7 @@ int rayEngine::add_ray(double positionX, double positionY, double angleX, double
 	return ray_id_ - 1;
 }
 
-void rayEngine::remove_ray(int id)
+void RayEngine::remove_ray(int id)
 {
 
 	int i = 0;
@@ -159,7 +159,7 @@ void rayEngine::remove_ray(int id)
 
 
 
-std::shared_ptr<Ray> rayEngine::get_ray_by_id(int id)
+std::shared_ptr<Ray> RayEngine::get_ray_by_id(int id)
 {
 
 	int i = 0;
@@ -175,7 +175,7 @@ std::shared_ptr<Ray> rayEngine::get_ray_by_id(int id)
 
 }
 
-void rayEngine::set_sample_distance_from_source(double distance)
+void RayEngine::set_sample_distance_from_source(double distance)
 {
 	if (!position_valid_sample(distance))
 	{
@@ -185,7 +185,7 @@ void rayEngine::set_sample_distance_from_source(double distance)
 	sample_->set_distance_from_source(distance);
 }
 
-void rayEngine::set_detector_distance_from_source(double distance)
+void RayEngine::set_detector_distance_from_source(double distance)
 {
 	if (!position_valid_detector(distance))
 	{
@@ -195,7 +195,7 @@ void rayEngine::set_detector_distance_from_source(double distance)
 }
 
 
-bool rayEngine::position_valid_lens(double distance, int id)
+bool RayEngine::position_valid_lens(double distance, int id)
 {
 	
 
@@ -217,7 +217,7 @@ bool rayEngine::position_valid_lens(double distance, int id)
 	return true;
 }
 
-bool rayEngine::position_valid_sample(double distance)
+bool RayEngine::position_valid_sample(double distance)
 {
 	if (distance < MIN_DISTANCE || distance > detector_->distance_from_source() - MIN_DISTANCE)
 	{
@@ -235,7 +235,7 @@ bool rayEngine::position_valid_sample(double distance)
 	return true;
 }
 
-bool rayEngine::position_valid_detector(double distance)
+bool RayEngine::position_valid_detector(double distance)
 {
 	if (distance <= 0 || distance - this->sample_->distance_from_source() < MIN_DISTANCE || distance - lenses_[lens_count_ -1]->distance_from_source() < MIN_DISTANCE)
 	{
@@ -244,7 +244,7 @@ bool rayEngine::position_valid_detector(double distance)
 	return true;
 }
 
-void rayEngine::init_rays(double radius, int count)
+void RayEngine::init_rays(double radius, int count)
 {
 
 	clear_rays();
@@ -271,7 +271,7 @@ void rayEngine::init_rays(double radius, int count)
 }
 
 
-void rayEngine::update()
+void RayEngine::update()
 {
 
 
@@ -329,7 +329,7 @@ void rayEngine::update()
 
 }
 
-void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
+void RayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)
 {
 	double distance = border_distance_ - ray->source_distance();
 
@@ -338,7 +338,7 @@ void rayEngine::cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Poin
 	point->z = border_distance_;
 }
 
-void rayEngine::save_config(std::string path)
+void RayEngine::save_config(std::string path)
 {
 	std::string delimeter = ";";
 
@@ -376,7 +376,7 @@ void rayEngine::save_config(std::string path)
 	file.close();
 }
 
-void rayEngine::load_config(std::string path)
+void RayEngine::load_config(std::string path)
 {
 	clear_lenses();
 	clear_rays();
