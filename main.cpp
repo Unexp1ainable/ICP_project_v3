@@ -1,4 +1,5 @@
 #include "src/gui/ClassesGui/GuiWindow.h"
+#include "src/rayTracer/RayEngine.h"
 
 int main(int argc, char *argv[])
 {

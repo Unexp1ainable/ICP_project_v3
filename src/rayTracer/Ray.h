@@ -1,5 +1,5 @@
 #pragma once
-#include "../src/common/macros.h"
+#include "../common/macros.h"
 
 /**
  * @brief Ray

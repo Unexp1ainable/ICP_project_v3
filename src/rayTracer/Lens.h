@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 #include "AxisObject.h"
-#include "../src/common/macros.h"
+#include "../common/macros.h"
 #include <cmath>
 
 /**
@@ -105,7 +105,7 @@ public:
 	 * @throws invalid_deviation When deviation is pi/2 or more
 	 */
 	void set_deviationX(double deviation) {
-		if(abs(deviation) >= PI / 2)
+		if(std::abs(deviation) >= PI / 2)
 		{
 			throw invalid_deviation();
 		}
@@ -119,7 +119,7 @@ public:
 	 * @throws invalid_deviation When deviation is pi/2 or more
 	 */
 	void set_deviationY(double deviation) {
-		if(abs(deviation) >= PI / 2)
+		if(std::abs(deviation) >= PI / 2)
 		{
 			throw invalid_deviation();
 		}

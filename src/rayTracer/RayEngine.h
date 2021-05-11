@@ -6,7 +6,7 @@
 #include "Lens.h"
 #include "Sample.h"
 #include "Detector.h"
-#include "../src/common/macros.h"
+#include "../common/macros.h"
 
 
 /**

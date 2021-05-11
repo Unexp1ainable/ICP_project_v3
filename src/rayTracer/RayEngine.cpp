@@ -1,6 +1,6 @@
 #include "RayEngine.h"
 
-#include "../src/common/macros.h"
+#include "../common/macros.h"
 #include <cmath>
 
 using std::sin;
@@ -39,7 +39,7 @@ bool rayEngine::check_intersection(double distance_from_source, double radius, d
 		dot_product = (dot_product < -1.) ? -1. : ((dot_product > 1) ? 1. : dot_product);	// clamp if necessary
 		auto vec_angle = acos(dot_product);	// angle between normals
 		
-		if (sin(vec_angle) * radius >= abs(distance_from_source - lens->distance_from_source()))
+		if (sin(vec_angle) * radius >= std::abs(distance_from_source - lens->distance_from_source()))
 			return false;
 	}
 	return true;
@@ -86,10 +86,7 @@ void rayEngine::insert_lens(const std::shared_ptr<Lens>& lens)
 	{
 		if (lenses_[i]->distance_from_source() >= lens->distance_from_source())
 		{
-			/*if(abs(lenses_[i]->distance_from_source() - lens->distance_from_source()) < 0.09 || abs(lenses_[abs(i-1)]->distance_from_source() - lens->distance_from_source()) < 0.09)
-			{
-				throw invalid_distance();
-			}else*/
+			
 			{
 				lenses_.insert(it, lens);
 				lens_count_++;
@@ -213,7 +210,7 @@ bool rayEngine::position_valid_lens(double distance, int id)
 {
 	
 
-	if (distance < MIN_DISTANCE || distance > detector_->distance_from_source() - MIN_DISTANCE || abs(sample_->distance_from_source() - distance) < MIN_DISTANCE)
+	if (distance < MIN_DISTANCE || distance > detector_->distance_from_source() - MIN_DISTANCE || std::abs(sample_->distance_from_source() - distance) < MIN_DISTANCE)
 	{
 		return false;
 	}
@@ -221,7 +218,7 @@ bool rayEngine::position_valid_lens(double distance, int id)
 	int i = 0;
 	for (std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
 	{
-		if (lenses_[i]->id() != id && abs(lenses_[i]->distance_from_source() - distance) <= MIN_DISTANCE)
+		if (lenses_[i]->id() != id && std::abs(lenses_[i]->distance_from_source() - distance) <= MIN_DISTANCE)
 		{
 
 			return false;
@@ -241,7 +238,7 @@ bool rayEngine::position_valid_sample(double distance)
 	int i = 0;
 	for (std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
 	{
-		if (abs(lenses_[i]->distance_from_source() - distance) < MIN_DISTANCE)
+		if (std::abs(lenses_[i]->distance_from_source() - distance) < MIN_DISTANCE)
 		{
 			return false;
 		}
