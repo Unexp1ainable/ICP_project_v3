@@ -2,7 +2,7 @@
 #include <qlabel.h>
 #include <QWidget>
 
-#include "rayTracer/Point.h"
+#include "src/rayTracer/Point.h"
 
 /**
  * @brief Panel showing information about passing rays.

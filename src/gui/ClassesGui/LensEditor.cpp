@@ -1,5 +1,8 @@
 #include "LensEditor.h"
 
+#include <qboxlayout.h>
+#include <qformlayout.h>
+#include <qlabel.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
 

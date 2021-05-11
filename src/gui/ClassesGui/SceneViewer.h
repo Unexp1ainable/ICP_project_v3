@@ -1,15 +1,14 @@
 #pragma once
-#include <QNode>
 #include <Qt3DWindow>
 #include <QWidget>
 #include <map>
 
-#include "rayTracer/RayEngine.h"
 #include "src/gui/Classes3D/Detector3D.h"
 #include "src/gui/Classes3D/Lens3D.h"
 #include "src/gui/Classes3D/RayCluster3D.h"
 #include "src/gui/Classes3D/Sample3D.h"
 #include "src/gui/Classes3D/Source3D.h"
+#include "src/rayTracer/RayEngine.h"
 
 /**
  * @brief 3D viewer.
