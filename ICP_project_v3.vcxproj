@@ -182,7 +182,6 @@
     <ClCompile Include="src\gui\ClassesGui\ShapeViewer.cpp" />
     <ClCompile Include="src\gui\ClassesGui\SurfaceInfoPanel.cpp" />
     <ClCompile Include="src\gui\commonGui\Scene.cpp" />
-    <ClCompile Include="src\gui\MainGui.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +222,6 @@
     <ClInclude Include="src\gui\ClassesGui\LensSelectorItem.h" />
     <ClInclude Include="src\gui\ClassesGui\SurfaceInfoPanel.h" />
     <ClInclude Include="src\gui\commonGui\Scene.h" />
-    <ClInclude Include="src\gui\MainGui.h" />
     <QtMoc Include="src\gui\ClassesGui\ShapeViewer.h" />
     <QtMoc Include="src\gui\ClassesGui\SceneViewer.h" />
     <QtMoc Include="src\gui\ClassesGui\MiscEditor.h" />
