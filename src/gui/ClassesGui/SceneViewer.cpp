@@ -91,9 +91,9 @@ Qt3DCore::QEntity* SceneViewer::create_scene(rayEngine* engine)
 	const auto result_entity = new Qt3DCore::QEntity;
 
 	// lights
-	add_light(QVector3D(0.0f, 20.0f, 30.0f), result_entity);
-	add_light(QVector3D(0.0f, -20.0f, -30.0f), result_entity);
-	add_light(QVector3D(40.0f, -20.0f, -30.0f), result_entity);
+	add_light(QVector3D(30.0f, 40.0f, 50.0f), result_entity);
+	add_light(QVector3D(-50.0f, -40.0f, -50.0f), result_entity);
+	add_light(QVector3D(40.0f, -40.0f, -50.0f), result_entity);
 
 	// components
 	source_ = new Source3D{ result_entity };

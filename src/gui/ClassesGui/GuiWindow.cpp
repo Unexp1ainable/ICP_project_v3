@@ -310,7 +310,7 @@ void GuiWindow::delete_slot() const
 	view_3d_->remove_lens(id);
 
 	// selector
-	selector_->remove_lens(id);
+	selector_->remove_lens();
 
 	// editor
 	editor_->mode_default();
