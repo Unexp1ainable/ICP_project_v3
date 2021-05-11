@@ -15,15 +15,14 @@ QT +=  3dcore 3drender 3dinput 3dlogic 3dextras 3danimation widgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += rayTracer/AxisObject.h \
-           rayTracer/Detector.h \
-           rayTracer/Lens.h \
-           rayTracer/Point.h \
-           rayTracer/Ray.h \
-           rayTracer/RayEngine.h \
-           rayTracer/Sample.h \
+HEADERS += src/rayTracer/AxisObject.h \
+           src/rayTracer/Detector.h \
+           src/rayTracer/Lens.h \
+           src/rayTracer/Point.h \
+           src/rayTracer/Ray.h \
+           src/rayTracer/RayEngine.h \
+           src/rayTracer/Sample.h \
            src/common/macros.h \
-           src/gui/MainGui.h \
            src/gui/Classes3D/Base3D.h \
            src/gui/Classes3D/Detector3D.h \
            src/gui/Classes3D/Lens3D.h \
@@ -42,11 +41,10 @@ HEADERS += rayTracer/AxisObject.h \
            src/gui/ClassesGui/SurfaceInfoPanel.h \
            src/gui/commonGui/Scene.h
 SOURCES += main.cpp \
-           rayTracer/Detector.cpp \
-           rayTracer/Lens.cpp \
-           rayTracer/RayEngine.cpp \
-           rayTracer/Sample.cpp \
-           src/gui/MainGui.cpp \
+           src/rayTracer/Detector.cpp \
+           src/rayTracer/Lens.cpp \
+           src/rayTracer/RayEngine.cpp \
+           src/rayTracer/Sample.cpp \
            src/gui/Classes3D/Base3D.cpp \
            src/gui/Classes3D/Detector3D.cpp \
            src/gui/Classes3D/Lens3D.cpp \
