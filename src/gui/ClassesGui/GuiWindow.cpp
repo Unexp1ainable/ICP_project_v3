@@ -251,7 +251,14 @@ void GuiWindow::save_file_slot()
 	if (file_name.compare("") == 0)
 		return;
 
-	engine_->save_config(file_name.toStdString());
+	// linux does not .re, but windows does
+	std::string std_name = file_name.toStdString();
+	if (std_name.length() < 3)
+		std_name.append(".re");
+	else if (std_name.substr(std_name.length() - 3, 3) != ".re")
+		std_name.append(".re");
+
+	engine_->save_config(std_name);
 }
 
 
@@ -303,7 +310,7 @@ void GuiWindow::delete_slot() const
 	view_3d_->remove_lens(id);
 
 	// selector
-	selector_->remove_lens(id);
+	selector_->remove_lens();
 
 	// editor
 	editor_->mode_default();

@@ -1,8 +1,15 @@
-#include "src/gui/MainGui.h"
+#include "src/gui/ClassesGui/GuiWindow.h"
 
 int main(int argc, char *argv[])
 {
-    return run_gui(argc, argv);
+    QApplication app(argc, argv);
+    rayEngine engine{ 15., 30., 50. };
+    GuiWindow window(&engine);
+    window.resize(640, 480);
+
+    window.show();
+
+    return QApplication::exec();
 }
 
 

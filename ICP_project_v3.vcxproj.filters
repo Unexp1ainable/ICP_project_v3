@@ -19,9 +19,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\gui\MainGui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,9 +141,6 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\commonGui\Scene.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\MainGui.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\ClassesGui\LensSelectorItem.h">

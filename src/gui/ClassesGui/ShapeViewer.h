@@ -2,6 +2,9 @@
 #include <qpen.h>
 #include <QWidget>
 
+/**
+ * @brief Wannabe canvas for showing shape of the ray cluster.
+ */
 class ShapeViewer : public QWidget
 {
 	Q_OBJECT

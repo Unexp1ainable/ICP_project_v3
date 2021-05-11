@@ -1,6 +1,9 @@
 #pragma once
 #include "Base3D.h"
 
+/**
+ * @brief Source model.
+ */
 class Source3D : public Base3D
 {
 	/**

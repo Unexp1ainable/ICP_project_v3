@@ -3,6 +3,9 @@
 #include <QTransform>
 #include "Base3D.h"
 
+/**
+ * @brief Sample model.
+ */
 class Sample3D : public Base3D
 {
 public:

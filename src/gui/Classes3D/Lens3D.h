@@ -1,6 +1,9 @@
 #pragma once
 #include "Base3D.h"
 
+/**
+ * @brief Lens model
+*/
 class Lens3D : public Base3D
 {
 public:
@@ -13,7 +16,9 @@ public:
 	 */
 	static const QColor diffuse_color_selected;
 
-	
+	/**
+	 * @brief location of mesh in the filesystem.
+	*/
 	static const QUrl mesh_location;
 	/**
 	 * Graphical object representing lens
