@@ -8,6 +8,9 @@ using std::cos;
 using std::tan;
 using std::abs;
 
+#include <algorithm>
+
+
 Point rayEngine::create_normal(double deviationX, double deviationY)
 {
 	double a = deviationX + PI / 2;
@@ -493,12 +496,13 @@ void rayEngine::load_config(std::string path)
 		{
 			token = line.substr(0, line.find(delimeter));
 			line.erase(0, line.find(delimeter) + delimeter.length());
+			std::replace(token.begin(),token.end(),'.',',');
 			args[i] = stod(token);
 		}
 
+		
 		if (token == "D")
 		{
-			if (!line.empty()) { throw invalid_save_file(); }
 			try
 			{
 				detector_->set_distance_from_source(args[0]);
@@ -512,7 +516,6 @@ void rayEngine::load_config(std::string path)
 		}
 		else if (identifier == "S")
 		{
-			if (!line.empty()) { throw invalid_save_file(); }
 			try
 			{
 				set_sample_distance_from_source(args[0]);
@@ -526,19 +529,18 @@ void rayEngine::load_config(std::string path)
 			}
 		}
 		else if (identifier == "L")
-		{
-			try
+		{	try
 			{
-				add_lens(args[0], args[1], args[2], line.erase(line.size() - 1), args[3], args[4]);
+				add_lens(args[0], args[1], args[2], line.erase(line.size() - 2), args[3], args[4]);
 			}
 			catch (...)
 			{
+				
 				throw invalid_save_file();
 			}
 		}
 		else if (identifier == "R")
 		{
-			if(!line.empty()) { throw invalid_save_file(); }
 			try
 			{
 				add_ray(args[0], args[1], args[2], args[3]);
@@ -549,18 +551,17 @@ void rayEngine::load_config(std::string path)
 			}
 		}else if(identifier == "B")
 		{
-			if(!line.empty()) { throw invalid_save_file(); }
 			try
 			{
 				border_distance_ = args[0];
 			}
 			catch(...)
 			{
+				
 				throw invalid_save_file();
 			}
 		}else if(identifier == "C")
 		{
-			if(!line.empty()) { throw invalid_save_file(); }
 			try
 			{
 				ray_cluster_diameter_ = args[0];
