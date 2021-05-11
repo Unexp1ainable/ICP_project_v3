@@ -6,6 +6,9 @@
 
 Line3D::Line3D(const QVector3D& start, const QVector3D& end, const QColor& color, Qt3DCore::QEntity* root_entity)
 {
+	// COPIED FROM:
+	//https://stackoverflow.com/questions/38067867/how-do-i-draw-a-simple-line-in-qt3d
+	
 	setParent(root_entity);
 	auto* geometry = new Qt3DRender::QGeometry(this);
 
@@ -63,7 +66,3 @@ Line3D::Line3D(const QVector3D& start, const QVector3D& end, const QColor& color
 	addComponent(material);
 }
 
-//Line3D::~Line3D()
-//{
-//    delete line_entity_;
-//}

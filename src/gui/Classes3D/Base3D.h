@@ -3,6 +3,9 @@
 #include <QEntity>
 #include <QTransform>
 
+/**
+ * @brief Base class of 3D microscope parts.
+ */
 class Base3D : public Qt3DCore::QEntity
 {
 public:

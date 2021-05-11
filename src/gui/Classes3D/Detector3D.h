@@ -1,6 +1,9 @@
 #pragma once
 #include "Base3D.h"
 
+/**
+ * @brief Model of detector.
+ */
 class Detector3D : public Base3D
 {
 public:
