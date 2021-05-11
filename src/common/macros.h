@@ -11,3 +11,5 @@ constexpr double SOURCE_SIZE =1;
 
 #define INIT_RAY_RADIUS 1.
 #define INIT_RAY_COUNT 10
+#define MIN_DISTANCE 0.11
+#define EDGE_DISTANCE 50

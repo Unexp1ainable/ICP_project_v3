@@ -6,9 +6,8 @@
 #include "Lens.h"
 #include "Sample.h"
 #include "Detector.h"
+#include "../src/common/macros.h"
 
-#define MIN_DISTANCE 0.11
-#define EDGE_DISTANCE 50
 
 /**
  * @brief Main class of ray-tracing part
