@@ -7,7 +7,6 @@
 #include "MiscEditor.h"
 #include "SceneViewer.h"
 #include "SurfaceInfoPanel.h"
-#include "rayTracer/RayEngine.h"
 
 /**
  * @brief Main interface window

@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "Ray3D.h"
-#include "rayTracer/Point.h"
 
 using std::vector;
 

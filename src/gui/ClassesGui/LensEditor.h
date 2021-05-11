@@ -1,12 +1,7 @@
 #pragma once
-#include <qformlayout.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
 #include <qpushbutton.h>
 #include <qspinbox.h>
 #include <QWidget>
-
-#include "rayTracer/Lens.h"
 
 /**
  * @brief Editable fields and interface for editing selected lens.

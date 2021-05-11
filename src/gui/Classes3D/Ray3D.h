@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Line3D.h"
-#include "rayTracer/Point.h"
+#include "src/rayTracer/Point.h"
 
 /**
  * @brief Ray model
