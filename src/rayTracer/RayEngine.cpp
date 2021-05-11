@@ -529,7 +529,6 @@ void rayEngine::load_config(std::string path)
 			}
 			catch (...)
 			{
-				
 				throw invalid_save_file();
 			}
 		}

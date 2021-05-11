@@ -214,8 +214,23 @@ public:
 	 * @return True if position is valid, false otherwise.
 	 */
 	bool check_intersection(double distance_from_source, double radius, double deviationX, double deviationY, int id);
+
+	/**
+	 * @brief Checks if selected distance is between source and detector and not too close to other lenses
+	 * @param distance Checked distance
+	 * @param id Id of lens that would me moved, if checking for distance of new lens, set to 0
+	 * @return True if position is valid, false if not
+	 */
 	bool position_valid_lens(double distance, int id);
+
+	/**
+	 * @brief Getter of lens_count_
+	 */
 	int lens_count() const { return lens_count_; }
+
+	/**
+	 * @brief Deletes all lenses
+	 */
 	void clear_lenses()
 	{
 		lens_id_ = 1;
@@ -314,11 +329,40 @@ public:
 	 * @param angle Angle
 	 */
 	void set_ray_angle_y(int id, double angle) { get_ray_by_id(id)->set_angleY(angle); }
+
 	
+	/**
+	 * @brief Creates ray and adds it to rays_ vector
+	 * @throws Ray::invalid_angle If angleX or angleY is pi/2 or more
+	 * @param positionX x coordinate of ray
+	 * @param positionY y coordinate of ray
+	 * @param angleX Angle with x axis
+	 * @param angleY Angle with y axis
+	 * @return Id of ray
+	 */
 	int add_ray(double positionX, double positionY, double angleX, double angleY);
+
+	/**
+	 * @brief Deletes ray
+	 * @param id Id of ray
+	 */
 	void remove_ray(int id);
+
+	/**
+	 * @brief Creates selected number of rays and arranges them in a circle
+	 * @param radius Radius of circle
+	 * @param count Count of rays to create
+	 */
 	void init_rays(double radius, int count);
+
+	/**
+	 * @brief ray_count_ getter
+	 */
 	int ray_count() const { return ray_count_; }
+
+	/**
+	 * @brief Deletes all rays
+	 */
 	void clear_rays()
 	{
 		ray_cluster_diameter_ = 0;
@@ -329,16 +373,59 @@ public:
 
 
 	//sample methods
+
+	/**
+	 * @brief Getter of distance of sample
+	 */
 	double get_sample_distance_from_source() const { return sample_->distance_from_source(); }
+
+	/**
+	 * @brief Getter of x-size of sample
+	 */
 	double get_sample_size_x() const { return sample_->sizeX(); }
+
+	/**
+	 * @brief Getter of y-size of sample
+	 */
 	double get_sample_size_y() const { return sample_->sizeY(); }
+
+	/**
+	 * @brief Getter of rotation of sample in radians
+	 */
 	double get_sample_rotation() const { return sample_->rotation(); }
 
+	/**
+	 * @brief Setter of distance from source of sample
+	 * @throws invalid_distance If sample ins't between source and detector, or if it's too close to one of lenses
+	 * @param distance Distance
+	 */
 	void set_sample_distance_from_source(double distance);
+
+	/**
+	 * @brief Setter of x-size of sample
+	 * @throws Sample::invalid_size if size is 0 or less
+	 * @param size Size
+	 */
 	void set_sample_size_x(double size) const { sample_->set_sizeX(size); }
+
+	/**
+	 * @brief Setter of y-size of sample
+	 * @throws Sample::invalid_size if size is 0 or less
+	 * @param size Size
+	 */
 	void set_sample_size_y(double size) const { sample_->set_sizeY(size); }
+
+	/**
+	 * @brief Setter of rotation of sample
+	 * @param rotation Rotation in radians
+	 */
 	void set_sample_rotation(double rotation) const { sample_->set_rotation(rotation); }
-	
+
+	/**
+	 * @brief Check if sample can be moved to specified distance
+	 * @param distance Distance
+	 * @return True if distance is valid, false if not
+	 */
 	bool position_valid_sample(double distance);
 	
 
