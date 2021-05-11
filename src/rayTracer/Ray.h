@@ -16,6 +16,16 @@ public:
 	
 	
 
+	/**
+	 * @brief Ray constructor
+	 * @throws invalid_angle If angleX or angleY is pi/2 or more
+	 * @param angleX Angle with X axis in radians
+	 * @param angleY Angle with Y axis in radians
+	 * @param positionX X coordinate of beginning of ray
+	 * @param positionY Y coordinate of beginning of ray
+	 * @param source_distance Z coordinate of beginning of ray
+	 * @param id Id of ray
+	 */
 	Ray(double angleX, double angleY, double positionX, double positionY, double source_distance, int id) {
 		
 		

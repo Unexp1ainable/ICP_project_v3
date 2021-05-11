@@ -101,10 +101,6 @@ void rayEngine::insert_lens(const std::shared_ptr<Lens>& lens)
 
 void rayEngine::remove_lens(int id)
 {
-	/*if(index > lens_count_ - 1 || index < 0)
-	{
-		throw out_of_range();
-	}*/
 
 	int i = 0;
 	for (std::vector<std::shared_ptr<Lens>>::iterator it = lenses_.begin(); it != lenses_.end(); it++, i++)
@@ -147,10 +143,6 @@ int rayEngine::add_ray(double positionX, double positionY, double angleX, double
 
 void rayEngine::remove_ray(int id)
 {
-	//if(id > ray_id_ || id < 0)
-	//{
-	//	throw out_of_range();
-	//}
 
 	int i = 0;
 	for (std::vector<std::shared_ptr<Ray>>::iterator it = rays_.begin(); it != rays_.end(); it++, i++)
@@ -169,10 +161,7 @@ void rayEngine::remove_ray(int id)
 
 std::shared_ptr<Ray> rayEngine::get_ray_by_id(int id)
 {
-	//if(id > ray_count_ || id < 0)
-	//{
-	//	throw out_of_range();
-	//}
+
 	int i = 0;
 	for (std::vector<std::shared_ptr<Ray>>::iterator it = rays_.begin(); it != rays_.end(); it++, i++)
 	{
@@ -279,59 +268,6 @@ void rayEngine::init_rays(double radius, int count)
 		y = rotY;
 	}
 
-	/*int fraction =(count -1) / 13;
-	int inner_layer_count = fraction;
-	int middle_layer_count = fraction * 3;
-	int outer_layer_count = count - middle_layer_count - inner_layer_count - 1;
-
-	double outer_layer_radius = radius;
-	double middle_layer_radius = radius / 3.0;
-	double inner_layer_radius = radius / 9.0;
-
-	double inner_layer_angle = _2pi / inner_layer_count;
-	double middle_layer_angle = _2pi / middle_layer_count;
-	double outer_layer_angle = _2pi / outer_layer_count;*/
-
-	/*add_ray(0, 0, 0, 0);
-
-	double x = 0;
-	double y = outer_layer_radius;
-	add_ray(x, y, 0, 0);
-	double rotX = 0;
-	double rotY = 0;
-
-	for(int i = 0; i < outer_layer_count - 1;i++)
-	{
-		rotX = x * cos(outer_layer_angle) - y * sin(outer_layer_angle);
-		rotY = x * sin(outer_layer_angle) + y * cos(outer_layer_angle);
-		add_ray(rotX, rotY, 0, 0);
-		x = rotX;
-		y = rotY;
-	}
-
-	x = 0;
-	y = middle_layer_radius;
-	add_ray(x, y, 0, 0);
-	for(int i = 0; i < middle_layer_count - 1; i++)
-	{
-		rotX = x * cos(middle_layer_angle) - y * sin(middle_layer_angle);
-		rotY = x * sin(middle_layer_angle) + y * cos(middle_layer_angle);
-		add_ray(rotX, rotY, 0, 0);
-		x = rotX;
-		y = rotY;
-	}
-
-	x = 0;
-	y = inner_layer_radius;
-	add_ray(x, y, 0, 0);
-	for(int i = 0; i < inner_layer_count - 1; i++)
-	{
-		rotX = x * cos(inner_layer_angle) - y * sin(inner_layer_angle);
-		rotY = x * sin(inner_layer_angle) + y * cos(inner_layer_angle);
-		add_ray(rotX, rotY, 0, 0);
-		x = rotX;
-		y = rotY;
-	}*/
 }
 
 
@@ -490,7 +426,6 @@ void rayEngine::load_config(std::string path)
 		{
 			token = line.substr(0, line.find(delimeter));
 			line.erase(0, line.find(delimeter) + delimeter.length());
-			//std::replace(token.begin(),token.end(),'.',',');
 			std::stringstream(token) >> args[i];
 		}
 

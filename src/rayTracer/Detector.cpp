@@ -20,6 +20,5 @@ bool Detector::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<
 		return false;
 	}
 
-	
 	return true;
 }

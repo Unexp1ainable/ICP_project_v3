@@ -72,7 +72,7 @@ public:
 	}
 
 	/**
-	 * @brief Calculates intersection of ray and sample
+	 * @brief Calculates intersection of ray and plane of sample
 	 * @param ray Ray
 	 * @param point Intersection coordinates will be stored here
 	 * @returns True if ray intersects with sample, false if not

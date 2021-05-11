@@ -50,6 +50,14 @@ private:
 	void cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
 public:
 
+	
+	/**
+	 * @brief RayEngine constructor
+	 * @throws invalid_distance If sample, detector and edge are in incorrect order from source
+	 * @param sample_distance Initial distance from source of sample
+	 * @param detector_distance Initial distance from source of detector
+	 * @param edge_distance Initial distance from source of edge (How far will rays continue after missing detectors)
+	 */
 	rayEngine(double sample_distance, double detector_distance, double edge_distance)
 	{
 		if(detector_distance - sample_distance < MIN_DISTANCE || edge_distance - detector_distance < MIN_DISTANCE || edge_distance <= 0)
@@ -62,11 +70,22 @@ public:
 		border_distance_ = edge_distance;
 	}
 
+	/**
+	 * @brief Getter of vector filled with coordinates where rays intersect with objects on main axis
+	 */
 	std::vector<std::vector<std::shared_ptr<Point>>> get_ray_points()const
 	{
 		return ray_points_;
 	}
+
+	/**
+	 * @brief Getter of vector filled with coordinates where rays intersect with plane of sample
+	 */
 	std::vector<std::shared_ptr<Point>> get_sample_intersect()const { return sample_intersect_; }
+
+	/**
+	 * @brief Getter of vector filled with coordinates where rays intersect with plane of detector
+	 */
 	std::vector<std::shared_ptr<Point>> get_detector_intersect() const { return detector_intersect_; }
 
 
