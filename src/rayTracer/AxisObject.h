@@ -1,3 +1,9 @@
+﻿/**
+ * @file AxisObject.h
+ * @author Leopold Nemček
+ * @date 11/05/2021
+ * @brief File containing definition of AxisObject class
+ */
 #pragma once
 
 #include "Ray.h"
@@ -37,6 +43,9 @@ public:
 
 
 	//exceptions
+	/**
+	 * @brief Exception
+	 */
 	class invalid_distance{};
 };
 

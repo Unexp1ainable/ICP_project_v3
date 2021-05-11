@@ -1,3 +1,9 @@
+﻿/**
+ * @file Sample.cpp
+ * @author Leopold Nemček
+ * @date 11/05/2021
+ * @brief File definitions of methods from Sample class
+ */
 #include "Sample.h"
 
 bool Sample::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point)

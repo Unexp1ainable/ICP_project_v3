@@ -1,3 +1,9 @@
+﻿/**
+ * @file Lens.cpp
+ * @author Leopold Nemček
+ * @date 11/05/2021
+ * @brief File definitions of methods from Lens class
+ */
 #include "Lens.h"
 
 #include <utility>

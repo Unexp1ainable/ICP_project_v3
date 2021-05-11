@@ -1,3 +1,10 @@
+﻿/**
+ * @file RayEngine.h
+ * @author Leopold Nemček
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief File containing definition of RayEngine class
+ */
 #pragma once
 
 #include <vector>
@@ -227,6 +234,7 @@ public:
 	void remove_lens(int id);
 
 	/**
+	 * @author Samuel Repka
 	 * @brief Calculate normal of the lens from given deviation.
 	 * @param deviationX x rotation
 	 * @param deviationY y rotation
@@ -235,6 +243,7 @@ public:
 	Point create_normal(double deviationX, double deviationY);
 
 	/**
+	 * @author Samuel Repka
 	 * @brief Checks if lens is going to intersect other lens.
 	 * @param distance_from_source Distance from source
 	 * @param radius Radius of the lens
@@ -550,10 +559,25 @@ public:
 	
 
 	//exceptions
+	/**
+	 * @brief Exception
+	 */
 	class out_of_range{};
+	/**
+	 * @brief Exception
+	 */
 	class invalid_distance {};
+	/**
+	 * @brief Exception
+	 */
 	class file_cannot_be_opened{};
+	/**
+	 * @brief Exception
+	 */
 	class invalid_save_file{};
+	/**
+	 * @brief Exception
+	 */
 	class id_not_found{};
 	
 };

@@ -1,3 +1,9 @@
+﻿/**
+ * @file Sample.h
+ * @author Leopold Nemček
+ * @date 11/05/2021
+ * @brief File containing definition of Sample class
+ */
 #pragma once
 
 #include <memory>
@@ -80,6 +86,9 @@ public:
 	bool calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
 
 	//exceptions
+	/**
+	 * @brief Exception
+	 */
 	class invalid_size{};
 };
 

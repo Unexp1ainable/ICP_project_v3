@@ -1,3 +1,10 @@
+﻿/**
+ * @file Detector.cpp
+ * @author Leopold Nemček
+ * @date 11/05/2021
+ * @brief File containing definition of methods from Detector class
+ */
+
 #include "Detector.h"
 #include <cmath>
 
