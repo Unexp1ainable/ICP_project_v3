@@ -7,7 +7,7 @@
 #include "../src/common/macros.h"
 #include <cmath>
 
-/*
+/**
  * @brief Lens of microscope
  */
 class Lens:
@@ -39,39 +39,39 @@ public:
 	 */
 	Point create_normal();
 
-	/*
+	/**
 	 * @brief optical_power_ getter
 	 */
 	double optical_power() const { return optical_power_; }
 
-	/*
+	/**
 	 * @brief radius_ getter
 	 */
 	double radius() const { return radius_; }
 	
-	/*
+	/**
 	 * @brief x-axis deviation getter
 	 * @return Deviation in radians
 	 */
 	double deviation_x() const { return deviation_[0]; }
 
-	/*
+	/**
 	 * @brief y-axis deviation getter
 	 * @return Deviation in radians
 	 */
 	double deviation_y() const { return deviation_[1]; }
 
-	/*
+	/**
 	 * @brief id_ getter
 	 */
 	int id() const{ return id_; }
 
-	/*
+	/**
 	 * @brief name_ getter
 	 */
 	std::string name() const { return name_; }
 
-	/*
+	/**
 	 * @brief optical_power_ setter
 	 * @throws invalid_optical_power exception if 0 is passed as argument
 	 * @param opticalPower Optical power
@@ -85,7 +85,7 @@ public:
 		focal_length_ = 1.0 / opticalPower;
 	}
 
-	/*
+	/**
 	 * @brief radius_ setter
 	 * @throws invalid_radius, if radius is 0 or less
 	 * @param radius Radius
@@ -99,9 +99,10 @@ public:
 		this->radius_ = radius;
 	}
 
-	/*
+	/**
 	 * @brief x-axis deviation setter
 	 * @param deviation X-axis deviation in radians
+	 * @throws invalid_deviation When deviation is pi/2 or more
 	 */
 	void set_deviationX(double deviation) {
 		if(abs(deviation) >= PI / 2)
@@ -112,9 +113,10 @@ public:
 		deviation_[0] = deviation;
 	}
 
-	/*
+	/**
 	 * @brief y-axis deviation setter
 	 * @param deviation Y-axis deviation in radians
+	 * @throws invalid_deviation When deviation is pi/2 or more
 	 */
 	void set_deviationY(double deviation) {
 		if(abs(deviation) >= PI / 2)
@@ -125,7 +127,7 @@ public:
 		deviation_[1] = deviation;
 	}
 
-	/*
+	/**
 	 * @brief name_ setter
 	 * @param name Name
 	 */

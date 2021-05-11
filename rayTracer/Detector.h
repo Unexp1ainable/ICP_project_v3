@@ -6,7 +6,7 @@
 
 
 /**
- * \brief Detector of simulated microscope
+ * @brief Detector of simulated microscope
  */
 class Detector :
 	public Axis_object
@@ -20,17 +20,17 @@ public:
 		distance_from_source_ = distance;
 	}
 
-	/*
+	/**
 	 * @brief sizeX_ getter
 	 */
 	double sizeX() const { return sizeX_; }
 
-	/*
+	/**
 	 * @brief sizeY_ getter
 	 */
 	double sizeY()const { return sizeY_; }
 
-	/*
+	/**
 	 * @brief sizeX_ setter
 	 * @throws invalid_size exception, when size given is 1 or less
 	 * @param size Size
@@ -47,7 +47,7 @@ public:
 		}
 	}
 
-	/*
+	/**
 	 * @brief sizeY_ setter
 	 * @throws invalid_size exception, when size given is 1 or less
 	 * @param size Size

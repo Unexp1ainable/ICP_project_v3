@@ -10,7 +10,7 @@
 #define MIN_DISTANCE 0.11
 #define EDGE_DISTANCE 50
 
-/*
+/**
  * @brief Main class of ray-tracing part
  * This class stores all the information about lenses, rays to simulate and other data necessary for simulating electron microscope
  */
@@ -63,49 +63,49 @@ public:
 
 	//lens methods
 	
-	/*
+	/**
 	 * @brief Getter of distance from source of one of the lenses
 	 * @throws id_not_found When no lens has the required id
 	 * @param id Id of lens
 	 */
 	double get_lens_distance_from_source(int id) { return get_lens_by_id(id)->distance_from_source(); }
 
-	/*
+	/**
 	 * @brief Getter of optical power of one of the lenses
 	 * @throws id_not_found When no lens has the required id
 	 * @param id Id of lens
 	 */
 	double get_lens_optical_power(int id) { return get_lens_by_id(id)->optical_power(); }
 
-	/*
+	/**
 	 * @brief Getter of radius of one of the lenses
 	 * @throws id_not_found When no lens has the required id
 	 * @param id Id of lens
 	 */
 	double get_lens_radius(int id) { return get_lens_by_id(id)->radius(); }
 
-	/*
+	/**
 	 * @brief Getter of x-axis deviation of one of the lenses
 	 * @throws id_not_found When no lens has the required id
 	 * @param id Id of lens
 	 */
 	double get_lens_deviation_x(int id) { return get_lens_by_id(id)->deviation_x(); }
 
-	/*
+	/**
 	 * @brief Getter of y-axis deviation of one of the lenses
 	 * @throws id_not_found When no lens has the required id
 	 * @param id Id of lens
 	 */
 	double get_lens_deviation_y(int id) { return get_lens_by_id(id)->deviation_y(); }
 
-	/*
+	/**
 	 * @brief Getter of name of one of the lenses
 	 * @throws id_not_found When no lens has the required id
 	 * @param id Id of lens
 	 */
 	std::string get_lens_name(int id) { return get_lens_by_id(id)->name(); }
 
-	/*
+	/**
 	 * @brief Setter of distance from source of one of the lenses
 	 * @throws id_not_found When no lens has the required id
 	 * @throws invalid_distance When distance is invalid - it's too close to other lenses or it's not between source and detector
@@ -113,20 +113,21 @@ public:
 	 * @param distance Distance from source
 	 */
 	void set_lens_distance_from_source(int id, double distance);
-
-	/*
+	
+	/**
 	 * @brief Setter of optical of one of the lenses
 	 * @throws id_not_found When no lens has the required id
-	 * @throws invalid_optical_power When optical power is 0
+	 * @throws Lens::invalid_optical_power When optical power is 0
 	 * @param id Id of lens
-	 * @param distance Optical power
+	 * @param power Optical power
 	 */
 	void set_lens_optical_power(int id, double power) { get_lens_by_id(id)->set_optical_power(power); }
 	
-	/*
+	/**
 	 * @brief Setter of optical of one of the lenses
 	 * @throws id_not_found When no lens has the required id
-	 * @throws invalid_radius When radius is 0 or less
+	 * @throws Lens::invalid_radius When radius is 0 or less
+	 * @throws invalid_distance When lens would intersect other lenses
 	 * @param radius Radius
 	 */
 	void set_lens_radius(int id, double radius)
@@ -138,6 +139,14 @@ public:
 		}
 		lens->set_radius(radius);
 	}
+
+	/**
+	 * @brief Setter of x-axis deviation of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @throws Lens::invalid_deviation When deviation is pi/2 or more
+	 * @throws invalid_distance If lens would intersect with other lenses
+	 * @param deviation Lens deviation in radians
+	 */
 	void set_lens_deviation_x(int id, double deviation)
 	{
 		auto lens = get_lens_by_id(id);
@@ -147,6 +156,14 @@ public:
 		}
 		lens->set_deviationX(deviation);
 	}
+
+	/**
+	 * @brief Setter of y-axis deviation of one of the lenses
+	 * @throws id_not_found When no lens has the required id
+	 * @throws Lens::invalid_deviation When deviation is pi/2 or more
+	 * @throws invalid_distance If lens would intersect with other lenses
+	 * @param deviation Lens deviation in radians
+	 */
 	void set_lens_deviation_y(int id, double deviation)
 	{
 		auto lens = get_lens_by_id(id);
@@ -158,12 +175,31 @@ public:
 	}
 	void set_lens_name(int id, std::string name) { get_lens_by_id(id)->set_name(name); }
 
+	
+	/**
+	 * @brief Creates new lens and adds it to lenses_ vector
+	 * @throws invalid_distance If lens would not be between source and detector or if it would intersect with other lenses
+	 * @throws Lens::invalid_radius If radius is 0 or less
+	 * @throws Lens::invalid_optical_power If optical power is 0
+	 * @throws Lens::invalid_deviation If x-axis or y-axis deviation is pi/2 or more
+	 * @param distance_from_source Distance from source
+	 * @param radius Radius of lens
+	 * @param optical_power Optical power of lens
+	 * @param name Name of lens
+	 * @param deviationX x-axis deviation in radians
+	 * @param deviationY y-axis deviation in radians
+	 * @return id of new lens
+	 */
 	int add_lens(double distance_from_source, double radius, double optical_power,std::string name ,double deviationX = 0, double deviationY = 0);
+
+	/**
+	 * @brief Remove lens with chosen Id
+	 * @param id Id of lens
+	 */
 	void remove_lens(int id);
 
 	/**
-	 * Calculate normal of the lens from given deviation.
-	 * 
+	 * @brief Calculate normal of the lens from given deviation.
 	 * @param deviationX x rotation
 	 * @param deviationY y rotation
 	 * @return Point Normal vector
@@ -171,13 +207,12 @@ public:
 	Point create_normal(double deviationX, double deviationY);
 
 	/**
-	 * Checks if lens is going to intersect other lens.
-	 * 
+	 * @brief Checks if lens is going to intersect other lens.
 	 * @param distance_from_source Distance from source
 	 * @param radius Radius of the lens
 	 * @param deviationX X rotation
 	 * @param deviationY Y rotation
-	 * @return True if position is good, false otherwise.
+	 * @return True if position is valid, false otherwise.
 	 */
 	bool check_intersection(double distance_from_source, double radius, double deviationX, double deviationY, int id);
 	bool position_valid_lens(double distance, int id);
@@ -188,7 +223,13 @@ public:
 		lens_count_ = 0;
 		lenses_.clear();
 	}
-	
+
+	/**
+	 * @brief Finds id of lens from index of lens
+	 * @throws out_of_range If no lens has chosen index
+	 * @param index Index of lens
+	 * @return Id of lens
+	 */
 	int lens_index_to_id(int index)
 	{
 		if(index < 0 || index >= lens_count_)
@@ -201,16 +242,78 @@ public:
 
 	
 	//ray methods
+
+	/**
+	 * @brief Getter of x coordinate of one of the rays
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 */
 	double get_ray_position_x(int id) { return get_ray_by_id(id)->positionX(); }
+
+	/**
+	 * @brief Getter of y coordinate of one of the rays
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 */
 	double get_ray_position_y(int id) { return get_ray_by_id(id)->positionY(); }
+
+	/**
+	 * @brief Getter of angle with x axis of one of the rays in radians
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 */
 	double get_ray_angle_x(int id) { return get_ray_by_id(id)->angleX(); }
+
+	/**
+	 * @brief Getter of angle with y axis of one of the rays in radians
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 */
 	double get_ray_angle_y(int id) { return get_ray_by_id(id)->angleY(); }
+
+	/**
+	 * @brief Getter of distance from source of one of the rays
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 */
 	double get_ray_source_distance(int id) { return get_ray_by_id(id)->source_distance(); }
+
+	/**
+	 * @brief Getter of diameter of ray cluster
+	 * Ray cluster diameter is set on initialization of rays
+	 */
 	double get_ray_cluster_diameter()const { return ray_cluster_diameter_; }
 
+	/**
+	 * @brief Setter of x coordinate of one of the rays
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 * @param position X coordinate
+	 */
 	void set_ray_position_x(int id, double position) { get_ray_by_id(id)->set_positionX(position); }
+
+	/**
+	 * @brief Setter of y coordinate of one of the rays
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 * @param position Y coordinate
+	 */
 	void set_ray_position_y(int id, double position) { get_ray_by_id(id)->set_positionY(position); }
+
+	/**
+	 * @brief Setter of angle with x axis of one of the rays
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 * @param angle Angle
+	 */
 	void set_ray_angle_x(int id, double angle) { get_ray_by_id(id)->set_angleX(angle); }
+
+	/**
+	 * @brief Setter of angle with y axis of one of the rays
+	 * @throws id_not_found When no ray has the required id
+	 * @param id Id of ray
+	 * @param angle Angle
+	 */
 	void set_ray_angle_y(int id, double angle) { get_ray_by_id(id)->set_angleY(angle); }
 	
 	int add_ray(double positionX, double positionY, double angleX, double angleY);

@@ -211,10 +211,7 @@ void rayEngine::set_detector_distance_from_source(double distance)
 
 bool rayEngine::position_valid_lens(double distance, int id)
 {
-	/*if(id != 0 && abs(this->get_lens_by_id(id)->distance_from_source() - distance) < 0.001)
-	{
-		return true;
-	}*/
+	
 
 	if (distance < MIN_DISTANCE || distance > detector_->distance_from_source() - MIN_DISTANCE || abs(sample_->distance_from_source() - distance) < MIN_DISTANCE)
 	{
