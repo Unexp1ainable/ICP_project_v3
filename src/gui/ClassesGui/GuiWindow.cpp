@@ -1,3 +1,10 @@
+/**
+ * @file GuiWindow.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of the GuiWindow class
+ */
+
 #include "GuiWindow.h"
 
 #include <iostream>
@@ -43,6 +50,20 @@ GuiWindow::GuiWindow(RayEngine* engine)
 	setCentralWidget(central_widget);
 	
 	connect_elements();
+	
+	try
+	{
+		engine_->load_config(".\\examples\\example1.re");
+	}
+	catch (RayEngine::invalid_save_file)
+	{
+		error_slot("File is corrupted.");
+	}
+	catch (RayEngine::file_cannot_be_opened)
+	{
+		error_slot("Unable to open the file.");
+	}
+	
 	load_configuration();
 	update_system();
 }

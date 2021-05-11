@@ -1,4 +1,11 @@
-﻿#include "MiscEditor.h"
+﻿/**
+ * @file MiscEditor.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of the GuiWindow class
+ */
+
+#include "MiscEditor.h"
 
 #include <qboxlayout.h>
 #include <qformlayout.h>

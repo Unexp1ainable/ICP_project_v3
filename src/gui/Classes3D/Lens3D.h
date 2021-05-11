@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file Lens3D.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Class representing 3D model of the lens
+ */
+
 #include "Base3D.h"
 
 /**

@@ -1,13 +1,19 @@
+/**
+ * @file Lens3D.cpp
+ * @author Rémi Ducceschi
+ * @date 11/05/2021
+ * @brief Implementation of Line3D class
+ *
+ * This code was copied from https://stackoverflow.com/questions/38067867/how-do-i-draw-a-simple-line-in-qt3d
+ */
+
 #include "Line3D.h"
 
 #include <QPhongMaterial>
 #include <Qt3DRender>
 
 Line3D::Line3D(const QVector3D& start, const QVector3D& end, const QColor& color, Qt3DCore::QEntity* root_entity)
-{
-	// COPIED FROM:
-	//https://stackoverflow.com/questions/38067867/how-do-i-draw-a-simple-line-in-qt3d
-	
+{	
 	setParent(root_entity);
 	auto* geometry = new Qt3DRender::QGeometry(this);
 

@@ -1,3 +1,10 @@
+/**
+ * @file Sample3D.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of Sample3D class
+ */
+
 #include "Sample3D.h"
 
 #include <Qt3DRender>

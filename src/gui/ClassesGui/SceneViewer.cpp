@@ -1,3 +1,10 @@
+/**
+ * @file SceneViewer.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of the SceneViewer class
+ */
+
 #include "SceneViewer.h"
 
 #include <QCamera>
@@ -7,7 +14,6 @@
 #include <QTransform>
 
 #include "src/gui/Classes3D/Lens3D.h"
-#include "src/gui/Classes3D/Line3D.h"
 #include "src/gui/Classes3D/Source3D.h"
 #include "src/gui/Classes3D/Detector3D.h"
 #include "src/gui/Classes3D/Sample3D.h"

@@ -1,4 +1,13 @@
 #pragma once
+/**
+ * @file Lens3D.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Class representing 3D model of the ray cluster
+ *
+ * Ray cluster is composed of 1-n rays
+ */
+
 #include <memory>
 #include <vector>
 

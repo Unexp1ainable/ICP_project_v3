@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file LensSelectorItem.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Item of LensSelector.
+ */
+
 #include <QListWidgetItem>
 
 /**

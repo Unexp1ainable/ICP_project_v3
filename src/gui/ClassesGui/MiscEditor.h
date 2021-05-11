@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file MiscEditor.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Subwindow with field for editing detector, sample and ray cluster.
+ */
+
 #include <qpushbutton.h>
 #include <qspinbox.h>
 #include <QWidget>

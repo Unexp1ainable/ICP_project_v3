@@ -1,4 +1,13 @@
 #pragma once
+/**
+ * @file Lens3D.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Class representing 3D model of the ray
+ *
+ * Ray is composed of many successive lines
+ */
+
 #include <memory>
 #include <vector>
 

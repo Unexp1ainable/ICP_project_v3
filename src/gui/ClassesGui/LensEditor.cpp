@@ -1,3 +1,10 @@
+/**
+ * @file LensEditor.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of the LensEditor class
+ */
+
 #include "LensEditor.h"
 
 #include <qboxlayout.h>

@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file SurfaceInfoPanel.h
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Subwindow for showing informations about ray on the surface.
+ */
+
 #include <qlabel.h>
 #include <QWidget>
 

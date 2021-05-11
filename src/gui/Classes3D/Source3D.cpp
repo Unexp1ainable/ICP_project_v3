@@ -1,3 +1,10 @@
+/**
+ * @file Source3D.cpp
+ * @author Samuel Repka
+ * @date 11/05/2021
+ * @brief Implementation of Source3D class
+ */
+
 #include "Source3D.h"
 #include <QColor>
 #include <QUrl>
