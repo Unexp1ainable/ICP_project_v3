@@ -2,6 +2,7 @@
 
 #include "../common/macros.h"
 #include <cmath>
+#include <sstream>
 
 using std::sin;
 using std::cos;
@@ -490,8 +491,8 @@ void rayEngine::load_config(std::string path)
 		{
 			token = line.substr(0, line.find(delimeter));
 			line.erase(0, line.find(delimeter) + delimeter.length());
-			std::replace(token.begin(),token.end(),'.',',');
-			args[i] = stod(token);
+			//std::replace(token.begin(),token.end(),'.',',');
+			std::stringstream(token) >> args[i];
 		}
 
 		
