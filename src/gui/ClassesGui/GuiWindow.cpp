@@ -238,9 +238,20 @@ void GuiWindow::open_file_slot()
 	if (file_name.compare("") == 0)
 		return;
 
+	try
+	{
 	engine_->load_config(file_name.toStdString());
 	load_configuration();
 	update_system();
+	}
+	catch (rayEngine::invalid_save_file)
+	{
+		error_slot("File is corrupted.");
+	}
+	catch (rayEngine::file_cannot_be_opened)
+	{
+		error_slot("Unable to open the file.");
+	}
 }
 
 void GuiWindow::save_file_slot()
