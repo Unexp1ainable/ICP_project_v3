@@ -1,7 +1,21 @@
 #include "Lens.h"
 
+#include <utility>
 
 
+/**
+ * @brief Lens constructor
+ * @throws invalid_optical_power If optical power is 0
+ * @throws invalid_deviation If deviationX or deviationY is pi/2 or more
+ * @throws invalid_radius If radius is less than 1
+ * @param distance_from_source Distance from source of lens
+ * @param radius Radius of lens
+ * @param optical_power Optical power  of lens
+ * @param id Id of lens
+ * @param deviationX X-axis deviation in radians 
+ * @param deviationY Y-axis deviation in radians
+ * @param name Name of lens
+ */
 Lens::Lens(double distance_from_source, double radius, double optical_power, int id, double deviationX, double deviationY, std::string name)
 {
 	double pi2 = PI / 2.0;
@@ -17,7 +31,7 @@ Lens::Lens(double distance_from_source, double radius, double optical_power, int
 		throw invalid_deviation();
 	}
 
-	if(radius <= 0)
+	if(radius < 1)
 	{
 		throw invalid_radius();
 	}
@@ -29,11 +43,11 @@ Lens::Lens(double distance_from_source, double radius, double optical_power, int
 	focal_length_ = 1.0 / optical_power;
 	deviation_[0] = deviationX;
 	deviation_[1] = deviationY;
-	name_ = name;
+	name_ = std::move(name);
 }
 
 
-void Lens::pass_ray(std::shared_ptr<Ray> ray){
+void Lens::pass_ray(const std::shared_ptr<Ray>& ray){
 	{
 		double angles[2] = { 0,0 };
 		double positions[2] = { 0,0 };
@@ -43,48 +57,46 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 		double deviated_intersections[2] = {0,0};
 
 
-		for(int i = 0; i < 2; i++) //najprv sa spocita prienik paprsku po osi X, potom po osi Y
+		for(int i = 0; i < 2; i++) //Calculation is 2 step process, angle and with axis X is calculated first, then with Y. Next section will be commented only for first step
 		{
-
-			
-
 			int j = !i;
 			
-			double distance = this->distance_from_source_ - ray->source_distance(); //vzdialenost medzi sosovkou a zdrojom paprsku
+			double distance = this->distance_from_source_ - ray->source_distance();
 
 
-			//pocitanie pridanej vzdialenosti kvoli vychyleniu sosovky a uhlu paprsku pri pohlade z druhej osi
-			double intersection_position_j = ray->position(j) + distance * tan(ray->angle(j)); //priesecnik so sosovkou pri pohlade z druhej osi
+			
+			//Calculation of distance added by y-axis deviation
+			double intersection_position_j = ray->position(j) + distance * tan(ray->angle(j));
 			
 
-			double deviated_intersection_position_j = sin(pi2 + ray->angle(j)) * intersection_position_j / sin(pi2 - ray->angle(j) - this->deviation_[j]); //vzdialenost priesecniku paprsku a sosovky od stredu sosovky s ohladom na vychylenie sosovky pri pohlade z druhej osi
+			double deviated_intersection_position_j = sin(pi2 + ray->angle(j)) * intersection_position_j / sin(pi2 - ray->angle(j) - this->deviation_[j]);
 			
-			double deviation_dist_j = deviated_intersection_position_j * cos(pi2 - this->deviation_[j]);
+			double deviation_dist_j = deviated_intersection_position_j * cos(pi2 - this->deviation_[j]);//This is the added distance
 			
 
 			distance += deviation_dist_j;
 			
-			double deviated_angle = ray->angle(i) + this->deviation_[i]; //uhol paprsku s osou sosovky
+			double deviated_angle = ray->angle(i) + this->deviation_[i]; //Angle between ray and axis of lens
 			
 
-			double intersection_position = ray->position(i) + distance * tan(ray->angle(i)); //priesecnik na sosovke
+			double intersection_position = ray->position(i) + distance * tan(ray->angle(i)); //Intersection of ray with lens without x axis deviation
 			
 
-			double deviated_intersection_position = sin(pi2 + ray->angle(i)) * intersection_position / sin(pi2 - ray->angle(i) - this->deviation_[i]); //vzdialenost priesecniku paprsku a sosovky od stredu sosovky s ohladom na vychylenie sosovky, pouzitie sinusove
+			double deviated_intersection_position = sin(pi2 + ray->angle(i)) * intersection_position / sin(pi2 - ray->angle(i) - this->deviation_[i]); //Intersection of ray with lens with x axis deviation
 			
 			deviated_intersections[i] = deviated_intersection_position;
 
 
-			double focal_angle_tan = deviated_intersection_position / this->focal_length_; //tangens uhlu stred_sosovky,ohnisko_sosovky,priesecnik (ohniskovy uhol)
+			double focal_angle_tan = deviated_intersection_position / this->focal_length_; //tangent focal angle
 			
 
-			double true_intersection_position = deviated_intersection_position * sin(pi2 - this->deviation_[i]); //vzdialenost priesecniku paprsku a sosovky od osi zdroj->detektor, s ohladom na vychylenie sosovky
+			double true_intersection_position = deviated_intersection_position * sin(pi2 - this->deviation_[i]); //distance between intersection point and source -> detector axis
 			
 
-			double deviation_distance = deviated_intersection_position * cos(pi2 - this->deviation_[i]); //vzdialenost priesecniku paprsku a sosovky od zaciatku osi, ktora vznikla kvoli vychyleniu sosovky
+			double deviation_distance = deviated_intersection_position * cos(pi2 - this->deviation_[i]); //Distance between intersection point and plane of source
 			
 
-			double new_angle = atan(tan(deviated_angle) - focal_angle_tan) - this->deviation_[i];//tan(novy_uhol) = tan(stary_uhol) - tan(ohniskovy_uhol)
+			double new_angle = atan(tan(deviated_angle) - focal_angle_tan) - this->deviation_[i]; //Formula for calculating angle of ray after passing trough lens
 			
 
 			
@@ -98,7 +110,7 @@ void Lens::pass_ray(std::shared_ptr<Ray> ray){
 		
 		
 		
-		if(sqrt(pow(deviated_intersections[0],2.0) + pow(deviated_intersections[1],2.0)) > radius_){
+		if(sqrt(pow(deviated_intersections[0],2.0) + pow(deviated_intersections[1],2.0)) > radius_){ //check if 
 			return;
 		}
 

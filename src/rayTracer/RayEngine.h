@@ -36,7 +36,17 @@ private:
 	std::vector<std::shared_ptr<Point>> sample_intersect_;
 	std::vector<std::shared_ptr<Point>> detector_intersect_;
 
+	/**
+	 * @brief Inserts lens to correct position in lenses_ based on lens's distance from source and
+	 * @param lens Lens to insert
+	 */
 	void insert_lens(const std::shared_ptr<Lens>& lens);
+
+	/**
+	 * @brief Calculates intersection of ray and border
+	 * @param ray Ray
+	 * @param point Point where calculated intersection will be stored
+	 */
 	void cross_with_border(std::shared_ptr<Ray> ray, std::shared_ptr<Point> point);
 public:
 
@@ -478,14 +488,36 @@ public:
 
 	/**
 	 * @brief Calculates trajectories of all rays passing trough lenses and stores them
+	 * Stores trajectories of rays to ray_points_, intersections with sample to sample_intersect_ and intersection with detector to detector_intersect_
 	 */
 	void update();
+
+	/**
+	 * @brief Saves all lenses, rays and parameters to file
+	 * @param path Specifies, where the config will be saved
+	 */
 	void save_config(std::string path);
-	void load_config(std::string path); 
+
+	/**
+	 * @brief Loads all lenses, rays and parameters from file
+	 * @throws invalid_save_file 
+	 * @param path Specifies, where the savefile is located
+	 */
+	void load_config(std::string path);
+
+	/**
+	 * @brief Getter of edge_distance_
+	 * Edge distance is distance from source, at which rays end if the do not hit detector
+	 */
 	double edge_distance() const
 	{
 		return border_distance_;
 	}
+
+	/**
+	 * @brief Setter of edge_distance_
+	 * @throws invalid_distance If detector is further than edge
+	 */
 	void set_edge_distance(double distance)
 	{
 		if(border_distance_ - detector_->distance_from_source() < MIN_DISTANCE)

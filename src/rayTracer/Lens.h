@@ -29,7 +29,7 @@ public:
 	 * @brief Calculates trajectory of ray after passing lens
 	 * @param ray Ray to be calculated with
 	 */
-	void pass_ray(std::shared_ptr<Ray> ray);
+	void pass_ray(const std::shared_ptr<Ray>& ray);
 
 	Lens(double distance_from_source, double radius, double optical_power, int id,double deviationX = 0, double deviationY = 0, std::string name = "Lens");
 

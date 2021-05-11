@@ -17,9 +17,6 @@ bool Detector::calculate_intersection(std::shared_ptr<Ray> ray, std::shared_ptr<
 
 	if (std::abs(posX) > sizeX_ / 2.0 || std::abs(posY) > sizeY_ / 2.0)
 	{
-		/*point->x = 0;
-		point->y = 0;
-		point->z = 0;*/
 		return false;
 	}
 

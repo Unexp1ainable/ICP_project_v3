@@ -11,7 +11,6 @@ class Axis_object
 {
 
 protected:
-	
 	double distance_from_source_ = 0;
 
 public:
